@@ -19,6 +19,7 @@
     "@types/react-dom": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "@yarnpkg/pnpify": "^2.4.0",
     "eslint": "latest",
     "eslint-plugin-react": "latest",
     "typescript": "^4.2.0"
