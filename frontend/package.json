@@ -1,0 +1,10 @@
+{
+  "name": "notipie-ui",
+  "version": "0.0.0",
+  "description": "Frontend for notipie",
+  "main": "index.js",
+  "repository": "https://github.com/jazzsewera/notipie",
+  "author": "Blazej Sewera",
+  "license": "MIT",
+  "private": true
+}
