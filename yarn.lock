@@ -10635,7 +10635,6 @@ fsevents@^1.2.7:
     "@types/react-dom": ^17.0.1
     "@typescript-eslint/eslint-plugin": ^4.16.1
     "@typescript-eslint/parser": ^4.16.1
-    "@yarnpkg/pnpify": ^2.4.0
     eslint: ^7.21.0
     eslint-config-prettier: ^8.1.0
     eslint-plugin-prettier: ^3.3.1
@@ -10655,7 +10654,16 @@ fsevents@^1.2.7:
   dependencies:
     "@commitlint/cli": ^12.0.1
     "@commitlint/config-conventional": ^12.0.1
+    "@typescript-eslint/eslint-plugin": ^4.16.1
+    "@typescript-eslint/parser": ^4.16.1
+    "@yarnpkg/pnpify": ^2.4.0
+    eslint: ^7.21.0
+    eslint-config-prettier: ^8.1.0
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-react: ^7.22.0
     husky: 4
+    prettier: ^2.2.1
+    typescript: ^4.2.2
   languageName: unknown
   linkType: soft
 
