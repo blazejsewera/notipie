@@ -1424,6 +1424,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@canarise/snowpack-eslint-plugin@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@canarise/snowpack-eslint-plugin@npm:0.1.0"
+  dependencies:
+    chalk: ^4.1.0
+    eslint: ^7.0.0
+    eslint-watch: ^7.0.0
+    execa: ^5.0.0
+    npm-run-path: ^4.0.1
+  dependenciesMeta:
+    eslint:
+      optional: true
+    eslint-watch:
+      optional: true
+  checksum: 00199522b6a10897343d286b9307c3f23f09d1585b8fc0c9326498cd9183410b4c262e77c296072c3f06e382c402b487f2ec67f7c21da8af2b8c3887e87db73b
+  languageName: node
+  linkType: hard
+
 "@cnakazawa/watch@npm:^1.0.3":
   version: 1.0.4
   resolution: "@cnakazawa/watch@npm:1.0.4"
@@ -5154,7 +5172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.4.1, chokidar@npm:^3.4.2":
+"chokidar@npm:^3.1.1, chokidar@npm:^3.4.1, chokidar@npm:^3.4.2":
   version: 3.5.1
   resolution: "chokidar@npm:3.5.1"
   dependencies:
@@ -5647,7 +5665,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.0.4, core-js@npm:^3.6.5, core-js@npm:^3.8.2":
+"core-js@npm:^3.0.4, core-js@npm:^3.2.1, core-js@npm:^3.6.5, core-js@npm:^3.8.2":
   version: 3.9.1
   resolution: "core-js@npm:3.9.1"
   checksum: 3f360466246e816ff745f349bf0ea0c54bc3a05203638d84c5f0eae3583f07e7d848d6aa9b69c30467efb418e526bae034a6da50bcfda8b2cd413e5144cd1444
@@ -6776,7 +6794,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.21.0":
+"eslint-watch@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "eslint-watch@npm:7.0.0"
+  dependencies:
+    chokidar: ^3.1.1
+    core-js: ^3.2.1
+    debug: ^4.1.0
+    execa: ^4.0.1
+    keypress: ^0.2.1
+    lodash.debounce: ^4.0.8
+    lodash.isempty: ^4.4.0
+    lodash.isequal: ^4.5.0
+    lodash.kebabcase: ^4.1.1
+    lodash.unionwith: ^4.6.0
+    optionator: ^0.9.1
+    source-map-support: ^0.5.13
+  peerDependencies:
+    eslint: ">=7 <8.0.0"
+  bin:
+    esw: bin/esw
+  checksum: 21c39e369ea5de4a45eafd9b451f526cec457bad826026736563843c45f6591111bca5a233c963c8e0024f078c7dc0689cfae6ad493a1733c0e6f721175afe32
+  languageName: node
+  linkType: hard
+
+"eslint@npm:^7.0.0, eslint@npm:^7.21.0":
   version: 7.21.0
   resolution: "eslint@npm:7.21.0"
   dependencies:
@@ -6930,7 +6972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:^4.1.0":
+"execa@npm:^4.0.1, execa@npm:^4.1.0":
   version: 4.1.0
   resolution: "execa@npm:4.1.0"
   dependencies:
@@ -9487,6 +9529,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"keypress@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "keypress@npm:0.2.1"
+  checksum: 58e7a757c806feed7800789a926721351eba50201da6db0d9646a43c855efadac3efe69b9ed0ea53dcef3f0b4bf4e76b4d2ab72f51a60af16cb335dd5ad03c30
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0":
   version: 4.0.3
   resolution: "keyv@npm:4.0.3"
@@ -9706,6 +9755,34 @@ fsevents@^1.2.7:
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
   checksum: b6042bd8c09ff1961c9127d32266316bc21f946ece5e3464a663ec61fadb98e7d56ec0ef7e23b47d393695310c19cf24e651c1756be6da91ac02c72be7f79465
+  languageName: node
+  linkType: hard
+
+"lodash.isempty@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.isempty@npm:4.4.0"
+  checksum: f5cf56151caafd6c121a4957c44395c16b0df86fe9631c2f9bc814add0497ae4c2512c507166621f0ba1f572348e0b482716ec353756a9a4d54d9d05b554bb42
+  languageName: node
+  linkType: hard
+
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: 5b47e094641c18a915497343894c66f7da6aebb9aaa2a3fcc5643455aaf29d19df60ebbed664c8374fb959c8b4ce96810ee6becd8a71ac58c6c2ca8d29762947
+  languageName: node
+  linkType: hard
+
+"lodash.kebabcase@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "lodash.kebabcase@npm:4.1.1"
+  checksum: cee7b365bf62c9ae357d8c5cbd1dc767ce626fecea31b8ff7919cb15adaf2c36652fb07688bf8d55e71c456ac8e5dc7c85bf12f88716114bde232645714d538f
+  languageName: node
+  linkType: hard
+
+"lodash.unionwith@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "lodash.unionwith@npm:4.6.0"
+  checksum: a8a23308082c888641936413732f7077361ed6f57fc7d3d4630763cf2002cceebc51370aed27993980d11ec987794f822d5518266c57e75fab3e5941146b8e95
   languageName: node
   linkType: hard
 
@@ -10627,6 +10704,7 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "notipie-ui@workspace:notipie-ui"
   dependencies:
+    "@canarise/snowpack-eslint-plugin": ^0.1.0
     "@snowpack/plugin-react-refresh": ^2.4.0
     "@snowpack/plugin-typescript": ^1.2.1
     "@types/jest": ^26.0.20
@@ -10639,6 +10717,7 @@ fsevents@^1.2.7:
     eslint-config-prettier: ^8.1.0
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-react: ^7.22.0
+    eslint-watch: ^7.0.0
     lint-staged: ^10.5.4
     prettier: ^2.2.1
     react: ^17.0.1
@@ -13167,7 +13246,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:~0.5.12":
+"source-map-support@npm:^0.5.13, source-map-support@npm:~0.5.12":
   version: 0.5.19
   resolution: "source-map-support@npm:0.5.19"
   dependencies:

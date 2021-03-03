@@ -5,7 +5,11 @@ module.exports = {
     public: '/',
     src: '/dist',
   },
-  plugins: ['@snowpack/plugin-react-refresh', ['@snowpack/plugin-typescript', { tsc: 'yarn checkTs' }]],
+  plugins: [
+    '@snowpack/plugin-react-refresh',
+    ['@snowpack/plugin-typescript', { tsc: 'yarn checkTs' }],
+    '@canarise/snowpack-eslint-plugin',
+  ],
   routes: [
     /* Enable an SPA Fallback in development: */
     // {"match": "routes", "src": ".*", "dest": "/index.html"},
