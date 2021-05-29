@@ -16,6 +16,7 @@ const App: React.FC = () => {
           Page has been open for <code>{count}</code> seconds.
         </p>
       </header>
+      <button>Hello</button>
     </div>
   );
 };

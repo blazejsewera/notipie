@@ -1,14 +1,20 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
-module.exports = {
+export default {
   mount: {
-    // directory name: 'build directory'
-    public: '/',
-    src: '/dist',
+    public: { url: '/', static: true },
+    src: { url: '/dist' },
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
-    ['@snowpack/plugin-typescript', { tsc: 'yarn checkTs' }],
+    '@snowpack/plugin-dotenv',
     '@canarise/snowpack-eslint-plugin',
+    [
+      '@snowpack/plugin-typescript',
+      {
+        /* Yarn PnP workaround: see https://www.npmjs.com/package/@snowpack/plugin-typescript */
+        ...(process.versions.pnp ? { tsc: 'yarn pnpify tsc' } : {}),
+      },
+    ],
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
