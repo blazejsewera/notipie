@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	lib.PrintStr("Hello")
+	lib.Serve()
 }
