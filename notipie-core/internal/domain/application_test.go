@@ -7,21 +7,19 @@ import (
 
 type ApplicationTestSuite struct {
 	suite.Suite
-	App              *Application
-	ErrApp           *Application
-	Handler          *MockHandler
-	ErrHandler       *ErroredHandler
-	TestNotification Notification
-	TestError        HandlerError
+	App                 *Application
+	Handler             *MockAppHandler
+	TestNotification    Notification
+	TestErrNotification Notification
+	TestError           AppHandlerError
 }
 
 func (s *ApplicationTestSuite) SetupTest() {
-	s.Handler = new(MockHandler)
-	s.ErrHandler = new(ErroredHandler)
+	s.Handler = new(MockAppHandler)
 	s.App = &Application{handler: s.Handler}
-	s.ErrApp = &Application{handler: s.ErrHandler}
 	s.TestNotification = getTestNotification()
-	s.TestError = getTestHandlerError()
+	s.TestErrNotification = getTestErrNotification()
+	s.TestError = getTestAppHandlerError()
 }
 
 func (s ApplicationTestSuite) TestSendNotification() {
@@ -30,14 +28,14 @@ func (s ApplicationTestSuite) TestSendNotification() {
 }
 
 func (s ApplicationTestSuite) TestFailToSendNotification() {
-	s.ErrApp.Send(s.TestNotification)
-	s.Equal(s.TestError, s.ErrHandler.Err)
+	s.App.Send(s.TestErrNotification)
+	s.Equal(s.TestError, s.Handler.Err)
 }
 
 func (s ApplicationTestSuite) TestEquals() {
-	app1 := &Application{ID: "ID1"}
-	app1Copy := &Application{ID: "ID1"}
-	app2 := &Application{ID: "ID2"}
+	app1 := Application{ID: "ID1"}
+	app1Copy := Application{ID: "ID1"}
+	app2 := Application{ID: "ID2"}
 	s.True(app1.Equals(app1Copy))
 	s.False(app1.Equals(app2))
 }

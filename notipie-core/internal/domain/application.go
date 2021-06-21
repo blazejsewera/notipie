@@ -5,7 +5,7 @@ type Application struct {
 	Name         string
 	SmallIconURL string
 	BigIconURL   string
-	handler      Handler
+	handler      AppHandler
 }
 
 func (a Application) Send(notification Notification) {
@@ -15,6 +15,19 @@ func (a Application) Send(notification Notification) {
 	}
 }
 
-func (a Application) Equals(app *Application) bool {
-	return a.ID == app.ID
+func (a Application) Equals(app Application) bool {
+	return a.ID == app.ID && a.Name == app.Name
+}
+
+type AppHandler interface {
+	HandleNotification(Notification) error
+	HandleError(error)
+}
+
+type AppHandlerError struct {
+	msg string
+}
+
+func (e AppHandlerError) Error() string {
+	return e.msg
 }

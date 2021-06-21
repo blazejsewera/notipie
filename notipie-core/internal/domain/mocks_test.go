@@ -2,30 +2,39 @@ package domain
 
 import "time"
 
-type MockHandler struct {
+type MockAppHandler struct {
 	HandledNotification Notification
 	Err                 error
 }
 
-func (h *MockHandler) HandleNotification(notification Notification) error {
+func (h *MockAppHandler) HandleNotification(notification Notification) error {
+	if notification.Title == "Error" {
+		return getTestAppHandlerError()
+	}
 	h.HandledNotification = notification
 	return nil
 }
 
-func (h *MockHandler) HandleError(err error) {
+func (h *MockAppHandler) HandleError(err error) {
 	h.Err = err
 }
 
-type ErroredHandler struct {
+type MockUserHandler struct {
 	HandledNotification Notification
 	Err                 error
+	HandledApp          Application
 }
 
-func (h *ErroredHandler) HandleNotification(_ Notification) error {
-	return HandlerError{msg: "an error occurred"}
+func (h *MockUserHandler) Handle(app Application, noti Notification) error {
+	if noti.Title == "Error" {
+		return getTestAppHandlerError()
+	}
+	h.HandledNotification = noti
+	h.HandledApp = app
+	return nil
 }
 
-func (h *ErroredHandler) HandleError(err error) {
+func (h *MockUserHandler) HandleError(err error) {
 	h.Err = err
 }
 
@@ -39,6 +48,16 @@ func getTestNotification() Notification {
 	}
 }
 
-func getTestHandlerError() HandlerError {
-	return HandlerError{msg: "an error occurred"}
+// getTestErrNotification returns a valid Notification,
+// but it triggers an error in tests to reduce code repetition.
+func getTestErrNotification() Notification {
+	return Notification{Title: "Error"}
+}
+
+func getTestAppHandlerError() AppHandlerError {
+	return AppHandlerError{msg: "an error occurred"}
+}
+
+func getTestUserHandlerError() UserHandlerError {
+	return UserHandlerError{msg: "an error occurred"}
 }
