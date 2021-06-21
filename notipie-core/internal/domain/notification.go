@@ -1,13 +1,25 @@
 package domain
 
-import "time"
+import (
+	"fmt"
+	"github.com/jazzsewera/notipie/notipie-core/pkg/lib/util"
+	"time"
+)
 
 type Notification struct {
-	Timestamp   time.Time
-	Application Application
-	Title       string
-	Body        string
-	Urgency     Urgency
+	Timestamp time.Time
+	Title     string
+	Body      string
+	Urgency   Urgency
+}
+
+func (n Notification) String() string {
+	t := n.Timestamp.Format(time.RFC3339)
+	var b string
+	for _, line := range util.SplitLines(n.Body) {
+		b += fmt.Sprintf("|> %s\n", line)
+	}
+	return fmt.Sprintf("@%s | %s | %s\n%s", t, n.Urgency.ShortString(), n.Title, b)
 }
 
 type Urgency int
@@ -19,60 +31,10 @@ const (
 	Fatal
 )
 
+func (u Urgency) ShortString() string {
+	return [...]string{"L", "M", "H", "F"}[u]
+}
+
 func (u Urgency) String() string {
 	return [...]string{"Low", "Medium", "High", "Fatal"}[u]
-}
-
-type NotificationBuilder struct {
-	timestamp   time.Time
-	application Application
-	title       string
-	body        string
-	urgency     Urgency
-}
-
-func NewNotificationBuilder() *NotificationBuilder {
-	return &NotificationBuilder{}
-}
-
-func (b *NotificationBuilder) WithTimestamp(timestamp time.Time) *NotificationBuilder {
-	b.timestamp = timestamp
-	return b
-}
-
-func (b *NotificationBuilder) WithApplication(application Application) *NotificationBuilder {
-	b.application = application
-	return b
-}
-
-func (b *NotificationBuilder) WithTitle(title string) *NotificationBuilder {
-	b.title = title
-	return b
-}
-
-func (b *NotificationBuilder) WithBody(body string) *NotificationBuilder {
-	b.body = body
-	return b
-}
-
-func (b *NotificationBuilder) WithUrgency(urgency Urgency) *NotificationBuilder {
-	b.urgency = urgency
-	return b
-}
-
-func (b *NotificationBuilder) Build() *Notification {
-	var timestamp time.Time
-	if b.timestamp.IsZero() {
-		timestamp = time.Now()
-	} else {
-		timestamp = b.timestamp
-	}
-
-	return &Notification{
-		Timestamp:   timestamp,
-		Application: b.application,
-		Title:       b.title,
-		Body:        b.body,
-		Urgency:     b.urgency,
-	}
 }
