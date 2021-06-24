@@ -38,9 +38,28 @@ func (h *MockUserHandler) HandleError(err error) {
 	h.Err = err
 }
 
+type MockUserNotificationRepository struct {
+	// TODO: Add notifications slice
+	Err error
+}
+
+func (r *MockUserNotificationRepository) SaveNotification(notification Notification) error {
+	return nil
+}
+
+func (r *MockUserNotificationRepository) GetNotifications() ([]Notification, error) {
+	return nil, nil
+}
+
+func (r *MockUserNotificationRepository) HandleError(err error) {
+	r.Err = err
+}
+
 func getTestNotification() Notification {
 	timestamp, _ := time.Parse(time.RFC3339, "2021-01-21T12:49:30Z")
 	return Notification{
+		AppName:   "TestApp",
+		AppID:     "1",
 		Timestamp: timestamp,
 		Title:     "Test Notification",
 		Body:      "First line of body\nSecond line of body",
@@ -60,4 +79,8 @@ func getTestAppHandlerError() AppHandlerError {
 
 func getTestUserHandlerError() UserHandlerError {
 	return UserHandlerError{msg: "an error occurred"}
+}
+
+func getTestUserNotificationRepoError() UserNotificationRepositoryError {
+	return UserNotificationRepositoryError{msg: "an error occurred"}
 }

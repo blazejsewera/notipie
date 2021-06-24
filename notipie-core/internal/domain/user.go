@@ -4,6 +4,7 @@ type User struct {
 	ID       string
 	Username string
 	handler  UserHandler
+	repo     UserNotificationRepository
 }
 
 func (u User) Receive(application Application, notification Notification) {
@@ -24,4 +25,14 @@ type UserHandlerError struct {
 
 func (e UserHandlerError) Error() string {
 	return e.msg
+}
+
+type UserNotificationRepository interface {
+	SaveNotification(Notification) error
+	GetNotifications() ([]Notification, error)
+	HandleError(error)
+}
+
+type UserNotificationRepositoryError struct {
+	msg string
 }

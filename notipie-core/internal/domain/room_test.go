@@ -52,6 +52,7 @@ func (s *RoomTestSuite) SetupTest() {
 }
 
 func (s *RoomTestSuite) TestBroadcast() {
+	// TODO: Refactor tests to use User Repo
 	s.Run("broadcast from App 0 to User 0", func() {
 		// given
 		notification := Notification{Title: "App 0 to User 0"}
@@ -85,8 +86,25 @@ func (s *RoomTestSuite) TestBroadcast() {
 
 	s.Run("broadcast from App 2 and 3 to User 2", func() {
 		// given
-		//notificationApp2 := Notification{Title: "App 2 to User 2"}
-		//notificationApp3 := Notification{Title: "App 3 to User 2"}
+		notificationApp2 := Notification{Title: "App 2 to User 2"}
+		notificationApp3 := Notification{Title: "App 3 to User 2"}
+		uh2 := s.UserHandlers[2]
+		app2 := s.Apps[2]
+		app3 := s.Apps[3]
+
+		// when
+		app2.Send(notificationApp2)
+
+		// then
+		s.True(uh2.HandledApp.Equals(app2))
+		s.Equal(notificationApp2, uh2.HandledNotification)
+
+		// when
+		app3.Send(notificationApp3)
+
+		// then
+		s.True(uh2.HandledApp.Equals(app3))
+		s.Equal(notificationApp3, uh2.HandledNotification)
 	})
 }
 

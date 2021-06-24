@@ -12,6 +12,7 @@ type ApplicationTestSuite struct {
 	TestNotification    Notification
 	TestErrNotification Notification
 	TestError           AppHandlerError
+	// TODO: Add Application Notification Repo
 }
 
 func (s *ApplicationTestSuite) SetupTest() {
