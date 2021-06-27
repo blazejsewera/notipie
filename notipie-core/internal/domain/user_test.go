@@ -5,54 +5,41 @@ import (
 	"testing"
 )
 
-type UserTestSuite struct {
+type UserSuite struct {
 	suite.Suite
-	User                          *User
-	Repo                          *MockUserNotificationRepository
-	Handler                       *MockUserHandler
-	TestNotification              Notification
-	TestErrNotification           Notification
-	TestUserHandlerError          UserHandlerError
-	TestUserNotificationRepoError UserNotificationRepositoryError
+	User             *User
+	Repo             *MockUserNotificationRepository
+	TestNotification Notification
+	Tag              Tag
 }
 
-func (s *UserTestSuite) SetupTest() {
-	s.Handler = new(MockUserHandler)
-	s.User = &User{handler: s.Handler}
+func (s *UserSuite) SetupTest() {
+	s.User = &User{}
 	s.TestNotification = getTestNotification()
-	s.TestErrNotification = getTestErrNotification()
-	s.TestUserHandlerError = getTestUserHandlerError()
-	s.TestUserNotificationRepoError = getTestUserNotificationRepoError()
 }
 
-func (s *UserTestSuite) TestReceive() {
-	s.User.Receive(Application{}, s.TestNotification)
-	s.Equal(s.TestNotification, s.Handler.HandledNotification)
+func (s *UserSuite) TestReceive() {
+	s.User.Receive(s.TestNotification)
+	// TODO: Check user repo content
 }
 
-func (s *UserTestSuite) TestRepository() {
+func (s *UserSuite) TestRepository() {
 	s.Run("save notification", func() {
 		// when
-		_ = s.User.repo.SaveNotification(s.TestNotification)
+		s.User.repo.SaveNotification(s.TestNotification)
 
 		// then
 		// TODO: Refactor test to use a field, so that only one method at a time is tested
-		notifications, _ := s.User.repo.GetNotifications()
+		notifications := s.User.repo.GetAllNotifications()
 		s.ElementsMatch([...]Notification{s.TestNotification}, notifications)
-	})
-
-	s.Run("save err notification", func() {
-		// when
-		err := s.User.repo.SaveNotification(s.TestErrNotification)
-
-		// then
-		if err != nil {
-			s.User.repo.HandleError(err)
-		}
-		s.Equal(s.TestUserNotificationRepoError, s.Repo.Err)
 	})
 }
 
-func TestUserTestSuite(t *testing.T) {
-	suite.Run(t, new(UserTestSuite))
+func (s *UserSuite) TestSubscribeToTag() {
+	s.User.SubscribeTo(&s.Tag)
+	s.ElementsMatch([...]*Tag{&s.Tag}, s.User.tags)
+}
+
+func TestUser(t *testing.T) {
+	suite.Run(t, new(UserSuite))
 }

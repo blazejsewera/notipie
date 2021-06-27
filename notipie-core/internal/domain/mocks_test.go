@@ -4,83 +4,47 @@ import "time"
 
 type MockAppHandler struct {
 	HandledNotification Notification
-	Err                 error
 }
 
-func (h *MockAppHandler) HandleNotification(notification Notification) error {
-	if notification.Title == "Error" {
-		return getTestAppHandlerError()
-	}
+func (h *MockAppHandler) HandleNotification(notification Notification) {
 	h.HandledNotification = notification
-	return nil
-}
-
-func (h *MockAppHandler) HandleError(err error) {
-	h.Err = err
 }
 
 type MockUserHandler struct {
 	HandledNotification Notification
-	Err                 error
-	HandledApp          Application
+	HandledApp          App
 }
 
-func (h *MockUserHandler) Handle(app Application, noti Notification) error {
-	if noti.Title == "Error" {
-		return getTestAppHandlerError()
-	}
+func (h *MockUserHandler) Handle(app App, noti Notification) {
 	h.HandledNotification = noti
 	h.HandledApp = app
-	return nil
-}
-
-func (h *MockUserHandler) HandleError(err error) {
-	h.Err = err
 }
 
 type MockUserNotificationRepository struct {
 	// TODO: Add notifications slice
-	Err error
 }
 
-func (r *MockUserNotificationRepository) SaveNotification(notification Notification) error {
+func (r *MockUserNotificationRepository) SaveNotification(notification Notification) {
+}
+
+func (r *MockUserNotificationRepository) GetAllNotifications() []Notification {
 	return nil
 }
 
-func (r *MockUserNotificationRepository) GetNotifications() ([]Notification, error) {
-	return nil, nil
-}
-
-func (r *MockUserNotificationRepository) HandleError(err error) {
-	r.Err = err
-}
-
 func getTestNotification() Notification {
+	app := App{
+		ID:           "1",
+		Name:         "TestApp",
+		SmallIconURL: ".",
+		BigIconURL:   ".",
+	}
+
 	timestamp, _ := time.Parse(time.RFC3339, "2021-01-21T12:49:30Z")
 	return Notification{
-		AppName:   "TestApp",
-		AppID:     "1",
+		App:       &app,
 		Timestamp: timestamp,
 		Title:     "Test Notification",
 		Body:      "First line of body\nSecond line of body",
 		Urgency:   Medium,
 	}
-}
-
-// getTestErrNotification returns a valid Notification,
-// but it triggers an error in tests to reduce code repetition.
-func getTestErrNotification() Notification {
-	return Notification{Title: "Error"}
-}
-
-func getTestAppHandlerError() AppHandlerError {
-	return AppHandlerError{msg: "an error occurred"}
-}
-
-func getTestUserHandlerError() UserHandlerError {
-	return UserHandlerError{msg: "an error occurred"}
-}
-
-func getTestUserNotificationRepoError() UserNotificationRepositoryError {
-	return UserNotificationRepositoryError{msg: "an error occurred"}
 }

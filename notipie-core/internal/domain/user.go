@@ -3,36 +3,19 @@ package domain
 type User struct {
 	ID       string
 	Username string
-	handler  UserHandler
-	repo     UserNotificationRepository
+	repo     NotificationRepository
+	tags     []*Tag
 }
 
-func (u User) Receive(application Application, notification Notification) {
-	err := u.handler.Handle(application, notification)
-	if err != nil {
-		u.handler.HandleError(err)
-	}
+func (u User) Receive(notification Notification) {
 }
 
-type UserHandler interface {
-	Handle(Application, Notification) error
-	HandleError(error)
+func (u *User) SubscribeTo(tag *Tag) {
+	u.tags = append(u.tags, tag)
+	tag.RegisterUser(u)
 }
 
-type UserHandlerError struct {
-	msg string
-}
-
-func (e UserHandlerError) Error() string {
-	return e.msg
-}
-
-type UserNotificationRepository interface {
-	SaveNotification(Notification) error
-	GetNotifications() ([]Notification, error)
-	HandleError(error)
-}
-
-type UserNotificationRepositoryError struct {
-	msg string
+type NotificationRepository interface {
+	SaveNotification(Notification)
+	GetAllNotifications() []Notification
 }
