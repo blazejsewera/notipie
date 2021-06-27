@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/jazzsewera/notipie/notipie-core/internal/domain"
+import "github.com/jazzsewera/notipie/core/internal/domain"
 
 type AppProxy struct {
 	app domain.App

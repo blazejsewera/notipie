@@ -3,12 +3,12 @@ const tasks = (arr) => arr.join(' && ');
 module.exports = {
   hooks: {
     'pre-commit': tasks([
-      'echo "notipie-ui > lint (yarn lint)"',
-      'cd notipie-ui',
+      'echo "ui > lint (yarn lint)"',
+      'cd ui',
       'yarn lint',
       'cd ..',
-      'echo "notipie-ui-components > lint (yarn lint)"',
-      'cd notipie-ui-components',
+      'echo "ui-components > lint (yarn lint)"',
+      'cd ui-components',
       'yarn lint',
       'cd ..',
     ]),

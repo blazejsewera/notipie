@@ -2,7 +2,7 @@ package domain
 
 import (
 	"fmt"
-	"github.com/jazzsewera/notipie/notipie-core/pkg/lib/util"
+	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"time"
 )
 
