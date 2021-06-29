@@ -7,7 +7,7 @@ import (
 
 func TestString(t *testing.T) {
 	notification := getTestNotification()
-	str := `[TestApp#1@2021-01-21T12:49:30Z|M] Test Notification
+	str := `[TestApp#1@2021-01-01T00:00:00Z|M] Test Notification
 |> First line of body
 |> Second line of body
 `

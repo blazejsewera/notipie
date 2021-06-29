@@ -1,45 +1,104 @@
 package domain
 
 import (
-	"github.com/stretchr/testify/suite"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-type UserSuite struct {
-	suite.Suite
-	User             *User
-	Repo             *MockUserNotificationRepository
-	TestNotification Notification
-	Tag              Tag
-}
+func TestRepository(t *testing.T) {
+	// given
+	notification := getTestNotification()
 
-func (s *UserSuite) SetupTest() {
-	s.User = &User{}
-	s.TestNotification = getTestNotification()
-}
+	t.Run("save notification", func(t *testing.T) {
+		// given
+		repo := &MockNotificationRepository{}
+		user := &User{repo: repo}
 
-func (s *UserSuite) TestReceive() {
-	s.User.Receive(s.TestNotification)
-	// TODO: Check user repo content
-}
-
-func (s *UserSuite) TestRepository() {
-	s.Run("save notification", func() {
 		// when
-		s.User.repo.SaveNotification(s.TestNotification)
+		user.repo.SaveNotification(notification)
 
 		// then
-		// TODO: Refactor test to use a field, so that only one method at a time is tested
-		notifications := s.User.repo.GetAllNotifications()
-		s.ElementsMatch([...]Notification{s.TestNotification}, notifications)
+		assert.ElementsMatch(t, [...]Notification{notification}, repo.Notifications)
+	})
+
+	t.Run("get all notifications from repo", func(t *testing.T) {
+		// given
+		repo := &MockNotificationRepository{Notifications: []Notification{notification}}
+		user := &User{repo: repo}
+
+		// when
+		notifications := user.repo.GetAllNotifications()
+
+		// then
+		assert.ElementsMatch(t, [...]Notification{notification}, notifications)
+	})
+
+	t.Run("get all notifications from user", func(t *testing.T) {
+		// given
+		repo := &MockNotificationRepository{Notifications: []Notification{notification}}
+		user := &User{repo: repo}
+
+		// when
+		notifications := user.GetAllNotifications()
+
+		// then
+		assert.ElementsMatch(t, [...]Notification{notification}, notifications)
+	})
+
+	t.Run("get 2 last notifications from user", func(t *testing.T) {
+		// given
+		notifications := get5TestNotifications()
+		repo := &MockNotificationRepository{Notifications: notifications}
+		user := &User{repo: repo}
+
+		want := notifications[3:4]
+
+		// when
+		have := user.GetLastNotifications(2)
+
+		// then
+		assert.ElementsMatch(t, want, have)
 	})
 }
 
-func (s *UserSuite) TestSubscribeToTag() {
-	s.User.SubscribeTo(&s.Tag)
-	s.ElementsMatch([...]*Tag{&s.Tag}, s.User.tags)
+func TestReceive(t *testing.T) {
+	// given
+	notification := getTestNotification()
+
+	t.Run("single receive", func(t *testing.T) {
+		// given
+		repo := &MockNotificationRepository{}
+		user := &User{repo: repo}
+
+		// when
+		user.Receive(notification)
+
+		// then
+		assert.ElementsMatch(t, [...]Notification{notification}, user.GetAllNotifications())
+	})
+
+	t.Run("multiple receive - same notification", func(t *testing.T) {
+		// given
+		repo := &MockNotificationRepository{}
+		user := &User{repo: repo}
+
+		// when
+		user.Receive(notification)
+		user.Receive(notification)
+
+		// then
+		assert.ElementsMatch(t, [...]Notification{notification}, user.GetAllNotifications())
+	})
 }
 
-func TestUser(t *testing.T) {
-	suite.Run(t, new(UserSuite))
+func TestSubscribeToTag(t *testing.T) {
+	// given
+	user := &User{}
+	tag := &Tag{}
+
+	// when
+	user.SubscribeTo(tag)
+
+	// then
+	assert.ElementsMatch(t, [...]*Tag{tag}, user.tags)
 }

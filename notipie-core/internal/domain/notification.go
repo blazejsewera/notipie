@@ -26,16 +26,17 @@ func (n Notification) String() string {
 type Urgency int
 
 const (
-	Low Urgency = iota
+	Info Urgency = iota
+	Low
 	Medium
 	High
 	Fatal
 )
 
 func (u Urgency) ShortString() string {
-	return [...]string{"L", "M", "H", "F"}[u]
+	return [...]string{"I", "L", "M", "H", "F"}[u]
 }
 
 func (u Urgency) String() string {
-	return [...]string{"Low", "Medium", "High", "Fatal"}[u]
+	return [...]string{"Info", "Low", "Medium", "High", "Fatal"}[u]
 }
