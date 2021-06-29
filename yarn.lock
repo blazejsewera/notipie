@@ -13066,9 +13066,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"notipie-ui-components@workspace:notipie-ui-components":
+"notipie-ui-components@workspace:ui-components":
   version: 0.0.0-use.local
-  resolution: "notipie-ui-components@workspace:notipie-ui-components"
+  resolution: "notipie-ui-components@workspace:ui-components"
   dependencies:
     "@babel/core": ^7.13.8
     "@mdx-js/react": ^1.6.22
@@ -13096,9 +13096,9 @@ fsevents@~2.1.2:
   languageName: unknown
   linkType: soft
 
-"notipie-ui@workspace:notipie-ui":
+"notipie-ui@workspace:ui":
   version: 0.0.0-use.local
-  resolution: "notipie-ui@workspace:notipie-ui"
+  resolution: "notipie-ui@workspace:ui"
   dependencies:
     "@babel/preset-env": ^7.14.4
     "@babel/preset-react": ^7.13.13

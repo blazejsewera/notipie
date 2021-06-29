@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "notipie-ui",
-    "notipie-ui-components"
+    "ui",
+    "ui-components"
   ],
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
