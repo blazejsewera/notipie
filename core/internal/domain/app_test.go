@@ -1,12 +1,21 @@
 package domain
 
-import "testing"
+import (
+	"fmt"
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
-func TestSendNotification(t *testing.T) {
+func TestApp_Send(t *testing.T) {
 	// given
+	app := getTestApp()
 	notification := getTestNotification()
-	app := App{}
 
 	// when
-	app.Send(notification)
+	err := app.Send(notification)
+
+	// then
+	assert.NotNil(t, err)
+	// TODO: refactor test to use error format constant
+	assert.Equal(t, fmt.Sprintf("no tags for TestApp#1 when sending %s", notification), err.Error())
 }

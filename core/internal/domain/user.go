@@ -1,17 +1,21 @@
 package domain
 
 type User struct {
-	ID       string
-	Username string
-	repo     NotificationRepository
-	tags     []*Tag
+	ID                 string
+	Username           string
+	repo               NotificationRepository
+	tags               []*Tag
+	lastNotificationID string
 }
 
 func (u *User) Receive(notification Notification) {
-	u.repo.SaveNotification(notification)
+	if notification.ID != u.lastNotificationID {
+		u.repo.SaveNotification(notification)
+		u.lastNotificationID = notification.ID
+	}
 }
 
-func (u *User) SubscribeTo(tag *Tag) {
+func (u *User) SubscribeToTag(tag *Tag) {
 	u.tags = append(u.tags, tag)
 	tag.RegisterUser(u)
 }

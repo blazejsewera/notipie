@@ -7,6 +7,7 @@ import (
 )
 
 type Notification struct {
+	ID        string
 	App       *App
 	Timestamp time.Time
 	Title     string
@@ -20,7 +21,7 @@ func (n Notification) String() string {
 	for _, line := range util.SplitLines(n.Body) {
 		b += fmt.Sprintf("|> %s\n", line)
 	}
-	return fmt.Sprintf("[%s#%s@%s|%s] %s\n%s", n.App.Name, n.App.ID, t, n.Urgency.ShortString(), n.Title, b)
+	return fmt.Sprintf("[%s#%s@%s|%s] %s#%s\n%s", n.App.Name, n.App.ID, t, n.Urgency.ShortString(), n.Title, n.ID, b)
 }
 
 type Urgency int

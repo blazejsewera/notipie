@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestRepository(t *testing.T) {
+func TestUserRepository(t *testing.T) {
 	// given
 	notification := getTestNotification()
 
@@ -61,7 +61,7 @@ func TestRepository(t *testing.T) {
 	})
 }
 
-func TestReceive(t *testing.T) {
+func TestUser_ReceiveNotification(t *testing.T) {
 	// given
 	notification := getTestNotification()
 
@@ -91,13 +91,13 @@ func TestReceive(t *testing.T) {
 	})
 }
 
-func TestSubscribeToTag(t *testing.T) {
+func TestUser_SubscribeToTag(t *testing.T) {
 	// given
 	user := &User{}
 	tag := &Tag{}
 
 	// when
-	user.SubscribeTo(tag)
+	user.SubscribeToTag(tag)
 
 	// then
 	assert.ElementsMatch(t, [...]*Tag{tag}, user.tags)

@@ -5,9 +5,9 @@ import (
 	"testing"
 )
 
-func TestString(t *testing.T) {
+func TestNotification_String(t *testing.T) {
 	notification := getTestNotification()
-	str := `[TestApp#1@2021-01-01T00:00:00Z|M] Test Notification
+	str := `[TestApp#1@2021-01-01T00:00:00Z|M] Test Notification#1
 |> First line of body
 |> Second line of body
 `
