@@ -30,6 +30,11 @@ func (u *User) GetLastNotifications(n int) []Notification {
 	return u.repo.GetLastNotifications(n)
 }
 
+func (u *User) UnsubscribeFromTag(tag Tag) (err error) {
+	u.tags, err = removeTag(u.tags, tag)
+	return
+}
+
 type NotificationRepository interface {
 	SaveNotification(Notification)
 	GetAllNotifications() []Notification

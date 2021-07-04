@@ -11,8 +11,8 @@ func TestUserRepository(t *testing.T) {
 
 	t.Run("save notification", func(t *testing.T) {
 		// given
-		repo := &MockNotificationRepository{}
-		user := &User{repo: repo}
+		repo := MockNotificationRepository{}
+		user := User{repo: &repo}
 
 		// when
 		user.repo.SaveNotification(notification)
@@ -23,8 +23,8 @@ func TestUserRepository(t *testing.T) {
 
 	t.Run("get all notifications from repo", func(t *testing.T) {
 		// given
-		repo := &MockNotificationRepository{Notifications: []Notification{notification}}
-		user := &User{repo: repo}
+		repo := MockNotificationRepository{Notifications: []Notification{notification}}
+		user := User{repo: &repo}
 
 		// when
 		notifications := user.repo.GetAllNotifications()
@@ -35,8 +35,8 @@ func TestUserRepository(t *testing.T) {
 
 	t.Run("get all notifications from user", func(t *testing.T) {
 		// given
-		repo := &MockNotificationRepository{Notifications: []Notification{notification}}
-		user := &User{repo: repo}
+		repo := MockNotificationRepository{Notifications: []Notification{notification}}
+		user := User{repo: &repo}
 
 		// when
 		notifications := user.GetAllNotifications()
@@ -48,15 +48,14 @@ func TestUserRepository(t *testing.T) {
 	t.Run("get 2 last notifications from user", func(t *testing.T) {
 		// given
 		notifications := get5TestNotifications()
-		repo := &MockNotificationRepository{Notifications: notifications}
-		user := &User{repo: repo}
-
-		want := notifications[3:4]
+		repo := MockNotificationRepository{Notifications: notifications}
+		user := User{repo: &repo}
 
 		// when
 		have := user.GetLastNotifications(2)
 
 		// then
+		want := notifications[3:4]
 		assert.ElementsMatch(t, want, have)
 	})
 }
@@ -67,8 +66,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		repo := &MockNotificationRepository{}
-		user := &User{repo: repo}
+		user := getTestUser()
 
 		// when
 		user.Receive(notification)
@@ -79,8 +77,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
-		repo := &MockNotificationRepository{}
-		user := &User{repo: repo}
+		user := getTestUser()
 
 		// when
 		user.Receive(notification)
@@ -93,12 +90,29 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 func TestUser_SubscribeToTag(t *testing.T) {
 	// given
-	user := &User{}
-	tag := &Tag{}
+	user := getTestUser()
+	tag := getTestTag()
 
 	// when
-	user.SubscribeToTag(tag)
+	user.SubscribeToTag(&tag)
 
 	// then
-	assert.ElementsMatch(t, []*Tag{tag}, user.tags)
+	assert.ElementsMatch(t, []*Tag{&tag}, user.tags)
+}
+
+func TestUser_UnsubscribeFromTag(t *testing.T) {
+	t.Run("found", func(t *testing.T) {
+		// given
+		user := getTestUser()
+		tag := getTestTag()
+		user.tags = []*Tag{&tag}
+
+		// when
+		err := user.UnsubscribeFromTag(tag)
+
+		// then
+		if assert.NoError(t, err) {
+			assert.Empty(t, user.tags)
+		}
+	})
 }

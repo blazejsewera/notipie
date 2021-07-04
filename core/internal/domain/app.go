@@ -43,6 +43,11 @@ func (a *App) AddTag(tag *Tag) {
 	tag.RegisterApp(a)
 }
 
+func (a *App) RemoveTag(tag Tag) (err error) {
+	a.tags, err = removeTag(a.tags, tag)
+	return
+}
+
 // TODO: add RemoveTag func
 
 type SendError struct {

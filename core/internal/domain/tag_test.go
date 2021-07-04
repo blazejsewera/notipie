@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -89,6 +90,42 @@ func TestTag_Broadcast(t *testing.T) {
 		if assert.NoError(t, err) {
 			assert.ElementsMatch(t, []Notification{notification}, user1.GetAllNotifications())
 			assert.ElementsMatch(t, []Notification{notification}, user2.GetAllNotifications())
+		}
+	})
+}
+
+func TestTag_removeTag(t *testing.T) {
+	t.Run("found", func(t *testing.T) {
+		// given
+		tags := []*Tag{
+			{Name: "1"},
+			{Name: "2"},
+			{Name: "3"},
+		}
+		tag := Tag{Name: "2"}
+		var err error
+
+		// when
+		tags, err = removeTag(tags, tag)
+
+		// then
+		if assert.NoError(t, err) {
+			assert.ElementsMatch(t, []*Tag{{Name: "1"}, {Name: "3"}}, tags)
+		}
+	})
+
+	t.Run("not found", func(t *testing.T) {
+		// given
+		tags := []*Tag{{Name: "1"}}
+		tag := Tag{Name: "2"}
+		var err error
+
+		// when
+		tags, err = removeTag(tags, tag)
+
+		// then
+		if assert.Error(t, err) {
+			assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 		}
 	})
 }
