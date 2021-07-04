@@ -9,16 +9,20 @@ type MockNotificationRepository struct {
 	Notifications []Notification
 }
 
+func (r *MockNotificationRepository) GetNotificationCount() int {
+	return len(r.Notifications)
+}
+
+func (r *MockNotificationRepository) GetNotifications(from, to int) []Notification {
+	return r.Notifications[from:to]
+}
+
 func (r *MockNotificationRepository) SaveNotification(notification Notification) {
 	r.Notifications = append(r.Notifications, notification)
 }
 
-func (r *MockNotificationRepository) GetAllNotifications() []Notification {
-	return r.Notifications
-}
-
 func (r *MockNotificationRepository) GetLastNotifications(n int) []Notification {
-	return r.Notifications[3:4]
+	return r.Notifications[len(r.Notifications)-n:]
 }
 
 func getTestNotification() Notification {

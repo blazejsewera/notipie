@@ -27,7 +27,7 @@ func TestUserRepository(t *testing.T) {
 		user := User{repo: &repo}
 
 		// when
-		notifications := user.repo.GetAllNotifications()
+		notifications := user.GetAllNotifications()
 
 		// then
 		assert.ElementsMatch(t, []Notification{notification}, notifications)
@@ -55,8 +55,35 @@ func TestUserRepository(t *testing.T) {
 		have := user.GetLastNotifications(2)
 
 		// then
-		want := notifications[3:4]
+		want := notifications[3:]
 		assert.ElementsMatch(t, want, have)
+	})
+
+	t.Run("get notifications in specific range", func(t *testing.T) {
+		// given
+		notifications := get5TestNotifications()
+		repo := MockNotificationRepository{Notifications: notifications}
+		user := User{repo: &repo}
+
+		// when
+		have := user.GetNotifications(1, 3)
+
+		// then
+		want := notifications[1:3]
+		assert.ElementsMatch(t, want, have)
+	})
+
+	t.Run("get notification count", func(t *testing.T) {
+		// given
+		notifications := get5TestNotifications()
+		repo := MockNotificationRepository{Notifications: notifications}
+		user := User{repo: &repo}
+
+		// when
+		count := user.GetNotificationCount()
+
+		// then
+		assert.Equal(t, 5, count)
 	})
 }
 

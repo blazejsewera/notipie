@@ -20,23 +20,30 @@ func (u *User) SubscribeToTag(tag *Tag) {
 	tag.RegisterUser(u)
 }
 
-// TODO: Add UnsubscribeFromTag func
+func (u *User) UnsubscribeFromTag(tag Tag) (err error) {
+	u.tags, err = removeTag(u.tags, tag)
+	return
+}
 
 func (u *User) GetAllNotifications() []Notification {
-	return u.repo.GetAllNotifications()
+	return u.repo.GetNotifications(0, u.repo.GetNotificationCount())
 }
 
 func (u *User) GetLastNotifications(n int) []Notification {
 	return u.repo.GetLastNotifications(n)
 }
 
-func (u *User) UnsubscribeFromTag(tag Tag) (err error) {
-	u.tags, err = removeTag(u.tags, tag)
-	return
+func (u *User) GetNotifications(from int, to int) []Notification {
+	return u.repo.GetNotifications(from, to)
+}
+
+func (u *User) GetNotificationCount() int {
+	return u.repo.GetNotificationCount()
 }
 
 type NotificationRepository interface {
-	SaveNotification(Notification)
-	GetAllNotifications() []Notification
-	GetLastNotifications(int) []Notification
+	SaveNotification(notification Notification)
+	GetLastNotifications(n int) []Notification
+	GetNotifications(from, to int) []Notification
+	GetNotificationCount() int
 }

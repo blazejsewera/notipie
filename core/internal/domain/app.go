@@ -48,8 +48,6 @@ func (a *App) RemoveTag(tag Tag) (err error) {
 	return
 }
 
-// TODO: add RemoveTag func
-
 type SendError struct {
 	App
 	Notification
