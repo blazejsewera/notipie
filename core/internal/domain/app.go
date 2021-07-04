@@ -43,6 +43,8 @@ func (a *App) AddTag(tag *Tag) {
 	tag.RegisterApp(a)
 }
 
+// TODO: add RemoveTag func
+
 type SendError struct {
 	App
 	Notification

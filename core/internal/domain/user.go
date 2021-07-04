@@ -20,6 +20,8 @@ func (u *User) SubscribeToTag(tag *Tag) {
 	tag.RegisterUser(u)
 }
 
+// TODO: Add UnsubscribeFromTag func
+
 func (u *User) GetAllNotifications() []Notification {
 	return u.repo.GetAllNotifications()
 }
