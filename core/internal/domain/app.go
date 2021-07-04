@@ -11,7 +11,7 @@ type App struct {
 }
 
 func (a *App) Send(notification Notification) error {
-	if a.tags == nil {
+	if len(a.tags) == 0 {
 		return SendError{
 			App:          *a,
 			Notification: notification,
@@ -27,7 +27,7 @@ func (a *App) Send(notification Notification) error {
 		}
 	}
 
-	if emptyTags != nil {
+	if len(emptyTags) != 0 {
 		return SendError{
 			App:          *a,
 			Notification: notification,
@@ -50,18 +50,19 @@ type SendError struct {
 }
 
 func (e SendError) Error() string {
-	if e.Tags == nil {
-		// TODO: extract format constant
-		return fmt.Sprintf("no tags for %s#%s when sending %s", e.App.Name, e.App.ID, e.Notification)
+	if len(e.Tags) == 0 {
+		return fmt.Sprintf(noTagsWhenSendErrorFormat, e.App.Name, e.App.ID, e.Notification)
 	}
 
-	tags := "[ "
+	var tags []string
 	for _, tag := range e.Tags {
-		tags += fmt.Sprintf("%s ", tag.Name)
+		tags = append(tags, tag.Name)
 	}
-	tags += "]"
 
-	// TODO: extract format constant
-	return fmt.Sprintf("tags: %s for %s#%s did not have registered users when sending %s",
-		tags, e.App.Name, e.App.ID, e.Notification)
+	return fmt.Sprintf(noUsersInTagsWhenSendErrorFormat, tags, e.App.Name, e.App.ID, e.Notification)
 }
+
+const (
+	noTagsWhenSendErrorFormat        = "no tags for %s#%s when sending %s"
+	noUsersInTagsWhenSendErrorFormat = "tags: %v for %s#%s did not have registered users when sending %s"
+)

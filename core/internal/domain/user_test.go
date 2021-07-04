@@ -18,7 +18,7 @@ func TestUserRepository(t *testing.T) {
 		user.repo.SaveNotification(notification)
 
 		// then
-		assert.ElementsMatch(t, [...]Notification{notification}, repo.Notifications)
+		assert.ElementsMatch(t, []Notification{notification}, repo.Notifications)
 	})
 
 	t.Run("get all notifications from repo", func(t *testing.T) {
@@ -30,7 +30,7 @@ func TestUserRepository(t *testing.T) {
 		notifications := user.repo.GetAllNotifications()
 
 		// then
-		assert.ElementsMatch(t, [...]Notification{notification}, notifications)
+		assert.ElementsMatch(t, []Notification{notification}, notifications)
 	})
 
 	t.Run("get all notifications from user", func(t *testing.T) {
@@ -42,7 +42,7 @@ func TestUserRepository(t *testing.T) {
 		notifications := user.GetAllNotifications()
 
 		// then
-		assert.ElementsMatch(t, [...]Notification{notification}, notifications)
+		assert.ElementsMatch(t, []Notification{notification}, notifications)
 	})
 
 	t.Run("get 2 last notifications from user", func(t *testing.T) {
@@ -74,7 +74,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		user.Receive(notification)
 
 		// then
-		assert.ElementsMatch(t, [...]Notification{notification}, user.GetAllNotifications())
+		assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
@@ -87,7 +87,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		user.Receive(notification)
 
 		// then
-		assert.ElementsMatch(t, [...]Notification{notification}, user.GetAllNotifications())
+		assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
 	})
 }
 
@@ -100,5 +100,5 @@ func TestUser_SubscribeToTag(t *testing.T) {
 	user.SubscribeToTag(tag)
 
 	// then
-	assert.ElementsMatch(t, [...]*Tag{tag}, user.tags)
+	assert.ElementsMatch(t, []*Tag{tag}, user.tags)
 }

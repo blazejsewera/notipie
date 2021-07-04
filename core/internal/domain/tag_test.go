@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -16,7 +15,7 @@ func TestTag_RegisterUser(t *testing.T) {
 		tag.RegisterUser(&user)
 
 		// then
-		assert.ElementsMatch(t, [...]*User{&user}, tag.Users)
+		assert.ElementsMatch(t, []*User{&user}, tag.Users)
 	})
 
 	t.Run("user perspective", func(t *testing.T) {
@@ -28,7 +27,7 @@ func TestTag_RegisterUser(t *testing.T) {
 		user.SubscribeToTag(&tag)
 
 		// then
-		assert.ElementsMatch(t, [...]*User{&user}, tag.Users)
+		assert.ElementsMatch(t, []*User{&user}, tag.Users)
 	})
 }
 
@@ -59,42 +58,37 @@ func TestTag_RegisterApp(t *testing.T) {
 }
 
 func TestTag_Broadcast(t *testing.T) {
-	t.Run("app to tag without user", func(t *testing.T) {
+	t.Run("no users", func(t *testing.T) {
 		// given
 		tag := getTestTag()
-		app := getTestApp()
 		notification := getTestNotification()
 
-		app.AddTag(&tag)
-
 		// when
-		err := app.Send(notification)
+		err := tag.Broadcast(notification)
 
 		// then
-		assert.NotNil(t, err)
-		assert.Equal(
-			t,
-			// TODO: refactor test to use error format constant
-			fmt.Sprintf("tags: [ TestTag ] for TestApp#1 did not have registered users when sending %s", notification),
-			err.Error(),
-		)
+		if assert.Error(t, err) {
+			assert.Equal(t, noUserWhenBroadcastErrorMessage, err.Error())
+		}
 	})
 
-	t.Run("app to user - single tag", func(t *testing.T) {
+	t.Run("multiple users", func(t *testing.T) {
 		// given
 		tag := getTestTag()
-		app := getTestApp()
-		user := getTestUser()
+		user1 := getTestUser()
+		user2 := getTestUser()
 		notification := getTestNotification()
 
-		app.AddTag(&tag)
-		user.SubscribeToTag(&tag)
+		user1.SubscribeToTag(&tag)
+		user2.SubscribeToTag(&tag)
 
 		// when
-		err := app.Send(notification)
+		err := tag.Broadcast(notification)
 
 		// then
-		assert.Nil(t, err)
-		assert.ElementsMatch(t, [...]Notification{notification}, user.GetAllNotifications())
+		if assert.NoError(t, err) {
+			assert.ElementsMatch(t, []Notification{notification}, user1.GetAllNotifications())
+			assert.ElementsMatch(t, []Notification{notification}, user2.GetAllNotifications())
+		}
 	})
 }

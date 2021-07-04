@@ -16,11 +16,9 @@ func (t *Tag) RegisterApp(app *App) {
 	t.Apps = append(t.Apps, app)
 }
 
-// TODO: test this func
 func (t *Tag) Broadcast(notification Notification) error {
 	if len(t.Users) == 0 {
-		// TODO: extract error constant
-		return fmt.Errorf("no users to broadcast to")
+		return fmt.Errorf(noUserWhenBroadcastErrorMessage)
 	}
 
 	for _, user := range t.Users {
@@ -28,3 +26,5 @@ func (t *Tag) Broadcast(notification Notification) error {
 	}
 	return nil
 }
+
+const noUserWhenBroadcastErrorMessage = "no users to broadcast to"
