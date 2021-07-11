@@ -5,24 +5,32 @@ import (
 	"time"
 )
 
-type MockNotificationRepository struct {
+type mockNotificationRepository struct {
 	Notifications []Notification
 }
 
-func (r *MockNotificationRepository) GetNotificationCount() int {
+func (r *mockNotificationRepository) GetNotificationCount() int {
 	return len(r.Notifications)
 }
 
-func (r *MockNotificationRepository) GetNotifications(from, to int) []Notification {
+func (r *mockNotificationRepository) GetNotifications(from, to int) []Notification {
 	return r.Notifications[from:to]
 }
 
-func (r *MockNotificationRepository) SaveNotification(notification Notification) {
+func (r *mockNotificationRepository) SaveNotification(notification Notification) {
 	r.Notifications = append(r.Notifications, notification)
 }
 
-func (r *MockNotificationRepository) GetLastNotifications(n int) []Notification {
+func (r *mockNotificationRepository) GetLastNotifications(n int) []Notification {
 	return r.Notifications[len(r.Notifications)-n:]
+}
+
+type mockCommandHandler struct {
+	Command Command
+}
+
+func (h *mockCommandHandler) HandleCommand(command Command) {
+	h.Command = command
 }
 
 func getTestNotification() Notification {
@@ -50,7 +58,7 @@ func getTestUser() User {
 	return User{
 		ID:       "1",
 		Username: "TestUser",
-		repo:     &MockNotificationRepository{},
+		repo:     &mockNotificationRepository{},
 	}
 }
 

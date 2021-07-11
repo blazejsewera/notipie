@@ -11,7 +11,7 @@ func TestUserRepository(t *testing.T) {
 
 	t.Run("save notification", func(t *testing.T) {
 		// given
-		repo := MockNotificationRepository{}
+		repo := mockNotificationRepository{}
 		user := User{repo: &repo}
 
 		// when
@@ -23,7 +23,7 @@ func TestUserRepository(t *testing.T) {
 
 	t.Run("get all notifications from repo", func(t *testing.T) {
 		// given
-		repo := MockNotificationRepository{Notifications: []Notification{notification}}
+		repo := mockNotificationRepository{Notifications: []Notification{notification}}
 		user := User{repo: &repo}
 
 		// when
@@ -35,7 +35,7 @@ func TestUserRepository(t *testing.T) {
 
 	t.Run("get all notifications from user", func(t *testing.T) {
 		// given
-		repo := MockNotificationRepository{Notifications: []Notification{notification}}
+		repo := mockNotificationRepository{Notifications: []Notification{notification}}
 		user := User{repo: &repo}
 
 		// when
@@ -48,7 +48,7 @@ func TestUserRepository(t *testing.T) {
 	t.Run("get 2 last notifications from user", func(t *testing.T) {
 		// given
 		notifications := get5TestNotifications()
-		repo := MockNotificationRepository{Notifications: notifications}
+		repo := mockNotificationRepository{Notifications: notifications}
 		user := User{repo: &repo}
 
 		// when
@@ -62,7 +62,7 @@ func TestUserRepository(t *testing.T) {
 	t.Run("get notifications in specific range", func(t *testing.T) {
 		// given
 		notifications := get5TestNotifications()
-		repo := MockNotificationRepository{Notifications: notifications}
+		repo := mockNotificationRepository{Notifications: notifications}
 		user := User{repo: &repo}
 
 		// when
@@ -76,7 +76,7 @@ func TestUserRepository(t *testing.T) {
 	t.Run("get notification count", func(t *testing.T) {
 		// given
 		notifications := get5TestNotifications()
-		repo := MockNotificationRepository{Notifications: notifications}
+		repo := mockNotificationRepository{Notifications: notifications}
 		user := User{repo: &repo}
 
 		// when
