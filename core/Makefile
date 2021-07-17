@@ -1,3 +1,5 @@
+.PHONY: clean
+
 all: clean tidy lint build test
 
 build:
@@ -19,4 +21,5 @@ tidy:
 	go mod tidy
 
 clean:
+	rm -f ./notipie
 	go clean

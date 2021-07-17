@@ -3,6 +3,10 @@ const tasks = (arr) => arr.join(' && ');
 module.exports = {
   hooks: {
     'pre-commit': tasks([
+      'echo "core > format (make format)"',
+      'cd core',
+      'make format',
+      'cd ..',
       'echo "ui > lint (yarn lint)"',
       'cd ui',
       'yarn lint',
