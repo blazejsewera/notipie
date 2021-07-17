@@ -3,6 +3,7 @@ package domain
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
 )
@@ -38,12 +39,53 @@ func TestTag_Broadcast(t *testing.T) {
 		notification := getTestNotification()
 
 		// when
-		err := tag.Broadcast(notification)
+		err := tag.broadcast(notification)
 
 		// then
-		if assert.Error(t, err) {
-			assert.Equal(t, noUserWhenBroadcastErrorMessage, err.Error())
-		}
+		require.Error(t, err)
+		assert.Equal(t, noUserWhenBroadcastErrorMessage, err.Error())
+	})
+
+	t.Run("multiple notifications", func(t *testing.T) {
+		// given
+		tag := getTestTag()
+
+		user := getTestUser()
+		repo := newMockNotificationRepository()
+		user.repo = &repo
+
+		notifications := get5TestNotifications()
+
+		user.SubscribeToTag(&tag)
+
+		user.Listen()
+
+		go func() {
+			for _, notification := range notifications {
+				// when
+				err := tag.broadcast(notification)
+
+				// then
+				require.NoError(t, err)
+			}
+		}()
+
+		done := make(chan struct{})
+		go func(done chan struct{}) {
+			for i := range notifications {
+				select {
+				// check if all notifications arrived
+				case <-repo.NotificationSaved:
+					break
+				case <-time.After(200 * time.Millisecond):
+					assert.Fail(t, fmt.Sprintf("user.repo did not save the notification no %d after 200ms", i))
+				}
+			}
+			done <- struct{}{}
+		}(done)
+
+		<-done
+		assert.ElementsMatch(t, notifications, user.GetAllNotifications())
 	})
 
 	t.Run("multiple users", func(t *testing.T) {
@@ -69,10 +111,10 @@ func TestTag_Broadcast(t *testing.T) {
 		user2.Listen()
 
 		// when
-		err := tag.Broadcast(notification)
+		err := tag.broadcast(notification)
 
 		// then
-		assert.NoError(t, err)
+		require.NoError(t, err)
 
 		for i := 0; i < 2; i++ {
 			select {
@@ -102,9 +144,8 @@ func TestTag_removeTag(t *testing.T) {
 		tags, err = removeTag(tags, tag)
 
 		// then
-		if assert.NoError(t, err) {
-			assert.ElementsMatch(t, []*Tag{{Name: "1"}, {Name: "3"}}, tags)
-		}
+		require.NoError(t, err)
+		assert.ElementsMatch(t, []*Tag{{Name: "1"}, {Name: "3"}}, tags)
 	})
 
 	t.Run("not found", func(t *testing.T) {
@@ -117,8 +158,7 @@ func TestTag_removeTag(t *testing.T) {
 		tags, err = removeTag(tags, tag)
 
 		// then
-		if assert.Error(t, err) {
-			assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
-		}
+		require.Error(t, err)
+		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
 }

@@ -3,25 +3,15 @@ package domain
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
 )
 
 func TestUserRepository(t *testing.T) {
+	// TODO: remove those tests, as they test mocks
 	// given
 	notification := getTestNotification()
-
-	t.Run("save notification", func(t *testing.T) {
-		// given
-		repo := mockNotificationRepository{}
-		user := User{repo: &repo}
-
-		// when
-		user.repo.SaveNotification(notification)
-
-		// then
-		assert.ElementsMatch(t, []Notification{notification}, repo.Notifications)
-	})
 
 	t.Run("get all notifications from repo", func(t *testing.T) {
 		// given
@@ -94,19 +84,30 @@ func TestUser_ReceiveNotification(t *testing.T) {
 	notification := getTestNotification()
 
 	t.Run("single receive", func(t *testing.T) {
+		// TODO: spot the deadlock
 		// given
 		user := getTestUser()
+		repo := newMockNotificationRepository()
+		user.repo = &repo
 
 		// when
 		user.Receive(notification)
 
 		// then
-		assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
+		select {
+		case <-repo.NotificationSaved:
+			assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
+		case <-time.After(200 * time.Millisecond):
+			assert.Fail(t, "notification was not stored in repo after 200ms")
+		}
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
+		// TODO: refactor tests to remove repetition
 		user := getTestUser()
+		repo := newMockNotificationRepository()
+		user.repo = &repo
 
 		// when
 		user.Receive(notification)
@@ -126,11 +127,11 @@ func TestUser_Listen(t *testing.T) {
 
 	// when
 	select {
-	case user.notificationChan <- notification:
+	case user.NotificationChan <- notification:
 		// then
 		assert.Equal(t, []Notification{notification}, user.GetAllNotifications())
 	case <-timeout:
-		assert.Fail(t, "user.notificationChan blocked for over 200ms")
+		assert.Fail(t, "user.NotificationChan blocked for over 200ms")
 	}
 }
 
@@ -157,9 +158,8 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		err := user.UnsubscribeFromTag(tag)
 
 		// then
-		if assert.NoError(t, err) {
-			assert.Empty(t, user.tags)
-		}
+		require.NoError(t, err)
+		assert.Empty(t, user.tags)
 	})
 
 	t.Run("not found", func(t *testing.T) {
@@ -172,8 +172,7 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		err := user.UnsubscribeFromTag(tag)
 
 		// then
-		if assert.Error(t, err) {
-			assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
-		}
+		require.Error(t, err)
+		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
 }

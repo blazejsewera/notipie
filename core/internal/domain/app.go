@@ -7,16 +7,18 @@ type App struct {
 	Name           string
 	SmallIconURL   string
 	BigIconURL     string
+	CommandChan    chan Command
 	tags           []*Tag
-	commandChan    chan Command
 	commandHandler CommandHandler
 }
 
 func (a *App) Start() {
-	a.commandChan = make(chan Command)
+	if a.CommandChan == nil {
+		a.CommandChan = make(chan Command)
+	}
+
 	go func() {
-		c := <-a.commandChan
-		a.commandHandler.HandleCommand(c)
+		a.commandHandler.HandleCommand(<-a.CommandChan)
 	}()
 }
 
@@ -28,21 +30,8 @@ func (a *App) Send(notification Notification) error {
 		}
 	}
 
-	var emptyTags []*Tag
-
 	for _, tag := range a.tags {
-		err := tag.Broadcast(notification)
-		if err != nil {
-			emptyTags = append(emptyTags, tag)
-		}
-	}
-
-	if len(emptyTags) != 0 {
-		return SendError{
-			App:          *a,
-			Notification: notification,
-			Tags:         emptyTags,
-		}
+		tag.NotificationChan <- notification
 	}
 
 	return nil

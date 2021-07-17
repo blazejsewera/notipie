@@ -3,6 +3,7 @@ package domain
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
 )
@@ -15,7 +16,7 @@ func TestApp_Start(t *testing.T) {
 	app.Start()
 
 	// then
-	assert.NotNil(t, app.commandChan)
+	assert.NotNil(t, app.CommandChan)
 }
 
 func TestApp_AddTag(t *testing.T) {
@@ -41,9 +42,8 @@ func TestApp_RemoveTag(t *testing.T) {
 		err := app.RemoveTag(tag)
 
 		// then
-		if assert.NoError(t, err) {
-			assert.Empty(t, app.tags)
-		}
+		require.NoError(t, err)
+		assert.Empty(t, app.tags)
 	})
 
 	t.Run("not found", func(t *testing.T) {
@@ -56,9 +56,8 @@ func TestApp_RemoveTag(t *testing.T) {
 		err := app.RemoveTag(tag)
 
 		// then
-		if assert.Error(t, err) {
-			assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
-		}
+		require.Error(t, err)
+		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
 }
 
@@ -72,10 +71,10 @@ func TestApp_HandleCommand(t *testing.T) {
 
 	// when
 	select {
-	case app.commandChan <- command:
+	case app.CommandChan <- command:
 		// then
 		assert.Equal(t, command, commandHandler.Command)
 	case <-timeout:
-		assert.Fail(t, "app.commandChan blocked for over 200ms")
+		assert.Fail(t, "app.CommandChan blocked for over 200ms")
 	}
 }

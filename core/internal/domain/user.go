@@ -3,19 +3,19 @@ package domain
 type User struct {
 	ID                 string
 	Username           string
-	notificationChan   chan Notification
+	NotificationChan   chan Notification
 	repo               NotificationRepository
 	tags               []*Tag
 	lastNotificationID string
 }
 
 func (u *User) Listen() {
-	if u.notificationChan == nil {
-		u.notificationChan = make(chan Notification)
+	if u.NotificationChan == nil {
+		u.NotificationChan = make(chan Notification)
 	}
 	go func() {
 		for {
-			u.Receive(<-u.notificationChan)
+			u.Receive(<-u.NotificationChan)
 		}
 	}()
 }

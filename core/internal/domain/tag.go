@@ -3,18 +3,31 @@ package domain
 import "fmt"
 
 type Tag struct {
-	Name  string
-	Users []*User
-	Apps  []*App
+	Name             string
+	Users            []*User
+	Apps             []*App
+	NotificationChan chan Notification
 }
 
-func (t *Tag) Broadcast(notification Notification) error {
+func (t *Tag) Listen() {
+	if t.NotificationChan == nil {
+		t.NotificationChan = make(chan Notification)
+	}
+
+	go func() {
+		for {
+			_ = t.broadcast(<-t.NotificationChan)
+		}
+	}()
+}
+
+func (t *Tag) broadcast(notification Notification) error {
 	if len(t.Users) == 0 {
 		return fmt.Errorf(noUserWhenBroadcastErrorMessage)
 	}
 
 	for _, user := range t.Users {
-		user.notificationChan <- notification
+		user.NotificationChan <- notification
 	}
 	return nil
 }
