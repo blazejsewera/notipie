@@ -50,7 +50,7 @@ func (a *App) Send(notification Notification) error {
 
 func (a *App) AddTag(tag *Tag) {
 	a.tags = append(a.tags, tag)
-	tag.RegisterApp(a)
+	tag.registerApp(a)
 }
 
 func (a *App) RemoveTag(tag Tag) (err error) {

@@ -8,57 +8,27 @@ import (
 )
 
 func TestTag_RegisterUser(t *testing.T) {
-	t.Run("tag perspective", func(t *testing.T) {
-		// given
-		tag := Tag{}
-		user := User{}
+	// given
+	tag := Tag{}
+	user := User{}
 
-		// when
-		tag.RegisterUser(&user)
+	// when
+	tag.registerUser(&user)
 
-		// then
-		assert.ElementsMatch(t, []*User{&user}, tag.Users)
-	})
-
-	// TODO: move this test to User
-	t.Run("user perspective", func(t *testing.T) {
-		// given
-		tag := Tag{}
-		user := User{}
-
-		// when
-		user.SubscribeToTag(&tag)
-
-		// then
-		assert.ElementsMatch(t, []*User{&user}, tag.Users)
-	})
+	// then
+	assert.ElementsMatch(t, []*User{&user}, tag.Users)
 }
 
 func TestTag_RegisterApp(t *testing.T) {
-	t.Run("tag perspective", func(t *testing.T) {
-		// given
-		tag := Tag{}
-		app := App{}
+	// given
+	tag := Tag{}
+	app := App{}
 
-		// when
-		tag.RegisterApp(&app)
+	// when
+	tag.registerApp(&app)
 
-		// then
-		assert.ElementsMatch(t, []*App{&app}, tag.Apps)
-	})
-
-	// TODO: move this test to App
-	t.Run("app perspective", func(t *testing.T) {
-		// given
-		tag := Tag{}
-		app := App{}
-
-		// when
-		app.AddTag(&tag)
-
-		// then
-		assert.ElementsMatch(t, []*App{&app}, tag.Apps)
-	})
+	// then
+	assert.ElementsMatch(t, []*App{&app}, tag.Apps)
 }
 
 func TestTag_Broadcast(t *testing.T) {
@@ -76,7 +46,6 @@ func TestTag_Broadcast(t *testing.T) {
 		}
 	})
 
-	// TODO: make this test a unit test, remove integration with User
 	t.Run("multiple users", func(t *testing.T) {
 		// given
 		tag := getTestTag()

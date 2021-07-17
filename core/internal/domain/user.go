@@ -29,7 +29,7 @@ func (u *User) Receive(notification Notification) {
 
 func (u *User) SubscribeToTag(tag *Tag) {
 	u.tags = append(u.tags, tag)
-	tag.RegisterUser(u)
+	tag.registerUser(u)
 }
 
 func (u *User) UnsubscribeFromTag(tag Tag) (err error) {
