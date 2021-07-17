@@ -6,7 +6,12 @@ import (
 )
 
 type mockNotificationRepository struct {
-	Notifications []Notification
+	Notifications     []Notification
+	NotificationSaved chan struct{}
+}
+
+func newMockNotificationRepository() mockNotificationRepository {
+	return mockNotificationRepository{NotificationSaved: make(chan struct{})}
 }
 
 func (r *mockNotificationRepository) GetNotificationCount() int {
@@ -19,6 +24,7 @@ func (r *mockNotificationRepository) GetNotifications(from, to int) []Notificati
 
 func (r *mockNotificationRepository) SaveNotification(notification Notification) {
 	r.Notifications = append(r.Notifications, notification)
+	r.NotificationSaved <- struct{}{}
 }
 
 func (r *mockNotificationRepository) GetLastNotifications(n int) []Notification {
@@ -58,7 +64,6 @@ func getTestUser() User {
 	return User{
 		ID:       "1",
 		Username: "TestUser",
-		repo:     &mockNotificationRepository{},
 	}
 }
 

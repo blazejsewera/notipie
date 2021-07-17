@@ -22,7 +22,7 @@ func (t *Tag) Broadcast(notification Notification) error {
 	}
 
 	for _, user := range t.Users {
-		user.Receive(notification)
+		user.notificationChan <- notification
 	}
 	return nil
 }

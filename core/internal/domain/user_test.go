@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 func TestUserRepository(t *testing.T) {
@@ -114,6 +115,23 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		// then
 		assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
 	})
+}
+
+func TestUser_Listen(t *testing.T) {
+	// given
+	user := getTestUser()
+	notification := getTestNotification()
+	timeout := time.After(200 * time.Millisecond)
+	user.Listen()
+
+	// when
+	select {
+	case user.notificationChan <- notification:
+		// then
+		assert.Equal(t, []Notification{notification}, user.GetAllNotifications())
+	case <-timeout:
+		assert.Fail(t, "user.notificationChan blocked for over 200ms")
+	}
 }
 
 func TestUser_SubscribeToTag(t *testing.T) {
