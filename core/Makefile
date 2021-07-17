@@ -1,6 +1,6 @@
 .PHONY: clean
 
-all: clean tidy lint build test
+all: clean sync tidy lint build test
 
 build:
 	go build github.com/jazzsewera/notipie/core/cmd/notipie
@@ -16,6 +16,9 @@ lint:
 
 format:
 	go fmt ./...
+
+sync:
+	go mod download
 
 tidy:
 	go mod tidy
