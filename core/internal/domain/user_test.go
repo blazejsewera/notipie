@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -140,6 +141,21 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		// then
 		if assert.NoError(t, err) {
 			assert.Empty(t, user.tags)
+		}
+	})
+
+	t.Run("not found", func(t *testing.T) {
+		// given
+		user := getTestUser()
+		tag := getTestTag()
+		user.tags = []*Tag{}
+
+		// when
+		err := user.UnsubscribeFromTag(tag)
+
+		// then
+		if assert.Error(t, err) {
+			assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 		}
 	})
 }
