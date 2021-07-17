@@ -3,11 +3,21 @@ package domain
 import "fmt"
 
 type App struct {
-	ID           string
-	Name         string
-	SmallIconURL string
-	BigIconURL   string
-	tags         []*Tag
+	ID             string
+	Name           string
+	SmallIconURL   string
+	BigIconURL     string
+	tags           []*Tag
+	commandChan    chan Command
+	commandHandler CommandHandler
+}
+
+func (a *App) Start() {
+	a.commandChan = make(chan Command)
+	go func() {
+		c := <-a.commandChan
+		a.commandHandler.HandleCommand(c)
+	}()
 }
 
 func (a *App) Send(notification Notification) error {
@@ -71,3 +81,7 @@ const (
 	noTagsWhenSendErrorFormat        = "no tags for %s#%s when sending %s"
 	noUsersInTagsWhenSendErrorFormat = "tags: %v for %s#%s did not have registered users when sending %s"
 )
+
+type CommandHandler interface {
+	HandleCommand(command Command)
+}

@@ -4,7 +4,19 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
+
+func TestApp_Start(t *testing.T) {
+	// given
+	app := getTestApp()
+
+	// when
+	app.Start()
+
+	// then
+	assert.NotNil(t, app.commandChan)
+}
 
 func TestApp_Send(t *testing.T) {
 	t.Run("no tag and no users", func(t *testing.T) {
@@ -110,4 +122,23 @@ func TestApp_RemoveTag(t *testing.T) {
 			assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 		}
 	})
+}
+
+func TestApp_HandleCommand(t *testing.T) {
+	// given
+	commandHandler := mockCommandHandler{}
+	app := App{commandHandler: &commandHandler}
+	command := Command{}
+	app.Start()
+	timeout := time.After(200 * time.Millisecond)
+
+	// when
+	select {
+	case app.commandChan <- command:
+
+		// then
+		assert.Equal(t, command, commandHandler.Command)
+	case <-timeout:
+		assert.Fail(t, "app.commandChan blocked for over 200ms")
+	}
 }
