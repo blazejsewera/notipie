@@ -50,8 +50,7 @@ func TestTag_Broadcast(t *testing.T) {
 		// given
 		tag := getTestTag()
 
-		repo := newMockNotificationRepository()
-		user := newTestUser(&repo)
+		user, repo := newTestUser()
 
 		notifications := get5TestNotifications()
 
@@ -91,11 +90,9 @@ func TestTag_Broadcast(t *testing.T) {
 		// given
 		tag := getTestTag()
 
-		repo1 := newMockNotificationRepository()
-		user1 := newTestUser(&repo1)
+		user1, repo1 := newTestUser()
 
-		repo2 := newMockNotificationRepository()
-		user2 := newTestUser(&repo2)
+		user2, repo2 := newTestUser()
 
 		notification := newTestNotification()
 

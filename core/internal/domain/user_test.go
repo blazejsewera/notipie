@@ -85,8 +85,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		repo := newMockNotificationRepository()
-		user := newTestUser(&repo)
+		user, repo := newTestUser()
 
 		// when
 		go func() {
@@ -105,8 +104,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
 		// TODO: refactor tests to remove repetition
-		repo := newMockNotificationRepository()
-		user := newTestUser(&repo)
+		user, repo := newTestUser()
 
 		// when
 		done := make(chan struct{})
@@ -131,8 +129,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 func TestUser_Listen(t *testing.T) {
 	// given
-	repo := newMockNotificationRepository()
-	user := newTestUser(&repo)
+	user, _ := newTestUser()
 
 	notification := newTestNotification()
 
@@ -151,8 +148,7 @@ func TestUser_Listen(t *testing.T) {
 
 func TestUser_SubscribeToTag(t *testing.T) {
 	// given
-	repo := newMockNotificationRepository()
-	user := newTestUser(&repo)
+	user, _ := newTestUser()
 	tag := getTestTag()
 
 	// when
@@ -165,8 +161,7 @@ func TestUser_SubscribeToTag(t *testing.T) {
 func TestUser_UnsubscribeFromTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		repo := newMockNotificationRepository()
-		user := newTestUser(&repo)
+		user, _ := newTestUser()
 		tag := getTestTag()
 		user.tags = []*Tag{&tag}
 
@@ -180,8 +175,7 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		repo := newMockNotificationRepository()
-		user := newTestUser(&repo)
+		user, _ := newTestUser()
 		tag := getTestTag()
 		user.tags = []*Tag{}
 

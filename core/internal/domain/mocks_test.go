@@ -65,12 +65,13 @@ func newTestApp() App {
 	}
 }
 
-func newTestUser(repo *mockNotificationRepository) User {
-	return User{
+func newTestUser() (*User, *mockNotificationRepository) {
+	repo := newMockNotificationRepository()
+	return &User{
 		ID:       "1",
 		Username: "TestUser",
-		repo:     repo,
-	}
+		repo:     &repo,
+	}, &repo
 }
 
 func getTestTag() Tag {

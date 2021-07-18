@@ -52,11 +52,8 @@ func TestIntegration_AppToUser(t *testing.T) {
 
 		notification := newTestNotification()
 
-		repo1 := newMockNotificationRepository()
-		user1 := newTestUser(&repo1)
-
-		repo2 := newMockNotificationRepository()
-		user2 := newTestUser(&repo2)
+		user1, repo1 := newTestUser()
+		user2, repo2 := newTestUser()
 
 		user1.SubscribeToTag(&tag1)
 		user1.SubscribeToTag(&tag2)
