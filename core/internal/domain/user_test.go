@@ -8,41 +8,21 @@ import (
 	"time"
 )
 
-func TestUserRepository(t *testing.T) {
-	// TODO: remove those tests, as they test mocks
+func TestUser_GetNotifications(t *testing.T) {
 	// given
-	notification := newTestNotification()
-
-	t.Run("get all notifications from repo", func(t *testing.T) {
-		// given
-		repo := mockNotificationRepository{Notifications: []Notification{notification}}
-		user := User{repo: &repo}
-
-		// when
-		notifications := user.GetAllNotifications()
-
-		// then
-		assert.ElementsMatch(t, []Notification{notification}, notifications)
-	})
+	user, repo := newTestUser()
+	notifications := get5TestNotifications()
+	repo.Notifications = notifications
 
 	t.Run("get all notifications from user", func(t *testing.T) {
-		// given
-		repo := mockNotificationRepository{Notifications: []Notification{notification}}
-		user := User{repo: &repo}
-
 		// when
-		notifications := user.GetAllNotifications()
+		have := user.GetAllNotifications()
 
 		// then
-		assert.ElementsMatch(t, []Notification{notification}, notifications)
+		assert.ElementsMatch(t, notifications, have)
 	})
 
-	t.Run("get 2 last notifications from user", func(t *testing.T) {
-		// given
-		notifications := get5TestNotifications()
-		repo := mockNotificationRepository{Notifications: notifications}
-		user := User{repo: &repo}
-
+	t.Run("get 2 last notifications", func(t *testing.T) {
 		// when
 		have := user.GetLastNotifications(2)
 
@@ -52,11 +32,6 @@ func TestUserRepository(t *testing.T) {
 	})
 
 	t.Run("get notifications in specific range", func(t *testing.T) {
-		// given
-		notifications := get5TestNotifications()
-		repo := mockNotificationRepository{Notifications: notifications}
-		user := User{repo: &repo}
-
 		// when
 		have := user.GetNotifications(1, 3)
 
@@ -66,16 +41,12 @@ func TestUserRepository(t *testing.T) {
 	})
 
 	t.Run("get notification count", func(t *testing.T) {
-		// given
-		notifications := get5TestNotifications()
-		repo := mockNotificationRepository{Notifications: notifications}
-		user := User{repo: &repo}
-
 		// when
-		count := user.GetNotificationCount()
+		have := user.GetNotificationCount()
 
 		// then
-		assert.Equal(t, 5, count)
+		want := len(notifications)
+		assert.Equal(t, want, have)
 	})
 }
 
@@ -85,45 +56,30 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		user, repo := newTestUser()
+		user, _ := newTestUser()
 
 		// when
-		go func() {
+		done := asyncRun(func() {
 			user.Receive(notification)
-		}()
+		})
 
 		// then
-		select {
-		case <-repo.NotificationSaved:
-			assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
-		case <-time.After(200 * time.Millisecond):
-			assert.Fail(t, "notification was not stored in repo after 200ms")
-		}
+		asyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetAllNotifications())
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
-		// TODO: refactor tests to remove repetition
-		user, repo := newTestUser()
+		user, _ := newTestUser()
 
 		// when
-		done := make(chan struct{})
-		go func() {
-			user.Receive(notification)
-			user.Receive(notification)
-			user.Receive(notification)
-			user.Receive(notification)
-			done <- struct{}{}
-		}()
-		<-repo.NotificationSaved
+		done := asyncRun(func() {
+			for i := 0; i < 5; i++ {
+				user.Receive(notification)
+			}
+		})
 
 		// then
-		select {
-		case <-done:
-			assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
-		case <-time.After(200 * time.Millisecond):
-			assert.Fail(t, "notification was not stored in repo after 200ms")
-		}
+		asyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetAllNotifications())
 	})
 }
 
@@ -186,4 +142,25 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		require.Error(t, err)
 		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
+}
+
+func asyncAssert(t testing.TB, done chan struct{}) *assert.Assertions {
+	t.Helper()
+	a := assert.New(t)
+	select {
+	case <-done:
+		return a
+	case <-time.After(200 * time.Millisecond):
+		a.FailNow("test blocked for over 200ms")
+		return a
+	}
+}
+
+func asyncRun(f func()) chan struct{} {
+	done := make(chan struct{})
+	go func() {
+		f()
+		done <- struct{}{}
+	}()
+	return done
 }

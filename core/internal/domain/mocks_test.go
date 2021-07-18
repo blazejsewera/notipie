@@ -6,12 +6,7 @@ import (
 )
 
 type mockNotificationRepository struct {
-	Notifications     []Notification
-	NotificationSaved chan struct{}
-}
-
-func newMockNotificationRepository() mockNotificationRepository {
-	return mockNotificationRepository{NotificationSaved: make(chan struct{})}
+	Notifications []Notification
 }
 
 func (r *mockNotificationRepository) GetNotificationCount() int {
@@ -24,6 +19,19 @@ func (r *mockNotificationRepository) GetNotifications(from, to int) []Notificati
 
 func (r *mockNotificationRepository) SaveNotification(notification Notification) {
 	r.Notifications = append(r.Notifications, notification)
+}
+
+func (r *mockNotificationRepository) GetLastNotifications(n int) []Notification {
+	return r.Notifications[len(r.Notifications)-n:]
+}
+
+type mockAsyncNotificationRepository struct {
+	mockNotificationRepository
+	NotificationSaved chan struct{}
+}
+
+func (r *mockAsyncNotificationRepository) SaveNotification(notification Notification) {
+	r.Notifications = append(r.Notifications, notification)
 	select {
 	case r.NotificationSaved <- struct{}{}:
 		return
@@ -32,8 +40,8 @@ func (r *mockNotificationRepository) SaveNotification(notification Notification)
 	}
 }
 
-func (r *mockNotificationRepository) GetLastNotifications(n int) []Notification {
-	return r.Notifications[len(r.Notifications)-n:]
+func newMockAsyncNotificationRepository() mockAsyncNotificationRepository {
+	return mockAsyncNotificationRepository{NotificationSaved: make(chan struct{})}
 }
 
 type mockCommandHandler struct {
@@ -66,7 +74,16 @@ func newTestApp() App {
 }
 
 func newTestUser() (*User, *mockNotificationRepository) {
-	repo := newMockNotificationRepository()
+	repo := mockNotificationRepository{}
+	return &User{
+		ID:       "1",
+		Username: "TestUser",
+		repo:     &repo,
+	}, &repo
+}
+
+func newTestUserWithAsyncRepo() (*User, *mockAsyncNotificationRepository) {
+	repo := newMockAsyncNotificationRepository()
 	return &User{
 		ID:       "1",
 		Username: "TestUser",

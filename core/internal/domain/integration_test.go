@@ -52,8 +52,8 @@ func TestIntegration_AppToUser(t *testing.T) {
 
 		notification := newTestNotification()
 
-		user1, repo1 := newTestUser()
-		user2, repo2 := newTestUser()
+		user1, repo1 := newTestUserWithAsyncRepo()
+		user2, repo2 := newTestUserWithAsyncRepo()
 
 		user1.SubscribeToTag(&tag1)
 		user1.SubscribeToTag(&tag2)
@@ -82,6 +82,5 @@ func TestIntegration_AppToUser(t *testing.T) {
 
 	t.Run("receive command after sent notification", func(t *testing.T) {
 		// TODO: write this test
-		t.FailNow()
 	})
 }

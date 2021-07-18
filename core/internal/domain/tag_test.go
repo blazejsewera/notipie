@@ -50,15 +50,13 @@ func TestTag_Broadcast(t *testing.T) {
 		// given
 		tag := getTestTag()
 
-		user, repo := newTestUser()
-
 		notifications := get5TestNotifications()
 
+		user, repo := newTestUserWithAsyncRepo()
 		user.SubscribeToTag(&tag)
-
 		user.Listen()
 
-		go func() {
+		asyncRun(func() {
 			for _, notification := range notifications {
 				// when
 				err := tag.broadcast(notification)
@@ -66,37 +64,31 @@ func TestTag_Broadcast(t *testing.T) {
 				// then
 				require.NoError(t, err)
 			}
-		}()
+		})
 
-		done := make(chan struct{})
-		go func(done chan struct{}) {
+		done := asyncRun(func() {
 			for i := range notifications {
 				select {
 				// check if all notifications arrived
 				case <-repo.NotificationSaved:
-					break
+					continue
 				case <-time.After(200 * time.Millisecond):
 					assert.Fail(t, fmt.Sprintf("user.repo did not save the notification no %d after 200ms", i))
 				}
 			}
-			done <- struct{}{}
-		}(done)
+		})
 
-		<-done
-		assert.ElementsMatch(t, notifications, user.GetAllNotifications())
+		asyncAssert(t, done).ElementsMatch(notifications, user.GetAllNotifications())
 	})
 
 	t.Run("multiple users", func(t *testing.T) {
 		// given
 		tag := getTestTag()
 
-		user1, repo1 := newTestUser()
-
-		user2, repo2 := newTestUser()
-
 		notification := newTestNotification()
 
-		timeout := time.After(200 * time.Millisecond)
+		user1, repo1 := newTestUserWithAsyncRepo()
+		user2, repo2 := newTestUserWithAsyncRepo()
 
 		user1.SubscribeToTag(&tag)
 		user2.SubscribeToTag(&tag)
@@ -110,13 +102,11 @@ func TestTag_Broadcast(t *testing.T) {
 		// then
 		require.NoError(t, err)
 
-		for i := 0; i < 2; i++ {
+		for _, repo := range []*mockAsyncNotificationRepository{repo1, repo2} {
 			select {
-			case <-repo1.NotificationSaved:
+			case <-repo.NotificationSaved:
 				assert.ElementsMatch(t, []Notification{notification}, user1.GetAllNotifications())
-			case <-repo2.NotificationSaved:
-				assert.ElementsMatch(t, []Notification{notification}, user2.GetAllNotifications())
-			case <-timeout:
+			case <-time.After(200 * time.Millisecond):
 				assert.Fail(t, "user1.repo or user2.repo did not save the notification after 200ms")
 			}
 		}
