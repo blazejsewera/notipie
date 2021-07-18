@@ -10,7 +10,7 @@ import (
 
 func TestApp_Start(t *testing.T) {
 	// given
-	app := getTestApp()
+	app := newTestApp()
 
 	// when
 	app.Start()
@@ -22,7 +22,7 @@ func TestApp_Start(t *testing.T) {
 func TestApp_AddTag(t *testing.T) {
 	// given
 	tag := getTestTag()
-	app := getTestApp()
+	app := newTestApp()
 
 	// when
 	app.AddTag(&tag)
@@ -35,7 +35,7 @@ func TestApp_RemoveTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
 		tag := getTestTag()
-		app := getTestApp()
+		app := newTestApp()
 		app.tags = []*Tag{&tag}
 
 		// when
@@ -49,7 +49,7 @@ func TestApp_RemoveTag(t *testing.T) {
 	t.Run("not found", func(t *testing.T) {
 		// given
 		tag := getTestTag()
-		app := getTestApp()
+		app := newTestApp()
 		app.tags = []*Tag{{Name: "TestTag2"}}
 
 		// when

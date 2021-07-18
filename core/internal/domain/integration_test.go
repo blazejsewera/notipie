@@ -11,8 +11,8 @@ import (
 func TestIntegration_AppToUser(t *testing.T) {
 	t.Run("send notification - no tag and no users", func(t *testing.T) {
 		// given
-		app := getTestApp()
-		notification := getTestNotification()
+		app := newTestApp()
+		notification := newTestNotification()
 
 		// when
 		err := app.Send(notification)
@@ -26,8 +26,8 @@ func TestIntegration_AppToUser(t *testing.T) {
 		// given
 		tag := getTestTag()
 		tag.Listen()
-		app := getTestApp()
-		notification := getTestNotification()
+		app := newTestApp()
+		notification := newTestNotification()
 
 		app.AddTag(&tag)
 
@@ -46,19 +46,17 @@ func TestIntegration_AppToUser(t *testing.T) {
 		tag2 := getTestTag()
 		tag2.Listen()
 
-		app := getTestApp()
+		app := newTestApp()
 		app.AddTag(&tag1)
 		app.AddTag(&tag2)
 
-		notification := getTestNotification()
+		notification := newTestNotification()
 
-		user1 := getTestUser()
 		repo1 := newMockNotificationRepository()
-		user1.repo = &repo1
+		user1 := newTestUser(&repo1)
 
-		user2 := getTestUser()
 		repo2 := newMockNotificationRepository()
-		user2.repo = &repo2
+		user2 := newTestUser(&repo2)
 
 		user1.SubscribeToTag(&tag1)
 		user1.SubscribeToTag(&tag2)

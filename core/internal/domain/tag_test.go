@@ -36,7 +36,7 @@ func TestTag_Broadcast(t *testing.T) {
 	t.Run("no users", func(t *testing.T) {
 		// given
 		tag := getTestTag()
-		notification := getTestNotification()
+		notification := newTestNotification()
 
 		// when
 		err := tag.broadcast(notification)
@@ -50,9 +50,8 @@ func TestTag_Broadcast(t *testing.T) {
 		// given
 		tag := getTestTag()
 
-		user := getTestUser()
 		repo := newMockNotificationRepository()
-		user.repo = &repo
+		user := newTestUser(&repo)
 
 		notifications := get5TestNotifications()
 
@@ -92,15 +91,13 @@ func TestTag_Broadcast(t *testing.T) {
 		// given
 		tag := getTestTag()
 
-		user1 := getTestUser()
 		repo1 := newMockNotificationRepository()
-		user1.repo = &repo1
+		user1 := newTestUser(&repo1)
 
-		user2 := getTestUser()
 		repo2 := newMockNotificationRepository()
-		user2.repo = &repo2
+		user2 := newTestUser(&repo2)
 
-		notification := getTestNotification()
+		notification := newTestNotification()
 
 		timeout := time.After(200 * time.Millisecond)
 

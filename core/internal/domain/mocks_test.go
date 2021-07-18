@@ -44,8 +44,8 @@ func (h *mockCommandHandler) HandleCommand(command Command) {
 	h.Command = command
 }
 
-func getTestNotification() Notification {
-	app := getTestApp()
+func newTestNotification() Notification {
+	app := newTestApp()
 
 	timestamp, _ := time.Parse(time.RFC3339, "2021-01-01T00:00:00Z")
 	return Notification{
@@ -58,17 +58,18 @@ func getTestNotification() Notification {
 	}
 }
 
-func getTestApp() App {
+func newTestApp() App {
 	return App{
 		ID:   "1",
 		Name: "TestApp",
 	}
 }
 
-func getTestUser() User {
+func newTestUser(repo *mockNotificationRepository) User {
 	return User{
 		ID:       "1",
 		Username: "TestUser",
+		repo:     repo,
 	}
 }
 

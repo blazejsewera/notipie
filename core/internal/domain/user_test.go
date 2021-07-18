@@ -11,7 +11,7 @@ import (
 func TestUserRepository(t *testing.T) {
 	// TODO: remove those tests, as they test mocks
 	// given
-	notification := getTestNotification()
+	notification := newTestNotification()
 
 	t.Run("get all notifications from repo", func(t *testing.T) {
 		// given
@@ -81,13 +81,12 @@ func TestUserRepository(t *testing.T) {
 
 func TestUser_ReceiveNotification(t *testing.T) {
 	// given
-	notification := getTestNotification()
+	notification := newTestNotification()
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		user := getTestUser()
 		repo := newMockNotificationRepository()
-		user.repo = &repo
+		user := newTestUser(&repo)
 
 		// when
 		go func() {
@@ -106,9 +105,8 @@ func TestUser_ReceiveNotification(t *testing.T) {
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
 		// TODO: refactor tests to remove repetition
-		user := getTestUser()
 		repo := newMockNotificationRepository()
-		user.repo = &repo
+		user := newTestUser(&repo)
 
 		// when
 		done := make(chan struct{})
@@ -133,11 +131,10 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 func TestUser_Listen(t *testing.T) {
 	// given
-	user := getTestUser()
 	repo := newMockNotificationRepository()
-	user.repo = &repo
+	user := newTestUser(&repo)
 
-	notification := getTestNotification()
+	notification := newTestNotification()
 
 	timeout := time.After(200 * time.Millisecond)
 	user.Listen()
@@ -154,7 +151,8 @@ func TestUser_Listen(t *testing.T) {
 
 func TestUser_SubscribeToTag(t *testing.T) {
 	// given
-	user := getTestUser()
+	repo := newMockNotificationRepository()
+	user := newTestUser(&repo)
 	tag := getTestTag()
 
 	// when
@@ -167,7 +165,8 @@ func TestUser_SubscribeToTag(t *testing.T) {
 func TestUser_UnsubscribeFromTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		user := getTestUser()
+		repo := newMockNotificationRepository()
+		user := newTestUser(&repo)
 		tag := getTestTag()
 		user.tags = []*Tag{&tag}
 
@@ -181,7 +180,8 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		user := getTestUser()
+		repo := newMockNotificationRepository()
+		user := newTestUser(&repo)
 		tag := getTestTag()
 		user.tags = []*Tag{}
 
