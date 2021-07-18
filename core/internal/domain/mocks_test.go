@@ -24,7 +24,12 @@ func (r *mockNotificationRepository) GetNotifications(from, to int) []Notificati
 
 func (r *mockNotificationRepository) SaveNotification(notification Notification) {
 	r.Notifications = append(r.Notifications, notification)
-	r.NotificationSaved <- struct{}{}
+	select {
+	case r.NotificationSaved <- struct{}{}:
+		return
+	case <-time.After(200 * time.Millisecond):
+		panic("no receiver for r.NotificationSaved for 200ms")
+	}
 }
 
 func (r *mockNotificationRepository) GetLastNotifications(n int) []Notification {

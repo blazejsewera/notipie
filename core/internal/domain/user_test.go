@@ -84,14 +84,15 @@ func TestUser_ReceiveNotification(t *testing.T) {
 	notification := getTestNotification()
 
 	t.Run("single receive", func(t *testing.T) {
-		// TODO: spot the deadlock
 		// given
 		user := getTestUser()
 		repo := newMockNotificationRepository()
 		user.repo = &repo
 
 		// when
-		user.Receive(notification)
+		go func() {
+			user.Receive(notification)
+		}()
 
 		// then
 		select {
@@ -110,18 +111,34 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		user.repo = &repo
 
 		// when
-		user.Receive(notification)
-		user.Receive(notification)
+		done := make(chan struct{})
+		go func() {
+			user.Receive(notification)
+			user.Receive(notification)
+			user.Receive(notification)
+			user.Receive(notification)
+			done <- struct{}{}
+		}()
+		<-repo.NotificationSaved
 
 		// then
-		assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
+		select {
+		case <-done:
+			assert.ElementsMatch(t, []Notification{notification}, user.GetAllNotifications())
+		case <-time.After(200 * time.Millisecond):
+			assert.Fail(t, "notification was not stored in repo after 200ms")
+		}
 	})
 }
 
 func TestUser_Listen(t *testing.T) {
 	// given
 	user := getTestUser()
+	repo := newMockNotificationRepository()
+	user.repo = &repo
+
 	notification := getTestNotification()
+
 	timeout := time.After(200 * time.Millisecond)
 	user.Listen()
 
