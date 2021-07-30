@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -56,7 +57,7 @@ func TestTag_Broadcast(t *testing.T) {
 		user.SubscribeToTag(&tag)
 		user.Listen()
 
-		asyncRun(func() {
+		util.AsyncRun(func() {
 			for _, notification := range notifications {
 				// when
 				err := tag.broadcast(notification)
@@ -66,7 +67,7 @@ func TestTag_Broadcast(t *testing.T) {
 			}
 		})
 
-		done := asyncRun(func() {
+		done := util.AsyncRun(func() {
 			for i := range notifications {
 				select {
 				// check if all notifications arrived
@@ -78,7 +79,7 @@ func TestTag_Broadcast(t *testing.T) {
 			}
 		})
 
-		asyncAssert(t, done).ElementsMatch(notifications, user.GetAllNotifications())
+		util.AsyncAssert(t, done).ElementsMatch(notifications, user.getAllNotifications())
 	})
 
 	t.Run("multiple users", func(t *testing.T) {
@@ -87,8 +88,8 @@ func TestTag_Broadcast(t *testing.T) {
 
 		notification := newTestNotification()
 
-		user1, repo1 := newTestUserWithAsyncRepo()
-		user2, repo2 := newTestUserWithAsyncRepo()
+		user1, _ := newTestUserWithAsyncRepo()
+		user2, _ := newTestUserWithAsyncRepo()
 
 		user1.SubscribeToTag(&tag)
 		user2.SubscribeToTag(&tag)
@@ -102,13 +103,9 @@ func TestTag_Broadcast(t *testing.T) {
 		// then
 		require.NoError(t, err)
 
-		for _, repo := range []*mockAsyncNotificationRepository{repo1, repo2} {
-			select {
-			case <-repo.NotificationSaved:
-				assert.ElementsMatch(t, []Notification{notification}, user1.GetAllNotifications())
-			case <-time.After(200 * time.Millisecond):
-				assert.Fail(t, "user1.repo or user2.repo did not save the notification after 200ms")
-			}
+		for _, user := range []*User{user1, user2} {
+			done := user.repo.(*mockAsyncNotificationRepository).NotificationSaved
+			util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
 		}
 	})
 }
@@ -121,11 +118,10 @@ func TestTag_removeTag(t *testing.T) {
 			{Name: "2"},
 			{Name: "3"},
 		}
-		tag := Tag{Name: "2"}
-		var err error
+		name := "2"
 
 		// when
-		tags, err = removeTag(tags, tag)
+		tags, err := removeTag(tags, name)
 
 		// then
 		require.NoError(t, err)
@@ -135,14 +131,13 @@ func TestTag_removeTag(t *testing.T) {
 	t.Run("not found", func(t *testing.T) {
 		// given
 		tags := []*Tag{{Name: "1"}}
-		tag := Tag{Name: "2"}
-		var err error
+		name := "2"
 
 		// when
-		tags, err = removeTag(tags, tag)
+		tags, err := removeTag(tags, name)
 
 		// then
 		require.Error(t, err)
-		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
+		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, name), err.Error())
 	})
 }

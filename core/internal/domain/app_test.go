@@ -39,7 +39,7 @@ func TestApp_RemoveTag(t *testing.T) {
 		app.tags = []*Tag{&tag}
 
 		// when
-		err := app.RemoveTag(tag)
+		err := app.RemoveTag(tag.Name)
 
 		// then
 		require.NoError(t, err)
@@ -53,7 +53,7 @@ func TestApp_RemoveTag(t *testing.T) {
 		app.tags = []*Tag{{Name: "TestTag2"}}
 
 		// when
-		err := app.RemoveTag(tag)
+		err := app.RemoveTag(tag.Name)
 
 		// then
 		require.Error(t, err)

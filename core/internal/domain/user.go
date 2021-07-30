@@ -1,11 +1,14 @@
 package domain
 
+import "sync"
+
 type User struct {
 	ID                 string
 	Username           string
 	NotificationChan   chan Notification
 	repo               NotificationRepository
 	tags               []*Tag
+	tagsMutex          sync.Mutex
 	lastNotificationID string
 }
 
@@ -28,16 +31,20 @@ func (u *User) Receive(notification Notification) {
 }
 
 func (u *User) SubscribeToTag(tag *Tag) {
+	u.tagsMutex.Lock()
 	u.tags = append(u.tags, tag)
+	u.tagsMutex.Unlock()
 	tag.registerUser(u)
 }
 
-func (u *User) UnsubscribeFromTag(tag Tag) (err error) {
-	u.tags, err = removeTag(u.tags, tag)
+func (u *User) UnsubscribeFromTag(name string) (err error) {
+	u.tagsMutex.Lock()
+	defer u.tagsMutex.Unlock()
+	u.tags, err = removeTag(u.tags, name)
 	return
 }
 
-func (u *User) GetAllNotifications() []Notification {
+func (u *User) getAllNotifications() []Notification {
 	return u.repo.GetNotifications(0, u.repo.GetNotificationCount())
 }
 

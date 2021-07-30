@@ -1,6 +1,9 @@
 package domain
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type App struct {
 	ID             string
@@ -9,6 +12,7 @@ type App struct {
 	BigIconURL     string
 	CommandChan    chan Command
 	tags           []*Tag
+	tagsMutex      sync.Mutex
 	commandHandler CommandHandler
 }
 
@@ -18,14 +22,16 @@ func (a *App) Start() {
 	}
 
 	go func() {
-		a.commandHandler.HandleCommand(<-a.CommandChan)
+		for {
+			a.commandHandler.HandleCommand(<-a.CommandChan)
+		}
 	}()
 }
 
 func (a *App) Send(notification Notification) error {
 	if len(a.tags) == 0 {
-		return SendError{
-			App:          *a,
+		return &SendError{
+			App:          a,
 			Notification: notification,
 		}
 	}
@@ -42,18 +48,20 @@ func (a *App) AddTag(tag *Tag) {
 	tag.registerApp(a)
 }
 
-func (a *App) RemoveTag(tag Tag) (err error) {
-	a.tags, err = removeTag(a.tags, tag)
+func (a *App) RemoveTag(name string) (err error) {
+	a.tagsMutex.Lock()
+	defer a.tagsMutex.Unlock()
+	a.tags, err = removeTag(a.tags, name)
 	return
 }
 
 type SendError struct {
-	App
+	*App
 	Notification
 	Tags []*Tag
 }
 
-func (e SendError) Error() string {
+func (e *SendError) Error() string {
 	if len(e.Tags) == 0 {
 		return fmt.Sprintf(noTagsWhenSendErrorFormat, e.App.Name, e.App.ID, e.Notification)
 	}

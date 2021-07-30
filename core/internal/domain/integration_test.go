@@ -2,10 +2,10 @@ package domain
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	"time"
 )
 
 func TestIntegration_AppToUser(t *testing.T) {
@@ -36,7 +36,6 @@ func TestIntegration_AppToUser(t *testing.T) {
 
 		// then
 		require.NoError(t, err)
-		// TODO: get error from tag
 	})
 
 	t.Run("send notification - multiple tags and multiple users", func(t *testing.T) {
@@ -52,8 +51,8 @@ func TestIntegration_AppToUser(t *testing.T) {
 
 		notification := newTestNotification()
 
-		user1, repo1 := newTestUserWithAsyncRepo()
-		user2, repo2 := newTestUserWithAsyncRepo()
+		user1, _ := newTestUserWithAsyncRepo()
+		user2, _ := newTestUserWithAsyncRepo()
 
 		user1.SubscribeToTag(&tag1)
 		user1.SubscribeToTag(&tag2)
@@ -68,15 +67,9 @@ func TestIntegration_AppToUser(t *testing.T) {
 		// then
 		require.NoError(t, err)
 
-		for i := 0; i < 2; i++ {
-			select {
-			case <-repo1.NotificationSaved:
-				assert.ElementsMatch(t, []Notification{notification}, user1.GetAllNotifications())
-			case <-repo2.NotificationSaved:
-				assert.ElementsMatch(t, []Notification{notification}, user2.GetAllNotifications())
-			case <-time.After(200 * time.Millisecond):
-				assert.Fail(t, "user1.repo or user2.repo did not save the notification after 200ms")
-			}
+		for _, user := range []*User{user1, user2} {
+			done := user.repo.(*mockAsyncNotificationRepository).NotificationSaved
+			util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
 		}
 	})
 

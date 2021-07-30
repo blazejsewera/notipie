@@ -1,12 +1,17 @@
 package domain
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Tag struct {
 	Name             string
 	Users            []*User
 	Apps             []*App
 	NotificationChan chan Notification
+	usersMutex       sync.Mutex
+	appsMutex        sync.Mutex
 }
 
 func (t *Tag) Listen() {
@@ -33,10 +38,14 @@ func (t *Tag) broadcast(notification Notification) error {
 }
 
 func (t *Tag) registerUser(user *User) {
+	t.usersMutex.Lock()
+	defer t.usersMutex.Unlock()
 	t.Users = append(t.Users, user)
 }
 
 func (t *Tag) registerApp(app *App) {
+	t.appsMutex.Lock()
+	defer t.appsMutex.Unlock()
 	t.Apps = append(t.Apps, app)
 }
 
@@ -45,18 +54,18 @@ const (
 	noMatchingTagsWhenRemoveErrorFormat = "tag %q not found"
 )
 
-func removeTag(tags []*Tag, tag Tag) ([]*Tag, error) {
+func removeTag(tags []*Tag, name string) ([]*Tag, error) {
 	var reduced []*Tag
 	found := false
-	for i, t := range tags {
-		if t.Name == tag.Name {
+	for i, tag := range tags {
+		if tag.Name == name {
 			reduced = append(tags[:i], tags[i+1:]...) // remove from slice
 			found = true
 		}
 	}
 
 	if !found {
-		return nil, fmt.Errorf(noMatchingTagsWhenRemoveErrorFormat, tag.Name)
+		return nil, fmt.Errorf(noMatchingTagsWhenRemoveErrorFormat, name)
 	}
 	return reduced, nil
 }

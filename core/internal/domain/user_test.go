@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -16,7 +17,7 @@ func TestUser_GetNotifications(t *testing.T) {
 
 	t.Run("get all notifications from user", func(t *testing.T) {
 		// when
-		have := user.GetAllNotifications()
+		have := user.getAllNotifications()
 
 		// then
 		assert.ElementsMatch(t, notifications, have)
@@ -59,12 +60,12 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		user, _ := newTestUser()
 
 		// when
-		done := asyncRun(func() {
+		done := util.AsyncRun(func() {
 			user.Receive(notification)
 		})
 
 		// then
-		asyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetAllNotifications())
+		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
@@ -72,14 +73,14 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		user, _ := newTestUser()
 
 		// when
-		done := asyncRun(func() {
+		done := util.AsyncRun(func() {
 			for i := 0; i < 5; i++ {
 				user.Receive(notification)
 			}
 		})
 
 		// then
-		asyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetAllNotifications())
+		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
 	})
 }
 
@@ -96,7 +97,7 @@ func TestUser_Listen(t *testing.T) {
 	select {
 	case user.NotificationChan <- notification:
 		// then
-		assert.Equal(t, []Notification{notification}, user.GetAllNotifications())
+		assert.Equal(t, []Notification{notification}, user.getAllNotifications())
 	case <-timeout:
 		assert.Fail(t, "user.NotificationChan blocked for over 200ms")
 	}
@@ -122,7 +123,7 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		user.tags = []*Tag{&tag}
 
 		// when
-		err := user.UnsubscribeFromTag(tag)
+		err := user.UnsubscribeFromTag(tag.Name)
 
 		// then
 		require.NoError(t, err)
@@ -136,31 +137,10 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		user.tags = []*Tag{}
 
 		// when
-		err := user.UnsubscribeFromTag(tag)
+		err := user.UnsubscribeFromTag(tag.Name)
 
 		// then
 		require.Error(t, err)
 		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
-}
-
-func asyncAssert(t testing.TB, done chan struct{}) *assert.Assertions {
-	t.Helper()
-	a := assert.New(t)
-	select {
-	case <-done:
-		return a
-	case <-time.After(200 * time.Millisecond):
-		a.FailNow("test blocked for over 200ms")
-		return a
-	}
-}
-
-func asyncRun(f func()) chan struct{} {
-	done := make(chan struct{})
-	go func() {
-		f()
-		done <- struct{}{}
-	}()
-	return done
 }
