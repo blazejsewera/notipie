@@ -1,6 +1,11 @@
 # Notipie
 A notification aggregator.
 
+## Quick links
+- [board](https://github.com/jazzsewera/notipie/projects/1)
+- [issues](https://github.com/jazzsewera/notipie/issues)
+  - [new issue](https://github.com/jazzsewera/notipie/issues/new)
+
 ## Prerequisites
 You will need:
 - `go` version `1.16` or higher,
