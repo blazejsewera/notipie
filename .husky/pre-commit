@@ -1,0 +1,15 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "core > format (make format)" && \
+cd core && \
+make format && \
+cd .. && \
+echo "ui > lint (yarn lint)" && \
+cd ui && \
+yarn lint && \
+cd .. && \
+echo "ui-components > lint (yarn lint)" && \
+cd ui-components && \
+yarn lint && \
+cd ..
