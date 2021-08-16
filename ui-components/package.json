@@ -10,35 +10,45 @@
   "scripts": {
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "lint-staged"
   },
   "dependencies": {
-    "@primer/components": "^28.3.2",
     "feather-icons": "^4.28.0",
+    "inter-ui": "^3.19.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
     "@mdx-js/react": "^1.6.22",
     "@storybook/addon-actions": "^6.3.7",
     "@storybook/addon-docs": "^6.3.7",
     "@storybook/addon-essentials": "^6.3.7",
     "@storybook/addon-links": "^6.3.7",
     "@storybook/react": "^6.3.7",
+    "@testing-library/react": "^12.0.0",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.6.1",
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
+    "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
+    "jest": "^27.0.6",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
+    "styled-components": "^5.3.0",
+    "ts-jest": "^27.0.4",
     "typescript": "^4.3.5"
   }
 }
