@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 const App: React.FC = () => {
   // Create the count state.
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
   // Update the count (+1 every second).
   useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
+    const timer = setTimeout(() => setCount(count + 1), 1000)
+    return () => clearTimeout(timer)
+  }, [count, setCount])
   // Return the App component.
   return (
     <div className="App">
@@ -18,7 +18,7 @@ const App: React.FC = () => {
       </header>
       <button>Hello</button>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

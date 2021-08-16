@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-import { Header } from './Header';
-import './page.css';
+import { Header } from './Header'
+import './page.css'
 
 export interface PageProps {
-  user?: Record<string, unknown>;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
+  user?: Record<string, unknown>
+  onLogin: () => void
+  onLogout: () => void
+  onCreateAccount: () => void
 }
 
 export const Page: React.FC<PageProps> = ({ user, onLogin, onLogout, onCreateAccount }) => (
@@ -62,4 +62,4 @@ export const Page: React.FC<PageProps> = ({ user, onLogin, onLogout, onCreateAcc
       </div>
     </section>
   </article>
-);
+)
