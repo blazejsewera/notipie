@@ -1,5 +1,7 @@
 const { defaults: tsjPreset } = require('ts-jest/presets')
-module.exports = {
+
+/** @type {import('@jest/types').Config.InitialOptions} */
+const config = {
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
@@ -12,3 +14,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testEnvironment: 'jsdom',
 }
+
+module.exports = config
