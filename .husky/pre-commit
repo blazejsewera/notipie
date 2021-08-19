@@ -8,8 +8,4 @@ cd .. && \
 echo "ui > lint (yarn lint)" && \
 cd ui && \
 yarn lint && \
-cd .. && \
-echo "ui-components > lint (yarn lint)" && \
-cd ui-components && \
-yarn lint && \
 cd ..

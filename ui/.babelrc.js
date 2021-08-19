@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('config/babel.js'),
+  ...require('./config/babel.js'),
 }
