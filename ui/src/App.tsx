@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './index.css'
+import cx from './components/utils/cx'
 
 const App: React.FC = () => {
   // Create the count state.
@@ -11,8 +13,8 @@ const App: React.FC = () => {
   // Return the App component.
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
+      <header className={cx('App-header', 'flex')}>
+        <p className={cx('text-xl', 'mx-auto')}>
           Page has been open for <code>{count}</code> seconds.
         </p>
       </header>
