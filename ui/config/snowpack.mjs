@@ -9,6 +9,7 @@ export default {
     '@snowpack/plugin-dotenv',
     '@canarise/snowpack-eslint-plugin',
     '@snowpack/plugin-typescript',
+    ['@snowpack/plugin-webpack'],
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
