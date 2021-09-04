@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import './index.css'
-import cx from './components/utils/cx'
+import './main.css'
+import cx from './utils/cx'
+import { Button } from './components/Button'
 
 const App: React.FC = () => {
   // Create the count state.
@@ -19,6 +20,9 @@ const App: React.FC = () => {
         </p>
       </header>
       <button>Hello</button>
+      <Button size="small" onClick={() => null} label="">
+        button
+      </Button>
     </div>
   )
 }
