@@ -7,5 +7,5 @@ make format && \
 cd .. && \
 echo "ui > lint (yarn lint)" && \
 cd ui && \
-yarn lint && \
+npm run lint && \
 cd ..

@@ -1,43 +1,37 @@
 import React from 'react'
-import cx from 'src/utils/cx'
+import cx from '../../utils/cx'
 import ImgAppAvatar from './ImgAppAvatar'
 import InitialsAppAvatar from './InitialsAppAvatar'
 
 export interface AppAvatarProps {
   appName: string
   img?: string
+  bgColor?: string
   size?: 'small' | 'medium' | 'large'
 }
 
-const AppAvatar: React.FC<AppAvatarProps> = ({ appName, img, size = 'medium' }) => {
-  let sizeClasses: string[]
-  switch (size) {
-    case 'small':
-      sizeClasses = ['', '']
-      break
-    case 'large':
-      sizeClasses = ['', '']
-      break
-    default:
-      sizeClasses = ['', '']
-      break
+const AppAvatar: React.FC<AppAvatarProps> = ({ appName, img, bgColor, size = 'medium' }) => {
+  const sizeClassesDict = {
+    small: ['h-6', 'w-6'],
+    medium: ['h-8', 'w-8'],
+    large: ['h-10', 'w-10'],
   }
+  const sizeClasses = sizeClassesDict[size]
+  const shapeClasses = ['rounded-full', 'overflow-clip', 'overflow-hidden']
 
   if (img) {
     return (
-      <div className={cx(...sizeClasses)}>
+      <div className={cx(...sizeClasses, ...shapeClasses)}>
         <ImgAppAvatar imgPath={img} />
       </div>
     )
   }
 
   return (
-    <div className={cx(...sizeClasses)}>
-      <InitialsAppAvatar initials={makeInitials(appName)} />
+    <div className={cx(...sizeClasses, ...shapeClasses)}>
+      <InitialsAppAvatar {...{ appName, bgColor }} />
     </div>
   )
 }
-
-const makeInitials = (name: string) => name.substr(0, 2)
 
 export default AppAvatar

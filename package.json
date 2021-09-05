@@ -10,7 +10,8 @@
     "ui"
   ],
   "scripts": {
-    "postinstall": "cd core && make sync && make tidy && cd .. && husky install"
+    "postinstall": "cd core && make sync && make tidy && cd .. && husky install",
+    "commitlint": "commitlint"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",

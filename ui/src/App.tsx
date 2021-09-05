@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './main.css'
 import cx from './utils/cx'
 import { Button } from './components/Button'
+import AppAvatar from './components/avatar/AppAvatar'
 
 const App: React.FC = () => {
   // Create the count state.
@@ -23,6 +24,15 @@ const App: React.FC = () => {
       <Button size="small" onClick={() => null} label="">
         button
       </Button>
+      <br />
+      <br />
+      <AppAvatar appName="Testapp" size="small" bgColor="red" />
+      <br />
+      <br />
+      <AppAvatar appName="Testapp" size="medium" />
+      <br />
+      <br />
+      <AppAvatar appName="Testapp" size="large" />
     </div>
   )
 }
