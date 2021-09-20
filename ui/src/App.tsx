@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './main.css'
 import cx from './utils/cx'
 import { Button } from './components/Button'
-import AppAvatar from './components/avatar/AppAvatar'
+import AppAvatar from './components/notification/card/avatar/AppAvatar'
 
 const App: React.FC = () => {
   // Create the count state.

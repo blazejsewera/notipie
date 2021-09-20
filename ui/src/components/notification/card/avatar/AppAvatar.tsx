@@ -1,5 +1,5 @@
 import React from 'react'
-import cx from '../../utils/cx'
+import cx from '../../../../utils/cx'
 import ImgAppAvatar from './ImgAppAvatar'
 import InitialsAppAvatar from './InitialsAppAvatar'
 
