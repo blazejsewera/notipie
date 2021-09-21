@@ -5,12 +5,12 @@ import InitialsAppAvatar from './InitialsAppAvatar'
 
 export interface AppAvatarProps {
   appName: string
-  img?: string
+  imgUri?: string
   bgColor?: string
   size?: 'small' | 'medium' | 'large'
 }
 
-const AppAvatar: React.FC<AppAvatarProps> = ({ appName, img, bgColor, size = 'medium' }) => {
+const AppAvatar: React.FC<AppAvatarProps> = ({ appName, imgUri, bgColor, size = 'medium' }) => {
   const sizeClassesDict = {
     small: ['h-6', 'w-6'],
     medium: ['h-8', 'w-8'],
@@ -19,10 +19,10 @@ const AppAvatar: React.FC<AppAvatarProps> = ({ appName, img, bgColor, size = 'me
   const sizeClasses = sizeClassesDict[size]
   const shapeClasses = ['rounded-full', 'overflow-clip', 'overflow-hidden']
 
-  if (img) {
+  if (imgUri) {
     return (
       <div className={cx(...sizeClasses, ...shapeClasses)}>
-        <ImgAppAvatar imgPath={img} />
+        <ImgAppAvatar imgUri={imgUri} />
       </div>
     )
   }

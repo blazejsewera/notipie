@@ -1,10 +1,10 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 
-import AppAvatar, { AppAvatarProps } from '../src/components/avatar/AppAvatar'
+import AppAvatar, { AppAvatarProps } from '../../../../src/components/notification/card/avatar/AppAvatar'
 
 export default {
-  title: 'Avatar/AppAvatar',
+  title: 'Notification/Card/AppAvatar',
   component: AppAvatar,
 } as Meta
 

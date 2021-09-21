@@ -1,9 +1,9 @@
 import React from 'react'
 
 export interface ImgAppAvatarProps {
-  imgPath: string
+  imgUri: string
 }
 
-const ImgAppAvatar: React.FC<ImgAppAvatarProps> = ({ imgPath }) => <img src={imgPath} />
+const ImgAppAvatar: React.FC<ImgAppAvatarProps> = ({ imgUri }) => <img src={imgUri} />
 
 export default ImgAppAvatar
