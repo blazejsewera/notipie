@@ -1,0 +1,72 @@
+{
+  "Import React": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "imr",
+    "body": "import React from 'react'",
+    "description": "Import React"
+  },
+  "React.FC TS": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "tfc",
+    "body": [
+      "import React from 'react'",
+      "",
+      "const ${TM_FILENAME_BASE}: React.FC = () => (",
+      "\t$0",
+      ")",
+      "",
+      "export default ${TM_FILENAME_BASE}"
+    ],
+    "description": "Create Functional Component in React TypeScript without props"
+  },
+  "React.FC TS children": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "tfcc",
+    "body": [
+      "import React from 'react'",
+      "",
+      "const ${TM_FILENAME_BASE}: React.FC = ({ children }) => (",
+      "\t$0",
+      ")",
+      "",
+      "export default ${TM_FILENAME_BASE}"
+    ],
+    "description": "Create Functional Component in React TypeScript without props with children"
+  },
+  "React.FC TS with props": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "tfcp",
+    "body": [
+      "import React from 'react'",
+      "",
+      "export interface ${TM_FILENAME_BASE}Props {",
+      "\t{2:prop: type}",
+      "}",
+      "",
+      "const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (${1:props}) => (",
+      "\t$0",
+      ")",
+      "",
+      "export default ${TM_FILENAME_BASE}"
+    ],
+    "description": "Create Functional Component in React TypeScript with props"
+  },
+  "React.FC TS with props and body": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "tfcpb",
+    "body": [
+      "import React from 'react'",
+      "",
+      "export interface ${TM_FILENAME_BASE}Props {",
+      "\t{2:prop: type}",
+      "}",
+      "",
+      "const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (${1:props}) => {",
+      "\treturn $0",
+      "}",
+      "",
+      "export default ${TM_FILENAME_BASE}"
+    ],
+    "description": "Create Functional Component in React TypeScript with props and full function body"
+  }
+}
