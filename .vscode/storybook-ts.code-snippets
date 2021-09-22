@@ -1,0 +1,24 @@
+{
+  "Storybook skeleton TS": {
+    "scope": "typescript,typescriptreact",
+    "prefix": ["rstory", "react-story"],
+    "body": [
+      "import React from 'react'",
+      "import { Story, Meta } from '@storybook/react'",
+      "",
+      "import ${TM_FILENAME_BASE}, { ${TM_FILENAME_BASE}Props } from '$1'",
+      "",
+      "export default {",
+      "\ttitle: '$2/${TM_FILENAME_BASE}',",
+      "\tcomponent: ${TM_FILENAME_BASE},",
+      "} as Meta",
+      "",
+      "export const Example${TM_FILENAME_BASE}: Story<${TM_FILENAME_BASE}Props> = (args) => <${TM_FILENAME_BASE} {...args} />",
+      "",
+      "Example${TM_FILENAME_BASE}.args = {",
+      "\t$0,",
+      "}"
+    ],
+    "description": "Create a story skeleton for Storybook in TS for a React component"
+  }
+}

@@ -4,7 +4,7 @@ import { Story, Meta } from '@storybook/react'
 import AppAvatar, { AppAvatarProps } from '../../../../src/components/notification/card/avatar/AppAvatar'
 
 export default {
-  title: 'Notification/Card/AppAvatar',
+  title: 'notification/card/avatar/AppAvatar',
   component: AppAvatar,
 } as Meta
 

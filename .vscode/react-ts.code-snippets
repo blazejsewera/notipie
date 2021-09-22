@@ -7,7 +7,7 @@
   },
   "React.FC TS": {
     "scope": "typescript,typescriptreact",
-    "prefix": "tfc",
+    "prefix": "fc",
     "body": [
       "import React from 'react'",
       "",
@@ -21,7 +21,7 @@
   },
   "React.FC TS children": {
     "scope": "typescript,typescriptreact",
-    "prefix": "tfcc",
+    "prefix": "fcc",
     "body": [
       "import React from 'react'",
       "",
@@ -35,7 +35,7 @@
   },
   "React.FC TS with props": {
     "scope": "typescript,typescriptreact",
-    "prefix": "tfcp",
+    "prefix": "fcp",
     "body": [
       "import React from 'react'",
       "",
@@ -53,7 +53,7 @@
   },
   "React.FC TS with props and body": {
     "scope": "typescript,typescriptreact",
-    "prefix": "tfcpb",
+    "prefix": "fcpb",
     "body": [
       "import React from 'react'",
       "",

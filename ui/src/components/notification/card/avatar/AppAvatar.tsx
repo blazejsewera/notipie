@@ -11,12 +11,11 @@ export interface AppAvatarProps {
 }
 
 const AppAvatar: React.FC<AppAvatarProps> = ({ appName, imgUri, bgColor, size = 'medium' }) => {
-  const sizeClassesDict = {
+  const sizeClasses = {
     small: ['h-6', 'w-6'],
     medium: ['h-8', 'w-8'],
     large: ['h-10', 'w-10'],
-  }
-  const sizeClasses = sizeClassesDict[size]
+  }[size]
   const shapeClasses = ['rounded-full', 'overflow-clip', 'overflow-hidden']
 
   if (imgUri) {
