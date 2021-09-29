@@ -3,5 +3,6 @@
     "other": true,
     "comments": true,
     "strings": true
-  }
+  },
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

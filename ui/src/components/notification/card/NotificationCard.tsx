@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { AppAvatar } from './avatar/AppAvatar'
-import { Subtitle } from './text/Subtitle'
-import { Title } from './text/Title'
+import { cx } from '../../../../src/utils/cx'
+import { Footer } from './section/Footer'
+import { Header } from './section/Header'
+import { Indicator } from './sprite/icon/Indicator'
 import { Body } from './text/Body'
-import { Footnote } from './text/Footnote'
 
 export interface NotificationCardProps {
   appName: string
@@ -22,11 +22,10 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
   subtitle,
   body,
 }) => (
-  <div>
-    <AppAvatar appName={appName} imgUri={appImgUri} />
-    <Title>{title}</Title>
-    <Subtitle>{subtitle}</Subtitle>
+  <div className={cx('rounded-3xl', 'bg-white', 'w-80', 'p-5', 'shadow-md', 'relative')}>
+    <Header {...{ appName, appImgUri, title, subtitle }} bgColor="darkgreen" />
+    <Indicator />
     <Body>{body}</Body>
-    <Footnote {...{ appName, timestamp }} />
+    <Footer {...{ appName, timestamp }} />
   </div>
 )

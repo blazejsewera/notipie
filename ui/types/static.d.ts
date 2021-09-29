@@ -56,4 +56,6 @@ declare module '*.png' {
   export default ref
 }
 
-/* CUSTOM: ADD YOUR OWN HERE */
+/* Web fonts */
+declare module '*.woff'
+declare module '*.woff2'

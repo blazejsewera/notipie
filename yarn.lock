@@ -10770,13 +10770,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"inter-ui@npm:^3.19.3":
-  version: 3.19.3
-  resolution: "inter-ui@npm:3.19.3"
-  checksum: 74435e742e9829402cf15ac08aa48541c93e96d7528a29ba3bc2a14b059ccd3f330ddba8b1c96f06bfdda46b0c7e1a406db22a309045b3412b66ec4dcb5efa2a
-  languageName: node
-  linkType: hard
-
 "internal-slot@npm:^1.0.3":
   version: 1.0.3
   resolution: "internal-slot@npm:1.0.3"
@@ -13859,7 +13852,6 @@ fsevents@~2.1.2:
     eslint-plugin-react: ^7.24.0
     eslint-watch: ^7.0.0
     feather-icons: ^4.28.0
-    inter-ui: ^3.19.3
     jest: ^27.0.6
     lint-staged: ^11.1.2
     postcss: ^8.3.6
