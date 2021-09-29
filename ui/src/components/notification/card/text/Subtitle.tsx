@@ -1,5 +1,3 @@
-import React from 'react'
+import * as React from 'react'
 
-const Subtitle: React.FC = ({ children }) => <h4>{children}</h4>
-
-export default Subtitle
+export const Subtitle: React.FC = ({ children }) => <h4>{children}</h4>

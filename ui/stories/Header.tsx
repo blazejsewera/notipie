@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Story, Meta } from '@storybook/react'
 
 import { Header, HeaderProps } from '../src/components/Header'

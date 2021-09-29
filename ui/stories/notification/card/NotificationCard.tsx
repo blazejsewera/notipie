@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { Story, Meta } from '@storybook/react'
 
-import NotificationCard, { NotificationCardProps } from '../../../src/components/notification/card/NotificationCard'
+import { NotificationCard, NotificationCardProps } from '../../../src/components/notification/card/NotificationCard'
 import { fiveSentenceLoremIpsum } from '../../assets/lipsum'
 
 export default {

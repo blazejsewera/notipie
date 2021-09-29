@@ -2,20 +2,18 @@
   "Import React": {
     "scope": "javascript,javascriptreact,typescript,typescriptreact",
     "prefix": "imr",
-    "body": "import React from 'react'",
+    "body": "import * as React from 'react'",
     "description": "Import React"
   },
   "React.FC TS": {
     "scope": "typescript,typescriptreact",
     "prefix": "fc",
     "body": [
-      "import React from 'react'",
+      "import * as React from 'react'",
       "",
-      "const ${TM_FILENAME_BASE}: React.FC = () => (",
+      "export const ${TM_FILENAME_BASE}: React.FC = () => (",
       "\t$0",
-      ")",
-      "",
-      "export default ${TM_FILENAME_BASE}"
+      ")"
     ],
     "description": "Create Functional Component in React TypeScript without props"
   },
@@ -23,13 +21,11 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcc",
     "body": [
-      "import React from 'react'",
+      "import * as React from 'react'",
       "",
-      "const ${TM_FILENAME_BASE}: React.FC = ({ children }) => (",
+      "export const ${TM_FILENAME_BASE}: React.FC = ({ children }) => (",
       "\t$0",
-      ")",
-      "",
-      "export default ${TM_FILENAME_BASE}"
+      ")"
     ],
     "description": "Create Functional Component in React TypeScript without props with children"
   },
@@ -37,17 +33,15 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcp",
     "body": [
-      "import React from 'react'",
+      "import * as React from 'react'",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t{2:prop: type}",
       "}",
       "",
-      "const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (${1:props}) => (",
+      "export const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (${1:props}) => (",
       "\t$0",
-      ")",
-      "",
-      "export default ${TM_FILENAME_BASE}"
+      ")"
     ],
     "description": "Create Functional Component in React TypeScript with props"
   },
@@ -55,17 +49,15 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcpb",
     "body": [
-      "import React from 'react'",
+      "import * as React from 'react'",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t{2:prop: type}",
       "}",
       "",
-      "const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (${1:props}) => {",
+      "export const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (${1:props}) => {",
       "\treturn $0",
-      "}",
-      "",
-      "export default ${TM_FILENAME_BASE}"
+      "}"
     ],
     "description": "Create Functional Component in React TypeScript with props and full function body"
   }

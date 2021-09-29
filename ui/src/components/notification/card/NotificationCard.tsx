@@ -1,9 +1,9 @@
-import React from 'react'
-import AppAvatar from './avatar/AppAvatar'
-import Subtitle from './text/Subtitle'
-import Title from './text/Title'
-import Body from './text/Body'
-import Footnote from './text/Footnote'
+import * as React from 'react'
+import { AppAvatar } from './avatar/AppAvatar'
+import { Subtitle } from './text/Subtitle'
+import { Title } from './text/Title'
+import { Body } from './text/Body'
+import { Footnote } from './text/Footnote'
 
 export interface NotificationCardProps {
   appName: string
@@ -14,7 +14,7 @@ export interface NotificationCardProps {
   body?: string
 }
 
-const NotificationCard: React.FC<NotificationCardProps> = ({
+export const NotificationCard: React.FC<NotificationCardProps> = ({
   appName,
   timestamp,
   appImgUri,
@@ -30,5 +30,3 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
     <Footnote {...{ appName, timestamp }} />
   </div>
 )
-
-export default NotificationCard

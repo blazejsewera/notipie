@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import './main.css'
-import cx from './utils/cx'
+import { cx } from './utils/cx'
 import { Button } from './components/Button'
-import AppAvatar from './components/notification/card/avatar/AppAvatar'
+import { AppAvatar } from './components/notification/card/avatar/AppAvatar'
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   // Create the count state.
   const [count, setCount] = useState(0)
   // Update the count (+1 every second).
@@ -36,5 +36,3 @@ const App: React.FC = () => {
     </div>
   )
 }
-
-export default App

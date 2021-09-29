@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { Story, Meta } from '@storybook/react'
 
-import Subtitle from '../../../../src/components/notification/card/text/Subtitle'
+import { Subtitle } from '../../../../src/components/notification/card/text/Subtitle'
 
 export default {
   title: 'notification/card/text/Subtitle',

@@ -1,4 +1,4 @@
-import cx from './cx'
+import { cx } from './cx'
 
 describe('tests for class names merge function', () => {
   it('returns empty string on no args', () => {

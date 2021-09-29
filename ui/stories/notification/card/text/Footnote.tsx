@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { Story, Meta } from '@storybook/react'
 
-import Footnote, { FootnoteProps } from '../../../../src/components/notification/card/text/Footnote'
+import { Footnote, FootnoteProps } from '../../../../src/components/notification/card/text/Footnote'
 
 export default {
   title: 'notification/card/text/Footnote',

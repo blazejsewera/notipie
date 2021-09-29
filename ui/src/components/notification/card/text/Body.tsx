@@ -1,5 +1,3 @@
-import React from 'react'
+import * as React from 'react'
 
-const Body: React.FC = ({ children }) => <p>{children}</p>
-
-export default Body
+export const Body: React.FC = ({ children }) => <p>{children}</p>
