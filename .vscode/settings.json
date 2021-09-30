@@ -4,5 +4,8 @@
     "comments": true,
     "strings": true
   },
-  "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "jest.autoRun": { "watch": true, "onStartup": ["all-tests"] },
+  "jest.jestCommandLine": "yarn test",
+  "jest.rootPath": "ui"
 }
