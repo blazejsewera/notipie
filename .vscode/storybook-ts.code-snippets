@@ -4,9 +4,9 @@
     "prefix": ["rstory", "react-story"],
     "body": [
       "import * as React from 'react'",
-      "import { Story, Meta } from '@storybook/react'",
-      "",
-      "import { ${TM_FILENAME_BASE}, ${TM_FILENAME_BASE}Props } from '$1'",
+      "import { Meta, Story } from '@storybook/react'",
+      "import type { ${TM_FILENAME_BASE}Props } from '$1'",
+      "import { ${TM_FILENAME_BASE} } from '$1'",
       "",
       "export default {",
       "\ttitle: '$2/${TM_FILENAME_BASE}',",
