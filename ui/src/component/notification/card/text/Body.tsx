@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { cx } from '../../../../util/cx'
 
 export interface BodyProps {
-  trimThreshold: number
+  trimThreshold?: number
 }
 
 // TODO: Add tests to this component
