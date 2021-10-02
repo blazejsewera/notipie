@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { NotificationCard } from './components/notification/card/NotificationCard'
-import './main.css'
+import './styles/main.css'
+import './styles/inter.css'
 
 export const App: React.FC = () => {
   const body = `#12 add some new amazing functionality
