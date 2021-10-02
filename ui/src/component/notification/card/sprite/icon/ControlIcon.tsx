@@ -9,7 +9,7 @@ export interface ControlIconProps {
 export const ControlIcon: React.FC<ControlIconProps> = ({ SvgIcon }) => {
   return (
     <div className="inline">
-      <SvgIcon className={cx('stroke-current', 'text-gray-500')} />
+      <SvgIcon className={cx('stroke-current', 'text-gray-500', 'w-5', 'h-5')} />
     </div>
   )
 }
