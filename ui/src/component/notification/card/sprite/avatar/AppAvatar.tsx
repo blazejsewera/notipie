@@ -1,4 +1,5 @@
 import * as React from 'react'
+import type { FC } from '../../../../../type/react'
 import { cx } from '../../../../../util/cx'
 import { ImgAppAvatar } from './ImgAppAvatar'
 import { InitialsAppAvatar } from './InitialsAppAvatar'
@@ -10,7 +11,7 @@ export interface AppAvatarProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-export const AppAvatar: React.FC<AppAvatarProps> = ({ appName, appImgUri, bgColor, size = 'medium' }) => {
+export const AppAvatar: FC<AppAvatarProps> = ({ appName, appImgUri, bgColor, size = 'medium' }) => {
   const sizeClasses = {
     small: ['h-8', 'w-8'],
     medium: ['h-12', 'w-12'],

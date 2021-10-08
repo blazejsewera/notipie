@@ -1,11 +1,12 @@
 import * as React from 'react'
+import type { FC } from '../../../../../type/react'
 
 export interface InitialsAppAvatarProps {
   appName: string
   bgColor?: string
 }
 
-export const InitialsAppAvatar: React.FC<InitialsAppAvatarProps> = ({ appName, bgColor }) => {
+export const InitialsAppAvatar: FC<InitialsAppAvatarProps> = ({ appName, bgColor }) => {
   const backgroundColor = bgColor ? bgColor : generateBackgroundColor(appName)
   const fontSize = 0.5 // svg is scaled for 1px, so it's roughly half the height
   return (

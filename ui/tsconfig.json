@@ -1,5 +1,5 @@
 {
-  "include": ["src", "test", "types"],
+  "include": ["src", "test", "type"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "module": "esnext",

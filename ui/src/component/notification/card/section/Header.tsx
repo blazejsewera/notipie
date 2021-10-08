@@ -1,4 +1,5 @@
 import * as React from 'react'
+import type { FC } from '../../../../type/react'
 import { cx } from '../../../../util/cx'
 import { AppAvatar } from '../sprite/avatar/AppAvatar'
 import { Subtitle } from '../text/Subtitle'
@@ -12,7 +13,7 @@ export interface HeaderProps {
   subtitle?: string
 }
 
-export const Header: React.FC<HeaderProps> = ({ appName, appImgUri, bgColor, title, subtitle }) => (
+export const Header: FC<HeaderProps> = ({ appName, appImgUri, bgColor, title, subtitle }) => (
   <div className={cx('flex')}>
     <AppAvatar size="medium" {...{ appName, appImgUri, bgColor }} />
     <div className={cx('my-auto', 'inline-block', 'ml-5')}>

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import type { FC } from '../../../../type/react'
 import { cx } from '../../../../util/cx'
 
 export interface MetaProps {
@@ -6,7 +7,7 @@ export interface MetaProps {
   timestamp: string
 }
 
-export const Meta: React.FC<MetaProps> = ({ appName, timestamp }) => {
+export const Meta: FC<MetaProps> = ({ appName, timestamp }) => {
   const textClasses = ['text-xs', 'font-bold', 'text-gray-500']
   return (
     <div className="inline-block">

@@ -8,15 +8,17 @@ export const App: React.FC = () => {
 
 Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.`
 
+  const notification = {
+    appName: 'Github',
+    title: 'New Pull Request',
+    subtitle: '— notipie',
+    body,
+    timestamp: '2 hours ago',
+  }
+
   return (
     <div className="App bg-gray-100 h-screen p-10">
-      <NotificationCard
-        appName="Github"
-        title="New Pull Request"
-        subtitle="— notipie"
-        body={body}
-        timestamp="2 hours ago"
-      />
+      <NotificationCard notification={notification} />
     </div>
   )
 }

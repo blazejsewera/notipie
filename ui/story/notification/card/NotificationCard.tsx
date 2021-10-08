@@ -12,9 +12,11 @@ export default {
 export const ExampleNotificationCard: Story<NotificationCardProps> = (args) => <NotificationCard {...args} />
 
 ExampleNotificationCard.args = {
-  appName: 'Example App',
-  timestamp: '2 hours ago',
-  title: 'Example Title',
-  subtitle: 'Example Subtitle',
-  body: fiveSentenceLoremIpsum,
+  notification: {
+    appName: 'Example App',
+    timestamp: '2 hours ago',
+    title: 'Example Title',
+    subtitle: 'Example Subtitle',
+    body: fiveSentenceLoremIpsum,
+  },
 }
