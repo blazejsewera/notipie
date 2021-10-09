@@ -8,7 +8,6 @@ export interface BodyProps {
   children: string
 }
 
-// TODO: Add tests to this component
 export const Body: FC<BodyProps> = ({ children, trimThreshold = 150 }) => {
   const text = children
   const styleClasses = ['whitespace-pre-line', 'text-sm', 'leading-4', 'my-3', 'text-gray-800']
@@ -21,7 +20,11 @@ export const Body: FC<BodyProps> = ({ children, trimThreshold = 150 }) => {
   return (
     <p className={cx(...styleClasses)}>
       {isTrimmed ? text.slice(0, trimThreshold) : text}
-      <span className="text-blue-500 cursor-pointer" onClick={() => setIsTrimmed(!isTrimmed)}>
+      <span
+        className="text-blue-500 cursor-pointer"
+        onClick={() => setIsTrimmed(!isTrimmed)}
+        aria-label={isTrimmed ? 'show more' : 'show less'}
+      >
         {isTrimmed ? '[...]' : ' [show less]'}
       </span>
     </p>
