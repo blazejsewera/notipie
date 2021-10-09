@@ -18,7 +18,7 @@ export const Header: FC<HeaderProps> = ({ appName, appImgUri, bgColor, title, su
     <AppAvatar size="medium" {...{ appName, appImgUri, bgColor }} />
     <div className={cx('my-auto', 'inline-block', 'ml-5')}>
       <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
+      {subtitle ? <Subtitle>{subtitle}</Subtitle> : null}
     </div>
   </div>
 )

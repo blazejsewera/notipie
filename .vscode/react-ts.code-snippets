@@ -5,12 +5,12 @@
     "body": "import * as React from 'react'",
     "description": "Import React"
   },
-  "React.FC TS": {
+  "FC TS": {
     "scope": "typescript,typescriptreact",
     "prefix": "fc",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react'",
+      "import type { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export const ${TM_FILENAME_BASE}: FC = () => (",
       "\t$0",
@@ -18,27 +18,29 @@
     ],
     "description": "Create Functional Component in React TypeScript without props"
   },
-  "React.FC TS children": {
+  "FC TS children": {
     "scope": "typescript,typescriptreact",
     "prefix": "fcc",
     "body": [
       "import * as React from 'react'",
-      "import type { FCC } from '../../../../../../type/react'",
+      "import type { FC } from '../../../../../../type/react' // adjust relative import",
       "",
-      "export type ${TM_FILENAME_BASE}Children = ${1:type}",
+      "export interface ${TM_FILENAME_BASE}Props {",
+      "\tchildren: ${1:type}",
+      "}",
       "",
-      "export const ${TM_FILENAME_BASE}: FCC = ({ children }) => (",
+      "export const ${TM_FILENAME_BASE}: FC<${TM_FILENAME_BASE}Props> = ({ children }) => (",
       "\t$0",
       ")"
     ],
-    "description": "Create Functional Component in React TypeScript without props with children"
+    "description": "Create Functional Component in React TypeScript with children"
   },
-  "React.FC TS with props": {
+  "FC TS with props": {
     "scope": "typescript,typescriptreact",
     "prefix": "fcp",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react'",
+      "import type { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t${2:prop: type}",
@@ -50,31 +52,30 @@
     ],
     "description": "Create Functional Component in React TypeScript with props"
   },
-  "React.FC TS with children and props": {
+  "FC TS with children and props": {
     "scope": "typescript,typescriptreact",
     "prefix": "fcpc",
     "body": [
       "import * as React from 'react'",
-      "import type { FCPC } from '../../../../../../type/react'",
+      "import type { FCPC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t${2:prop: type}",
+      "\tchildren: ${3:type}",
       "}",
       "",
-      "export type ${TM_FILENAME_BASE}Children = ${3:type}",
-      "",
-      "export const ${TM_FILENAME_BASE}: FCPC<${TM_FILENAME_BASE}Props, ${TM_FILENAME_BASE}Children> = (${1:props}) => (",
+      "export const ${TM_FILENAME_BASE}: FCPC<${TM_FILENAME_BASE}Props> = (${1:props}) => (",
       "\t$0",
       ")"
     ],
     "description": "Create Functional Component in React TypeScript with children and props"
   },
-  "React.FC TS with props and body": {
+  "FC TS with props and body": {
     "scope": "typescript,typescriptreact",
     "prefix": "fcpb",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react'",
+      "import type { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t${2:prop: type}",

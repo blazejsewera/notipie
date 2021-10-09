@@ -1,18 +1,15 @@
 import * as React from 'react'
-import type { FCPC } from '../../../../type/react'
+import type { FC } from '../../../../type/react'
 import { useState } from 'react'
 import { cx } from '../../../../util/cx'
 
 export interface BodyProps {
   trimThreshold?: number
+  children: string
 }
 
-export type BodyChildren = string
-
 // TODO: Add tests to this component
-export const Body: FCPC<BodyProps, BodyChildren> = ({ children, trimThreshold = 150 }) => {
-  if (!children) return null
-
+export const Body: FC<BodyProps> = ({ children, trimThreshold = 150 }) => {
   const text = children
   const styleClasses = ['whitespace-pre-line', 'text-sm', 'leading-4', 'my-3', 'text-gray-800']
 

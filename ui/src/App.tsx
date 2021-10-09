@@ -1,9 +1,10 @@
 import * as React from 'react'
+import type { FC } from './type/react'
 import { NotificationCard } from './component/notification/card/NotificationCard'
 import './style/main.css'
 import './style/inter.css'
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const body = `#12 add some new amazing functionality
 
 Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.`

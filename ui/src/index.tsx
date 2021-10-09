@@ -12,5 +12,6 @@ ReactDOM.render(
 // Learn more: https://www.snowpack.dev/concepts/hot-module-replacement
 
 if ((import.meta as any).hot) {
+  // prettier-ignore
   (import.meta as any).hot.accept()
 }
