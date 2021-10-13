@@ -5,7 +5,34 @@
     "strings": true
   },
   "typescript.preferences.importModuleSpecifier": "relative",
-  "jest.autoRun": { "watch": true, "onStartup": ["all-tests"] },
+
+  // jest
+  "jest.autoRun": { "watch": false, "onSave": "test-src-file" },
   "jest.jestCommandLine": "yarn test",
-  "jest.rootPath": "ui"
+  "jest.rootPath": "ui",
+  "jest.enableCodeLens": false,
+  "jest.debugCodeLens.showWhenTestStateIn": [],
+
+  // formatting
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

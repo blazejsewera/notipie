@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { FC } from '../../../../type/react'
-import { Archive, Check, Settings } from 'react-feather'
+import { Archive, Check, Settings } from '../../../../external/icon'
 import { ControlIcon } from '../sprite/icon/ControlIcon'
 
 export const Controls: FC = () => (

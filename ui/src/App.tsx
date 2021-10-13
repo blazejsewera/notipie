@@ -1,25 +1,16 @@
 import * as React from 'react'
 import type { FC } from './type/react'
-import { NotificationCard } from './component/notification/card/NotificationCard'
+import { intl } from './i18l/intl'
+import { full, fullWithImage, minimal, partial } from './mock/notification.mock'
 import './style/main.css'
 import './style/inter.css'
+import { NotificationContainer } from './component/notification/container/NotificationContainer'
 
 export const App: FC = () => {
-  const body = `#12 add some new amazing functionality
-
-Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.`
-
-  const notification = {
-    appName: 'Github',
-    title: 'New Pull Request',
-    subtitle: '— notipie',
-    body,
-    timestamp: '2 hours ago',
-  }
-
+  const notifications = [full, fullWithImage, partial, minimal]
   return (
-    <div className="App bg-gray-100 h-screen p-10">
-      <NotificationCard notification={notification} />
+    <div className="App bg-gray-100 min-h-screen p-10">
+      <NotificationContainer notifications={notifications} intl={intl} />
     </div>
   )
 }

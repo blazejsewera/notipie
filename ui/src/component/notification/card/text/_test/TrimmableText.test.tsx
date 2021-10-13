@@ -1,15 +1,18 @@
 import * as React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { Body } from '../Body'
+import { TrimmableText as Trim } from '../TrimmableText'
+import { intlMock } from '../../../../../mock/intl.mock'
 
-describe('tests for Body component', () => {
+describe('tests for TrimmableText component', () => {
   // given
   const text = 'abc'
   const textRegex = new RegExp(`^${text}`)
+  const threshold = 2
+  const intl = intlMock
 
   it('should display show more button', () => {
     // when
-    render(<Body trimThreshold={2}>{text}</Body>)
+    render(<Trim {...{ threshold, intl }}>{text}</Trim>)
 
     // then
     const seeMoreButton = screen.getByLabelText('show more')
@@ -18,7 +21,7 @@ describe('tests for Body component', () => {
 
   it('should show the whole string after clicking show more button', () => {
     // given
-    render(<Body trimThreshold={2}>{text}</Body>)
+    render(<Trim {...{ threshold, intl }}>{text}</Trim>)
 
     // when
     const seeMoreButton = screen.getByLabelText('show more')

@@ -1,0 +1,631 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationCard component tests renders correctly with full notification 1`] = `
+<div
+  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+>
+  <div
+    className="flex"
+  >
+    <div
+      className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+    >
+      <svg
+        viewBox="0 0 1 1"
+      >
+        <rect
+          fill="darkgreen"
+          height={1}
+          width={1}
+        />
+        <text
+          dy="0.178"
+          fill="#FFF"
+          style={
+            Object {
+              "fontFamily": "Inter",
+              "fontSize": 0.5,
+              "fontWeight": "bold",
+            }
+          }
+          textAnchor="middle"
+          x={0.5}
+          y={0.5}
+        >
+          Gi
+        </text>
+      </svg>
+    </div>
+    <div
+      className="my-auto inline-block ml-5"
+    >
+      <p
+        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+      >
+        New Pull Request
+      </p>
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        — notipie
+      </p>
+    </div>
+  </div>
+  <div
+    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+  />
+  <p
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+  >
+    <span>
+      #12 add some new amazing functionality
+
+Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.
+    </span>
+  </p>
+  <div
+    className="flex"
+  >
+    <div
+      className="inline-block"
+    >
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        — by 
+        Github
+      </p>
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        2 hours ago
+      </p>
+    </div>
+    <div
+      className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
+    >
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="21 8 21 21 3 21 3 8"
+          />
+          <rect
+            height="5"
+            width="22"
+            x="1"
+            y="3"
+          />
+          <line
+            x1="10"
+            x2="14"
+            y1="12"
+            y2="12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="20 6 9 17 4 12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`NotificationCard component tests renders correctly with full with image notification 1`] = `
+<div
+  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+>
+  <div
+    className="flex"
+  >
+    <div
+      className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+    >
+      <img
+        src="test-file-stub"
+      />
+    </div>
+    <div
+      className="my-auto inline-block ml-5"
+    >
+      <p
+        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+      >
+        New Pull Request
+      </p>
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        — notipie
+      </p>
+    </div>
+  </div>
+  <div
+    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+  />
+  <p
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+  >
+    <span>
+      #12 add some new amazing functionality
+
+Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.
+    </span>
+  </p>
+  <div
+    className="flex"
+  >
+    <div
+      className="inline-block"
+    >
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        — by 
+        Github
+      </p>
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        2 hours ago
+      </p>
+    </div>
+    <div
+      className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
+    >
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="21 8 21 21 3 21 3 8"
+          />
+          <rect
+            height="5"
+            width="22"
+            x="1"
+            y="3"
+          />
+          <line
+            x1="10"
+            x2="14"
+            y1="12"
+            y2="12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="20 6 9 17 4 12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`NotificationCard component tests renders correctly with minimal notification 1`] = `
+<div
+  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+>
+  <div
+    className="flex"
+  >
+    <div
+      className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+    >
+      <svg
+        viewBox="0 0 1 1"
+      >
+        <rect
+          fill="darkgreen"
+          height={1}
+          width={1}
+        />
+        <text
+          dy="0.178"
+          fill="#FFF"
+          style={
+            Object {
+              "fontFamily": "Inter",
+              "fontSize": 0.5,
+              "fontWeight": "bold",
+            }
+          }
+          textAnchor="middle"
+          x={0.5}
+          y={0.5}
+        >
+          Gi
+        </text>
+      </svg>
+    </div>
+    <div
+      className="my-auto inline-block ml-5"
+    >
+      <p
+        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+      >
+        New Pull Request
+      </p>
+    </div>
+  </div>
+  <div
+    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+  />
+  <p
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+  >
+    <span>
+      
+    </span>
+  </p>
+  <div
+    className="flex"
+  >
+    <div
+      className="inline-block"
+    >
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        — by 
+        Github
+      </p>
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        2 hours ago
+      </p>
+    </div>
+    <div
+      className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
+    >
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="21 8 21 21 3 21 3 8"
+          />
+          <rect
+            height="5"
+            width="22"
+            x="1"
+            y="3"
+          />
+          <line
+            x1="10"
+            x2="14"
+            y1="12"
+            y2="12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="20 6 9 17 4 12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`NotificationCard component tests renders correctly with partial notification 1`] = `
+<div
+  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+>
+  <div
+    className="flex"
+  >
+    <div
+      className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+    >
+      <svg
+        viewBox="0 0 1 1"
+      >
+        <rect
+          fill="darkgreen"
+          height={1}
+          width={1}
+        />
+        <text
+          dy="0.178"
+          fill="#FFF"
+          style={
+            Object {
+              "fontFamily": "Inter",
+              "fontSize": 0.5,
+              "fontWeight": "bold",
+            }
+          }
+          textAnchor="middle"
+          x={0.5}
+          y={0.5}
+        >
+          Gi
+        </text>
+      </svg>
+    </div>
+    <div
+      className="my-auto inline-block ml-5"
+    >
+      <p
+        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+      >
+        New Pull Request
+      </p>
+    </div>
+  </div>
+  <div
+    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+  />
+  <p
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+  >
+    <span>
+      #12 add some new amazing functionality
+
+Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.
+    </span>
+  </p>
+  <div
+    className="flex"
+  >
+    <div
+      className="inline-block"
+    >
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        — by 
+        Github
+      </p>
+      <p
+        className="text-xs font-bold text-gray-500"
+      >
+        2 hours ago
+      </p>
+    </div>
+    <div
+      className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
+    >
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="21 8 21 21 3 21 3 8"
+          />
+          <rect
+            height="5"
+            width="22"
+            x="1"
+            y="3"
+          />
+          <line
+            x1="10"
+            x2="14"
+            y1="12"
+            y2="12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="20 6 9 17 4 12"
+          />
+        </svg>
+      </div>
+      <div
+        className="inline"
+      >
+        <svg
+          className="stroke-current text-gray-500 w-5 h-5"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={24}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

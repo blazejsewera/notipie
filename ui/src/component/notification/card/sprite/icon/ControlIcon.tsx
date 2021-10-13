@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { FC } from '../../../../../type/react'
-import type { Icon } from 'react-feather'
+import type { Icon } from '../../../../../external/icon'
 import { cx } from '../../../../../util/cx'
 
 export interface ControlIconProps {

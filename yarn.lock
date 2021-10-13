@@ -4344,6 +4344,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-test-renderer@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "@types/react-test-renderer@npm:17.0.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: ecaae8df36cd8cfeb89080d52534856acc3789bad9a6e369ff5119426377c827b4e5b5daa638507f2c1c2fd6c994bf45de288a698143178cd4049c2cd8b77b35
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:^17.0.18":
   version: 17.0.19
   resolution: "@types/react@npm:17.0.19"
@@ -13995,6 +14004,7 @@ fsevents@~2.1.2:
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
     "@types/react-router-dom": ^5.1.8
+    "@types/react-test-renderer": ^17.0.1
     "@types/snowpack-env": ^2.3.4
     "@typescript-eslint/eslint-plugin": ^4.29.1
     "@typescript-eslint/parser": ^4.29.1

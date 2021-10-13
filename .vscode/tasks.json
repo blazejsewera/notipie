@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+
+  "tasks": [
+    {
+      "label": "ui/test",
+      "group": "test",
+      "command": "yarn test",
+      "type": "shell",
+      "options": {
+        "cwd": "ui"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ui/test watch",
+      "group": "test",
+      "command": "yarn test:watch",
+      "type": "shell",
+      "options": {
+        "cwd": "ui"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ui/start dev server",
+      "group": "build",
+      "command": "yarn start",
+      "type": "shell",
+      "options": {
+        "cwd": "ui"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "ui/storybook",
+      "group": "build",
+      "command": "yarn storybook",
+      "type": "shell",
+      "options": {
+        "cwd": "ui"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}
+
+// Note: Change the default keybinding "ctrl/cmd + Shift + B"
+// from "Tasks: Run Build Task" to "Tasks: Run Task" to reveal test tasks
+
+// e.g.
+// {
+//   "key": "shift+cmd+b",
+//   "command": "-workbench.action.tasks.build"
+// },
+// {
+//   "key": "shift+cmd+b",
+//   "command": "workbench.action.tasks.runTask"
+// },
