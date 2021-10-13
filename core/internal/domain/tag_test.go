@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/internal/domain/mock"
 	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -36,24 +37,24 @@ func TestTag_RegisterApp(t *testing.T) {
 func TestTag_Broadcast(t *testing.T) {
 	t.Run("no users", func(t *testing.T) {
 		// given
-		tag := getTestTag()
-		notification := newTestNotification()
+		tag := mock.NewTestTag()
+		notification := mock.NewTestNotification()
 
 		// when
 		err := tag.broadcast(notification)
 
 		// then
 		require.Error(t, err)
-		assert.Equal(t, noUserWhenBroadcastErrorMessage, err.Error())
+		assert.Equal(t, NoUserWhenBroadcastErrorMessage, err.Error())
 	})
 
 	t.Run("multiple notifications", func(t *testing.T) {
 		// given
-		tag := getTestTag()
+		tag := mock.NewTestTag()
 
-		notifications := get5TestNotifications()
+		notifications := mock.New5TestNotifications()
 
-		user, repo := newTestUserWithAsyncRepo()
+		user, repo := mock.NewTestUserWithAsyncRepo()
 		user.SubscribeToTag(&tag)
 		user.Listen()
 
@@ -79,17 +80,17 @@ func TestTag_Broadcast(t *testing.T) {
 			}
 		})
 
-		util.AsyncAssert(t, done).ElementsMatch(notifications, user.getAllNotifications())
+		util.AsyncAssert(t, done).ElementsMatch(notifications, user.GetNotifications(0, user.GetNotificationCount()))
 	})
 
 	t.Run("multiple users", func(t *testing.T) {
 		// given
-		tag := getTestTag()
+		tag := mock.NewTestTag()
 
-		notification := newTestNotification()
+		notification := mock.NewTestNotification()
 
-		user1, _ := newTestUserWithAsyncRepo()
-		user2, _ := newTestUserWithAsyncRepo()
+		user1, repo1 := mock.NewTestUserWithAsyncRepo()
+		user2, repo2 := mock.NewTestUserWithAsyncRepo()
 
 		user1.SubscribeToTag(&tag)
 		user2.SubscribeToTag(&tag)
@@ -103,10 +104,10 @@ func TestTag_Broadcast(t *testing.T) {
 		// then
 		require.NoError(t, err)
 
-		for _, user := range []*User{user1, user2} {
-			done := user.repo.(*mockAsyncNotificationRepository).NotificationSaved
-			util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
-		}
+		done1 := repo1.NotificationSaved
+		util.AsyncAssert(t, done1).ElementsMatch([]Notification{notification}, user1.GetNotifications(0, user1.GetNotificationCount()))
+		done2 := repo2.NotificationSaved
+		util.AsyncAssert(t, done2).ElementsMatch([]Notification{notification}, user2.GetNotifications(0, user2.GetNotificationCount()))
 	})
 }
 
@@ -138,6 +139,6 @@ func TestTag_removeTag(t *testing.T) {
 
 		// then
 		require.Error(t, err)
-		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, name), err.Error())
+		assert.Equal(t, fmt.Sprintf(NoMatchingTagsWhenRemoveErrorFormat, name), err.Error())
 	})
 }

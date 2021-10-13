@@ -63,7 +63,7 @@ type SendError struct {
 
 func (e *SendError) Error() string {
 	if len(e.Tags) == 0 {
-		return fmt.Sprintf(noTagsWhenSendErrorFormat, e.App.Name, e.App.ID, e.Notification)
+		return fmt.Sprintf(NoTagsWhenSendErrorFormat, e.App.Name, e.App.ID, e.Notification)
 	}
 
 	var tags []string
@@ -71,12 +71,12 @@ func (e *SendError) Error() string {
 		tags = append(tags, tag.Name)
 	}
 
-	return fmt.Sprintf(noUsersInTagsWhenSendErrorFormat, tags, e.App.Name, e.App.ID, e.Notification)
+	return fmt.Sprintf(NoUsersInTagsWhenSendErrorFormat, tags, e.App.Name, e.App.ID, e.Notification)
 }
 
 const (
-	noTagsWhenSendErrorFormat        = "no tags for %s#%s when sending %s"
-	noUsersInTagsWhenSendErrorFormat = "tags: %v for %s#%s did not have registered users when sending %s"
+	NoTagsWhenSendErrorFormat        = "no tags for %s#%s when sending %s"
+	NoUsersInTagsWhenSendErrorFormat = "tags: %v for %s#%s did not have registered users when sending %s"
 )
 
 type CommandHandler interface {

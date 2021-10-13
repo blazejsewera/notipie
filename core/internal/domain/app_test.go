@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/internal/domain/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -10,7 +11,7 @@ import (
 
 func TestApp_Start(t *testing.T) {
 	// given
-	app := newTestApp()
+	app := mock.NewTestApp()
 
 	// when
 	app.Start()
@@ -21,8 +22,8 @@ func TestApp_Start(t *testing.T) {
 
 func TestApp_AddTag(t *testing.T) {
 	// given
-	tag := getTestTag()
-	app := newTestApp()
+	tag := mock.NewTestTag()
+	app := mock.NewTestApp()
 
 	// when
 	app.AddTag(&tag)
@@ -34,8 +35,8 @@ func TestApp_AddTag(t *testing.T) {
 func TestApp_RemoveTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		tag := getTestTag()
-		app := newTestApp()
+		tag := mock.NewTestTag()
+		app := mock.NewTestApp()
 		app.tags = []*Tag{&tag}
 
 		// when
@@ -48,8 +49,8 @@ func TestApp_RemoveTag(t *testing.T) {
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		tag := getTestTag()
-		app := newTestApp()
+		tag := mock.NewTestTag()
+		app := mock.NewTestApp()
 		app.tags = []*Tag{{Name: "TestTag2"}}
 
 		// when
@@ -57,13 +58,13 @@ func TestApp_RemoveTag(t *testing.T) {
 
 		// then
 		require.Error(t, err)
-		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
+		assert.Equal(t, fmt.Sprintf(NoMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
 }
 
 func TestApp_HandleCommand(t *testing.T) {
 	// given
-	commandHandler := mockCommandHandler{}
+	commandHandler := mock.CommandHandler{}
 	app := App{commandHandler: &commandHandler}
 	command := Command{}
 	app.Start()

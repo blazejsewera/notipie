@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/internal/domain/mock"
 	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -11,13 +12,13 @@ import (
 
 func TestUser_GetNotifications(t *testing.T) {
 	// given
-	user, repo := newTestUser()
-	notifications := get5TestNotifications()
+	user, repo := mock.NewTestUser()
+	notifications := mock.New5TestNotifications()
 	repo.Notifications = notifications
 
 	t.Run("get all notifications from user", func(t *testing.T) {
 		// when
-		have := user.getAllNotifications()
+		have := user.GetNotifications(0, user.GetNotificationCount())
 
 		// then
 		assert.ElementsMatch(t, notifications, have)
@@ -53,11 +54,11 @@ func TestUser_GetNotifications(t *testing.T) {
 
 func TestUser_ReceiveNotification(t *testing.T) {
 	// given
-	notification := newTestNotification()
+	notification := mock.NewTestNotification()
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		user, _ := newTestUser()
+		user, _ := mock.NewTestUser()
 
 		// when
 		done := util.AsyncRun(func() {
@@ -65,12 +66,12 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		})
 
 		// then
-		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
+		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
-		user, _ := newTestUser()
+		user, _ := mock.NewTestUser()
 
 		// when
 		done := util.AsyncRun(func() {
@@ -80,15 +81,15 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		})
 
 		// then
-		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.getAllNotifications())
+		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
 	})
 }
 
 func TestUser_Listen(t *testing.T) {
 	// given
-	user, _ := newTestUser()
+	user, _ := mock.NewTestUser()
 
-	notification := newTestNotification()
+	notification := mock.NewTestNotification()
 
 	timeout := time.After(200 * time.Millisecond)
 	user.Listen()
@@ -97,7 +98,7 @@ func TestUser_Listen(t *testing.T) {
 	select {
 	case user.NotificationChan <- notification:
 		// then
-		assert.Equal(t, []Notification{notification}, user.getAllNotifications())
+		assert.Equal(t, []Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
 	case <-timeout:
 		assert.Fail(t, "user.NotificationChan blocked for over 200ms")
 	}
@@ -105,8 +106,8 @@ func TestUser_Listen(t *testing.T) {
 
 func TestUser_SubscribeToTag(t *testing.T) {
 	// given
-	user, _ := newTestUser()
-	tag := getTestTag()
+	user, _ := mock.NewTestUser()
+	tag := mock.NewTestTag()
 
 	// when
 	user.SubscribeToTag(&tag)
@@ -118,8 +119,8 @@ func TestUser_SubscribeToTag(t *testing.T) {
 func TestUser_UnsubscribeFromTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		user, _ := newTestUser()
-		tag := getTestTag()
+		user, _ := mock.NewTestUser()
+		tag := mock.NewTestTag()
 		user.tags = []*Tag{&tag}
 
 		// when
@@ -132,8 +133,8 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		user, _ := newTestUser()
-		tag := getTestTag()
+		user, _ := mock.NewTestUser()
+		tag := mock.NewTestTag()
 		user.tags = []*Tag{}
 
 		// when
@@ -141,6 +142,6 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 
 		// then
 		require.Error(t, err)
-		assert.Equal(t, fmt.Sprintf(noMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
+		assert.Equal(t, fmt.Sprintf(NoMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
 }

@@ -12,6 +12,10 @@ type User struct {
 	lastNotificationID string
 }
 
+func NewUser(id, username string, repo NotificationRepository) *User {
+	return &User{ID: id, Username: username, repo: repo}
+}
+
 func (u *User) Listen() {
 	if u.NotificationChan == nil {
 		u.NotificationChan = make(chan Notification)
@@ -42,10 +46,6 @@ func (u *User) UnsubscribeFromTag(name string) (err error) {
 	defer u.tagsMutex.Unlock()
 	u.tags, err = removeTag(u.tags, name)
 	return
-}
-
-func (u *User) getAllNotifications() []Notification {
-	return u.repo.GetNotifications(0, u.repo.GetNotificationCount())
 }
 
 func (u *User) GetLastNotifications(n int) []Notification {

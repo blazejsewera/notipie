@@ -28,7 +28,7 @@ func (t *Tag) Listen() {
 
 func (t *Tag) broadcast(notification Notification) error {
 	if len(t.Users) == 0 {
-		return fmt.Errorf(noUserWhenBroadcastErrorMessage)
+		return fmt.Errorf(NoUserWhenBroadcastErrorMessage)
 	}
 
 	for _, user := range t.Users {
@@ -50,8 +50,8 @@ func (t *Tag) registerApp(app *App) {
 }
 
 const (
-	noUserWhenBroadcastErrorMessage     = "no users to broadcast to"
-	noMatchingTagsWhenRemoveErrorFormat = "tag %q not found"
+	NoUserWhenBroadcastErrorMessage     = "no users to broadcast to"
+	NoMatchingTagsWhenRemoveErrorFormat = "tag %q not found"
 )
 
 func removeTag(tags []*Tag, name string) ([]*Tag, error) {
@@ -65,7 +65,7 @@ func removeTag(tags []*Tag, name string) ([]*Tag, error) {
 	}
 
 	if !found {
-		return nil, fmt.Errorf(noMatchingTagsWhenRemoveErrorFormat, name)
+		return nil, fmt.Errorf(NoMatchingTagsWhenRemoveErrorFormat, name)
 	}
 	return reduced, nil
 }
