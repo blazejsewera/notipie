@@ -1,7 +1,7 @@
-package domain
+package domain_test
 
 import (
-	"github.com/jazzsewera/notipie/core/internal/domain/mock"
+	"github.com/jazzsewera/notipie/core/internal/domain/domain_test/mock"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

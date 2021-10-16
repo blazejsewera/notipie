@@ -1,8 +1,9 @@
-package domain
+package domain_test
 
 import (
 	"fmt"
-	"github.com/jazzsewera/notipie/core/internal/domain/mock"
+	"github.com/jazzsewera/notipie/core/internal/domain"
+	mock2 "github.com/jazzsewera/notipie/core/internal/domain/domain_test/mock"
 	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -12,8 +13,8 @@ import (
 
 func TestUser_GetNotifications(t *testing.T) {
 	// given
-	user, repo := mock.NewTestUser()
-	notifications := mock.New5TestNotifications()
+	user, repo := mock2.NewTestUser()
+	notifications := mock2.New5TestNotifications()
 	repo.Notifications = notifications
 
 	t.Run("get all notifications from user", func(t *testing.T) {
@@ -54,11 +55,11 @@ func TestUser_GetNotifications(t *testing.T) {
 
 func TestUser_ReceiveNotification(t *testing.T) {
 	// given
-	notification := mock.NewTestNotification()
+	notification := mock2.NewTestNotification()
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		user, _ := mock.NewTestUser()
+		user, _ := mock2.NewTestUser()
 
 		// when
 		done := util.AsyncRun(func() {
@@ -66,12 +67,12 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		})
 
 		// then
-		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
+		util.AsyncAssert(t, done).ElementsMatch([]domain.Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
-		user, _ := mock.NewTestUser()
+		user, _ := mock2.NewTestUser()
 
 		// when
 		done := util.AsyncRun(func() {
@@ -81,15 +82,15 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		})
 
 		// then
-		util.AsyncAssert(t, done).ElementsMatch([]Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
+		util.AsyncAssert(t, done).ElementsMatch([]domain.Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
 	})
 }
 
 func TestUser_Listen(t *testing.T) {
 	// given
-	user, _ := mock.NewTestUser()
+	user, _ := mock2.NewTestUser()
 
-	notification := mock.NewTestNotification()
+	notification := mock2.NewTestNotification()
 
 	timeout := time.After(200 * time.Millisecond)
 	user.Listen()
@@ -98,7 +99,7 @@ func TestUser_Listen(t *testing.T) {
 	select {
 	case user.NotificationChan <- notification:
 		// then
-		assert.Equal(t, []Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
+		assert.Equal(t, []domain.Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
 	case <-timeout:
 		assert.Fail(t, "user.NotificationChan blocked for over 200ms")
 	}
@@ -106,42 +107,42 @@ func TestUser_Listen(t *testing.T) {
 
 func TestUser_SubscribeToTag(t *testing.T) {
 	// given
-	user, _ := mock.NewTestUser()
-	tag := mock.NewTestTag()
+	user, _ := mock2.NewTestUser()
+	tag := mock2.NewTestTag()
 
 	// when
 	user.SubscribeToTag(&tag)
 
 	// then
-	assert.ElementsMatch(t, []*Tag{&tag}, user.tags)
+	assert.ElementsMatch(t, []*domain.Tag{&tag}, user.Tags)
 }
 
 func TestUser_UnsubscribeFromTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		user, _ := mock.NewTestUser()
-		tag := mock.NewTestTag()
-		user.tags = []*Tag{&tag}
+		user, _ := mock2.NewTestUser()
+		tag := mock2.NewTestTag()
+		user.Tags = []*domain.Tag{&tag}
 
 		// when
 		err := user.UnsubscribeFromTag(tag.Name)
 
 		// then
 		require.NoError(t, err)
-		assert.Empty(t, user.tags)
+		assert.Empty(t, user.Tags)
 	})
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		user, _ := mock.NewTestUser()
-		tag := mock.NewTestTag()
-		user.tags = []*Tag{}
+		user, _ := mock2.NewTestUser()
+		tag := mock2.NewTestTag()
+		user.Tags = []*domain.Tag{}
 
 		// when
 		err := user.UnsubscribeFromTag(tag.Name)
 
 		// then
 		require.Error(t, err)
-		assert.Equal(t, fmt.Sprintf(NoMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
+		assert.Equal(t, fmt.Sprintf(domain.NoMatchingTagsWhenRemoveErrorFormat, tag.Name), err.Error())
 	})
 }

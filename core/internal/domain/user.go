@@ -6,8 +6,8 @@ type User struct {
 	ID                 string
 	Username           string
 	NotificationChan   chan Notification
+	Tags               []*Tag
 	repo               NotificationRepository
-	tags               []*Tag
 	tagsMutex          sync.Mutex
 	lastNotificationID string
 }
@@ -36,7 +36,7 @@ func (u *User) Receive(notification Notification) {
 
 func (u *User) SubscribeToTag(tag *Tag) {
 	u.tagsMutex.Lock()
-	u.tags = append(u.tags, tag)
+	u.Tags = append(u.Tags, tag)
 	u.tagsMutex.Unlock()
 	tag.registerUser(u)
 }
@@ -44,7 +44,7 @@ func (u *User) SubscribeToTag(tag *Tag) {
 func (u *User) UnsubscribeFromTag(name string) (err error) {
 	u.tagsMutex.Lock()
 	defer u.tagsMutex.Unlock()
-	u.tags, err = removeTag(u.tags, name)
+	u.Tags, err = removeTag(u.Tags, name)
 	return
 }
 

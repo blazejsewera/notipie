@@ -55,6 +55,10 @@ func (a *App) RemoveTag(name string) (err error) {
 	return
 }
 
+func (a *App) GetTags() []*Tag {
+	return a.tags
+}
+
 type SendError struct {
 	*App
 	Notification

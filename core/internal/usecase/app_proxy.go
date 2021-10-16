@@ -7,9 +7,5 @@ type AppProxy struct {
 }
 
 func (p *AppProxy) OnReceive(notification domain.Notification) error {
-	err := p.app.Send(notification)
-	if err != nil {
-		return err
-	}
-	return nil
+	return p.app.Send(notification)
 }
