@@ -54,7 +54,8 @@ func TestUser_GetNotifications(t *testing.T) {
 
 func TestUser_ReceiveNotification(t *testing.T) {
 	// given
-	notification := NewTestNotification()
+	app, _ := NewTestApp()
+	notification := NewTestNotification(app)
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
@@ -89,7 +90,8 @@ func TestUser_Listen(t *testing.T) {
 	// given
 	user, _ := NewTestUser()
 
-	notification := NewTestNotification()
+	app, _ := NewTestApp()
+	notification := NewTestNotification(app)
 
 	timeout := time.After(200 * time.Millisecond)
 	user.Listen()

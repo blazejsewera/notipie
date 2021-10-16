@@ -6,13 +6,11 @@ import (
 	"time"
 )
 
-func NewTestNotification() domain.Notification {
-	app := NewTestApp()
-
+func NewTestNotification(app *domain.App) domain.Notification {
 	timestamp, _ := time.Parse(time.RFC3339, "2021-01-01T00:00:00Z")
 	return domain.Notification{
 		ID:        "1",
-		App:       &app,
+		App:       app,
 		Timestamp: timestamp,
 		Title:     "Test Notification",
 		Body:      "First line of body\nSecond line of body",

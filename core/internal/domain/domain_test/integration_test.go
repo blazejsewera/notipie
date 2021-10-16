@@ -11,8 +11,8 @@ import (
 func TestIntegration_AppToUser(t *testing.T) {
 	t.Run("send notification - no tag and no users", func(t *testing.T) {
 		// given
-		app := NewTestApp()
-		notification := NewTestNotification()
+		app, _ := NewTestApp()
+		notification := NewTestNotification(app)
 
 		// when
 		err := app.Send(notification)
@@ -27,8 +27,8 @@ func TestIntegration_AppToUser(t *testing.T) {
 		// given
 		tag := NewTestTag()
 		tag.Listen()
-		app := NewTestApp()
-		notification := NewTestNotification()
+		app, _ := NewTestApp()
+		notification := NewTestNotification(app)
 
 		app.AddTag(&tag)
 
@@ -46,7 +46,7 @@ func TestIntegration_AppToUser(t *testing.T) {
 		tag2 := NewTestTag()
 		tag2.Listen()
 
-		app := NewTestApp()
+		app, _ := NewTestApp()
 		app.AddTag(&tag1)
 		app.AddTag(&tag2)
 
@@ -60,7 +60,7 @@ func TestIntegration_AppToUser(t *testing.T) {
 		user1.Listen()
 		user2.Listen()
 
-		notification := NewTestNotification()
+		notification := NewTestNotification(app)
 
 		// when
 		err := app.Send(notification)
@@ -89,21 +89,29 @@ func TestIntegration_UserToApp(t *testing.T) {
 		tag := NewTestTag()
 		tag.Listen()
 
-		app := NewTestApp()
+		app, handler := NewTestApp()
 		app.AddTag(&tag)
+		app.Start()
 
 		user, _ := NewTestUser()
 
 		user.SubscribeToTag(&tag)
 		user.Listen()
 
-		notification := NewTestNotification()
+		notification := NewTestNotification(app)
 
 		err := app.Send(notification)
 
+		command := domain.Command{}
+
 		// when
-		if err != nil {
-			// user.RespondWithCommand
-		}
+		util.AsyncRun(func() {
+			if assert.NoError(t, err) {
+				user.Respond(notification, command)
+			}
+		})
+
+		// then
+		util.AsyncAssert(t, handler.CommandHandled).Equal(command, handler.Command)
 	})
 }

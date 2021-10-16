@@ -8,12 +8,16 @@ import (
 type App struct {
 	ID             string
 	Name           string
-	SmallIconURL   string
-	BigIconURL     string
+	SmallIconURI   string
+	BigIconURI     string
 	CommandChan    chan Command
 	tags           []*Tag
 	tagsMutex      sync.Mutex
 	commandHandler CommandHandler
+}
+
+func NewApp(id, name, smallIconURI, bigIconURI string, commandHandler CommandHandler) *App {
+	return &App{ID: id, Name: name, SmallIconURI: smallIconURI, BigIconURI: bigIconURI, commandHandler: commandHandler}
 }
 
 func (a *App) Start() {
@@ -35,6 +39,8 @@ func (a *App) Send(notification Notification) error {
 			Notification: notification,
 		}
 	}
+
+	notification.App = a
 
 	for _, tag := range a.tags {
 		tag.NotificationChan <- notification

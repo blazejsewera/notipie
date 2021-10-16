@@ -60,6 +60,11 @@ func (u *User) GetNotificationCount() int {
 	return u.repo.GetNotificationCount()
 }
 
+func (u *User) Respond(notification Notification, command Command) {
+	app := notification.App
+	app.CommandChan <- command
+}
+
 type NotificationRepository interface {
 	SaveNotification(notification Notification)
 	GetLastNotifications(n int) []Notification
