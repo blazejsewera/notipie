@@ -35,6 +35,10 @@ func (r *NotificationRepository) GetLastNotifications(n int) []domain.Notificati
 	return r.Notifications[len(r.Notifications)-n:]
 }
 
+func GetAllNotificationsFor(u *domain.User) []domain.Notification {
+	return u.GetNotifications(0, u.GetNotificationCount())
+}
+
 type AsyncNotificationRepository struct {
 	NotificationRepository
 	NotificationSaved chan struct{}

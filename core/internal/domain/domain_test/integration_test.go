@@ -70,18 +70,20 @@ func TestIntegration_AppToUser(t *testing.T) {
 		if assert.NoError(t, err) {
 
 			done1 := repo1.NotificationSaved
-			util.AsyncAssert(t, done1).ElementsMatch([]domain.Notification{notification}, getAllNotificationsFor(user1))
+			util.AsyncAssert(t, done1).ElementsMatch(
+				[]domain.Notification{notification},
+				mock.GetAllNotificationsFor(user1),
+			)
 
 			done2 := repo2.NotificationSaved
-			util.AsyncAssert(t, done2).ElementsMatch([]domain.Notification{notification}, getAllNotificationsFor(user2))
+			util.AsyncAssert(t, done2).ElementsMatch(
+				[]domain.Notification{notification},
+				mock.GetAllNotificationsFor(user2),
+			)
 		}
 	})
 
 	t.Run("receive command after sent notification", func(t *testing.T) {
 		// TODO: write this test
 	})
-}
-
-func getAllNotificationsFor(u *domain.User) []domain.Notification {
-	return u.GetNotifications(0, u.GetNotificationCount())
 }
