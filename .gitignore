@@ -12,3 +12,7 @@ yarn-error.log
 
 # macOS files
 .DS_Store
+
+# GoLand (JetBrains IDE)
+.idea/*
+!.idea/runConfigurations

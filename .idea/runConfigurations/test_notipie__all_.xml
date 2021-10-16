@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test notipie (all)" type="CompoundRunConfigurationType">
+    <toRun name="yarn test notipie/ui" type="JavaScriptTestRunnerJest" />
+    <toRun name="go test notipie/core" type="GoTestRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>
