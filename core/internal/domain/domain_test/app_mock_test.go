@@ -1,12 +1,12 @@
-package mock
+package domain_test
 
 import "github.com/jazzsewera/notipie/core/internal/domain"
 
-type CommandHandler struct {
+type MockCommandHandler struct {
 	Command domain.Command
 }
 
-func (h *CommandHandler) HandleCommand(command domain.Command) {
+func (h *MockCommandHandler) HandleCommand(command domain.Command) {
 	h.Command = command
 }
 

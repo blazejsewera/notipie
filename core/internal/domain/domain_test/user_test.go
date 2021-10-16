@@ -3,7 +3,6 @@ package domain_test
 import (
 	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/domain"
-	mock2 "github.com/jazzsewera/notipie/core/internal/domain/domain_test/mock"
 	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -13,8 +12,8 @@ import (
 
 func TestUser_GetNotifications(t *testing.T) {
 	// given
-	user, repo := mock2.NewTestUser()
-	notifications := mock2.New5TestNotifications()
+	user, repo := NewTestUser()
+	notifications := New5TestNotifications()
 	repo.Notifications = notifications
 
 	t.Run("get all notifications from user", func(t *testing.T) {
@@ -55,11 +54,11 @@ func TestUser_GetNotifications(t *testing.T) {
 
 func TestUser_ReceiveNotification(t *testing.T) {
 	// given
-	notification := mock2.NewTestNotification()
+	notification := NewTestNotification()
 
 	t.Run("single receive", func(t *testing.T) {
 		// given
-		user, _ := mock2.NewTestUser()
+		user, _ := NewTestUser()
 
 		// when
 		done := util.AsyncRun(func() {
@@ -72,7 +71,7 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
 		// given
-		user, _ := mock2.NewTestUser()
+		user, _ := NewTestUser()
 
 		// when
 		done := util.AsyncRun(func() {
@@ -88,9 +87,9 @@ func TestUser_ReceiveNotification(t *testing.T) {
 
 func TestUser_Listen(t *testing.T) {
 	// given
-	user, _ := mock2.NewTestUser()
+	user, _ := NewTestUser()
 
-	notification := mock2.NewTestNotification()
+	notification := NewTestNotification()
 
 	timeout := time.After(200 * time.Millisecond)
 	user.Listen()
@@ -107,8 +106,8 @@ func TestUser_Listen(t *testing.T) {
 
 func TestUser_SubscribeToTag(t *testing.T) {
 	// given
-	user, _ := mock2.NewTestUser()
-	tag := mock2.NewTestTag()
+	user, _ := NewTestUser()
+	tag := NewTestTag()
 
 	// when
 	user.SubscribeToTag(&tag)
@@ -120,8 +119,8 @@ func TestUser_SubscribeToTag(t *testing.T) {
 func TestUser_UnsubscribeFromTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		user, _ := mock2.NewTestUser()
-		tag := mock2.NewTestTag()
+		user, _ := NewTestUser()
+		tag := NewTestTag()
 		user.Tags = []*domain.Tag{&tag}
 
 		// when
@@ -134,8 +133,8 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		user, _ := mock2.NewTestUser()
-		tag := mock2.NewTestTag()
+		user, _ := NewTestUser()
+		tag := NewTestTag()
 		user.Tags = []*domain.Tag{}
 
 		// when

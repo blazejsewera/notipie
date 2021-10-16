@@ -1,4 +1,4 @@
-package mock
+package domain_test
 
 import "github.com/jazzsewera/notipie/core/internal/domain"
 

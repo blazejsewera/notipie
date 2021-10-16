@@ -3,14 +3,13 @@ package domain_test
 import (
 	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/domain"
-	"github.com/jazzsewera/notipie/core/internal/domain/domain_test/mock"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestApp_Start(t *testing.T) {
 	// given
-	app := mock.NewTestApp()
+	app := NewTestApp()
 
 	// when
 	app.Start()
@@ -21,8 +20,8 @@ func TestApp_Start(t *testing.T) {
 
 func TestApp_AddTag(t *testing.T) {
 	// given
-	tag := mock.NewTestTag()
-	app := mock.NewTestApp()
+	tag := NewTestTag()
+	app := NewTestApp()
 
 	// when
 	app.AddTag(&tag)
@@ -34,8 +33,8 @@ func TestApp_AddTag(t *testing.T) {
 func TestApp_RemoveTag(t *testing.T) {
 	t.Run("found", func(t *testing.T) {
 		// given
-		tag := mock.NewTestTag()
-		app := mock.NewTestApp()
+		tag := NewTestTag()
+		app := NewTestApp()
 		app.AddTag(&tag)
 
 		// when
@@ -49,8 +48,8 @@ func TestApp_RemoveTag(t *testing.T) {
 
 	t.Run("not found", func(t *testing.T) {
 		// given
-		tag := mock.NewTestTag()
-		app := mock.NewTestApp()
+		tag := NewTestTag()
+		app := NewTestApp()
 		app.AddTag(&domain.Tag{Name: "OtherTestTag"})
 
 		// when
