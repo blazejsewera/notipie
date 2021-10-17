@@ -15,16 +15,17 @@ export const ExampleNotificationContainer: Story<NotificationContainerProps> = (
 )
 
 ExampleNotificationContainer.args = {
+  title: 'Tag title',
   intl: intlMock,
   notifications: [
-    { appName: 'A1', title: 'Title 1', timestamp: '2 hours ago', uuid: '1' },
+    { appName: 'A1', title: 'Title 1', timestamp: '2 hours ago', id: '1' },
     {
       appName: 'A2',
       title: 'Title 2',
       subtitle: 'Subtitle 2',
       body: fiveSentenceLoremIpsum,
       timestamp: '3 hours ago',
-      uuid: '2',
+      id: '2',
     },
   ],
 }

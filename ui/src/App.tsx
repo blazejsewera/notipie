@@ -9,8 +9,8 @@ import { NotificationContainer } from './component/notification/container/Notifi
 export const App: FC = () => {
   const notifications = [full, fullWithImage, partial, minimal]
   return (
-    <div className="App bg-gray-100 min-h-screen p-10">
-      <NotificationContainer notifications={notifications} intl={intl} />
+    <div className="App bg-gray-200 min-h-screen p-10">
+      <NotificationContainer title="Tag title" notifications={notifications} intl={intl} />
     </div>
   )
 }

@@ -5,5 +5,5 @@ export type Notification = {
   title: string
   subtitle?: string
   body?: string
-  uuid?: string
+  id?: string
 }

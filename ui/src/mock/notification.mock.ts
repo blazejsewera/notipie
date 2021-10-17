@@ -11,7 +11,7 @@ export const full: Notification = {
   subtitle: '— notipie',
   body,
   timestamp: '2 hours ago',
-  uuid: '1',
+  id: '1',
 }
 
 export const fullWithImage: Notification = {
@@ -24,12 +24,12 @@ export const partial: Notification = {
   title: full.title,
   body: full.body,
   timestamp: full.timestamp,
-  uuid: '2',
+  id: '2',
 }
 
 export const minimal: Notification = {
   appName: full.appName,
   title: full.title,
   timestamp: full.timestamp,
-  uuid: '3',
+  id: '3',
 }
