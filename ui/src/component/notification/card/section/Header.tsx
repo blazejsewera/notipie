@@ -8,6 +8,10 @@ import { Title } from '../text/Title'
 export interface HeaderProps {
   appName: string
   appImgUri?: string
+  /**
+   * @deprecated bgColor will be generated automatically from appName in the future,
+   * expect this prop to be removed
+   */
   bgColor?: string
   title: string
   subtitle?: string

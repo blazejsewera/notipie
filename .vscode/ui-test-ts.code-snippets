@@ -1,0 +1,17 @@
+{
+  "React Test": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "rtest",
+    "body": [
+      "import * as React from 'react'",
+      // TODO: make the snippet remove the .test suffix
+      "import { ${TM_FILENAME_BASE:/^(.*).test$/$1/} } from '../${TM_FILENAME_BASE:/^(.*).test$/$1/}'",
+      "",
+      "describe('$1', () => {",
+      "\tit('$2', () => {",
+      "\t\t$0",
+      "\t})",
+      "})"
+    ]
+  }
+}

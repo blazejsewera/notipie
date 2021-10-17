@@ -7,6 +7,10 @@ import { InitialsAppAvatar } from './InitialsAppAvatar'
 export interface AppAvatarProps {
   appName: string
   appImgUri?: string
+  /**
+   * @deprecated bgColor will be generated automatically from appName in the future,
+   * expect this prop to be removed
+   */
   bgColor?: string
   size?: 'small' | 'medium' | 'large'
 }
