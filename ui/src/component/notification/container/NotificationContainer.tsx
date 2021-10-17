@@ -14,7 +14,7 @@ export interface NotificationContainerProps {
 
 export const NotificationContainer: FC<NotificationContainerProps> = ({ title, notifications, intl }) => {
   return (
-    <div className={cx('bg-gray-100', 'inline-block', 'p-5', 'rounded-xl', 'shadow-lg')}>
+    <div className={cx('bg-gray-100', 'inline-block', 'p-5', 'pb-6', 'rounded-3xl', 'shadow-xl')}>
       <Header title={title} />
       <div className={cx('grid grid-cols-1 space-y-5')}>
         {notifications.map((notification) => (

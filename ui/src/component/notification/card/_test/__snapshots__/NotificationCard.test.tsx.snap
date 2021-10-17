@@ -2,7 +2,7 @@
 
 exports[`NotificationCard component tests renders correctly with full notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -168,7 +168,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 
 exports[`NotificationCard component tests renders correctly with full with image notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -312,7 +312,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 
 exports[`NotificationCard component tests renders correctly with minimal notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -471,7 +471,7 @@ exports[`NotificationCard component tests renders correctly with minimal notific
 
 exports[`NotificationCard component tests renders correctly with partial notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-md relative"
+  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"

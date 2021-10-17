@@ -17,6 +17,20 @@
       }
     },
     {
+      "label": "ui/test update snapshots",
+      "group": "test",
+      "command": "yarn test -u",
+      "type": "shell",
+      "options": {
+        "cwd": "ui"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
       "label": "ui/test watch",
       "group": "test",
       "command": "yarn test:watch",

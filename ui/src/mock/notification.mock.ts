@@ -1,5 +1,6 @@
 import type { Notification } from '../type/notification'
-import githubIcon from './asset/github-icon.svg'
+import { fiveSentenceLoremIpsum } from './asset/text/lipsum'
+import githubIcon from './asset/icon/github-icon.svg'
 
 const body = `#12 add some new amazing functionality
 
@@ -11,12 +12,19 @@ export const full: Notification = {
   subtitle: '— notipie',
   body,
   timestamp: '2 hours ago',
-  id: '1',
+  id: '0',
 }
 
 export const fullWithImage: Notification = {
   ...full,
+  id: '1',
   appImgUri: githubIcon,
+}
+
+export const fullWithLoremIpsum: Notification = {
+  ...full,
+  id: '2',
+  body: fiveSentenceLoremIpsum,
 }
 
 export const partial: Notification = {
@@ -24,12 +32,12 @@ export const partial: Notification = {
   title: full.title,
   body: full.body,
   timestamp: full.timestamp,
-  id: '2',
+  id: '3',
 }
 
 export const minimal: Notification = {
   appName: full.appName,
   title: full.title,
   timestamp: full.timestamp,
-  id: '3',
+  id: '4',
 }
