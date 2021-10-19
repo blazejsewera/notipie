@@ -35,6 +35,8 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-empty-interface': 0,
+    '@typescript-eslint/no-empty-function': ['error', { allow: ['arrowFunctions'] }],
+    'no-empty-function': 'off',
     'react/prop-types': 0,
   },
 }

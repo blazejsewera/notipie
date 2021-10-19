@@ -4,13 +4,15 @@ import type { Notification } from '../../../../type/notification'
 import { intlMock } from '../../../../mock/intl.mock'
 import { NotificationContainer } from '../NotificationContainer'
 import { full, minimal } from '../../../../mock/notification.mock'
+import type { NotificationContainerHandlers } from '../../../../type/handler'
 
 describe('NotificationContainer component', () => {
   // given
   const intl = intlMock
+  const handlers: NotificationContainerHandlers = { onCheckAll: jest.fn() }
 
   const testNotificationContainer = (notifications: Notification[]) => {
-    const tree = render(<NotificationContainer {...{ title: 'TestTitle', notifications, intl }} />).toJSON()
+    const tree = render(<NotificationContainer {...{ title: 'TestTitle', notifications, intl, handlers }} />).toJSON()
     expect(tree).toMatchSnapshot()
   }
 

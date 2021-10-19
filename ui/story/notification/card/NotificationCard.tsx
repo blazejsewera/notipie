@@ -13,6 +13,7 @@ export default {
 
 const NotificationCardStoryFactory = (notification: Notification) => {
   const story: Story<NotificationCardProps> = (args) => <NotificationCard {...args} />
+
   story.args = {
     intl: intlMock,
     notification,

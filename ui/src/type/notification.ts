@@ -1,3 +1,5 @@
+import { NotificationCardHandlers } from './handler'
+
 export type Notification = {
   appName: string
   timestamp: string
@@ -6,4 +8,10 @@ export type Notification = {
   subtitle?: string
   body?: string
   id?: string
+  handlers: NotificationCardHandlers
+}
+
+export type NotificationWithHandlers = {
+  notification: Notification
+  handlers: NotificationCardHandlers
 }

@@ -52,7 +52,7 @@ exports[`NotificationCard component renders correctly with full notification 1`]
     </div>
   </div>
   <div
-    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
   />
   <p
     className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
@@ -84,8 +84,10 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
     <div
       className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
     >
-      <div
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -115,9 +117,11 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             y2="12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -135,9 +139,11 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             points="20 6 9 17 4 12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -160,7 +166,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           />
         </svg>
-      </div>
+      </button>
     </div>
   </div>
 </div>
@@ -196,7 +202,7 @@ exports[`NotificationCard component renders correctly with full with image notif
     </div>
   </div>
   <div
-    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
   />
   <p
     className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
@@ -228,8 +234,10 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
     <div
       className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
     >
-      <div
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -259,9 +267,11 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             y2="12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -279,9 +289,11 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             points="20 6 9 17 4 12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -304,7 +316,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           />
         </svg>
-      </div>
+      </button>
     </div>
   </div>
 </div>
@@ -362,7 +374,7 @@ exports[`NotificationCard component renders correctly with full with very long t
     </div>
   </div>
   <div
-    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
   />
   <p
     className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
@@ -399,8 +411,10 @@ exports[`NotificationCard component renders correctly with full with very long t
     <div
       className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
     >
-      <div
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -430,9 +444,11 @@ exports[`NotificationCard component renders correctly with full with very long t
             y2="12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -450,9 +466,11 @@ exports[`NotificationCard component renders correctly with full with very long t
             points="20 6 9 17 4 12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -475,7 +493,7 @@ exports[`NotificationCard component renders correctly with full with very long t
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           />
         </svg>
-      </div>
+      </button>
     </div>
   </div>
 </div>
@@ -528,7 +546,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
     </div>
   </div>
   <div
-    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
   />
   <p
     className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
@@ -558,8 +576,10 @@ exports[`NotificationCard component renders correctly with minimal notification 
     <div
       className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
     >
-      <div
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -589,9 +609,11 @@ exports[`NotificationCard component renders correctly with minimal notification 
             y2="12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -609,9 +631,11 @@ exports[`NotificationCard component renders correctly with minimal notification 
             points="20 6 9 17 4 12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -634,7 +658,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           />
         </svg>
-      </div>
+      </button>
     </div>
   </div>
 </div>
@@ -687,7 +711,7 @@ exports[`NotificationCard component renders correctly with partial notification 
     </div>
   </div>
   <div
-    className="rounded-full w-1.5 h-1.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
   />
   <p
     className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
@@ -719,8 +743,10 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
     <div
       className="inline-grid grid-cols-3 gap-x-5 ml-auto my-auto mr-2"
     >
-      <div
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -750,9 +776,11 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             y2="12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -770,9 +798,11 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             points="20 6 9 17 4 12"
           />
         </svg>
-      </div>
-      <div
+      </button>
+      <button
         className="inline"
+        onClick={[Function]}
+        type="button"
       >
         <svg
           className="stroke-current text-gray-500 w-5 h-5"
@@ -795,7 +825,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           />
         </svg>
-      </div>
+      </button>
     </div>
   </div>
 </div>

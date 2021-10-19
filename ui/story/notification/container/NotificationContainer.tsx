@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Meta, Story } from '@storybook/react'
 import type { NotificationContainerProps } from '../../../src/component/notification/container/NotificationContainer'
 import { NotificationContainer } from '../../../src/component/notification/container/NotificationContainer'
-import { fiveSentenceLoremIpsum } from '../../../src/mock/asset/text/lipsum'
 import { intlMock } from '../../../src/mock/intl.mock'
+import { full, fullWithLoremIpsum, minimal, partial } from '../../../src/mock/notification.mock'
+import { handlers as mockContainerHandlers } from '../../../src/mock/notificationContainer.mock'
 
 export default {
   title: 'notification/container/NotificationContainer',
@@ -17,15 +18,6 @@ export const ExampleNotificationContainer: Story<NotificationContainerProps> = (
 ExampleNotificationContainer.args = {
   title: 'Tag title',
   intl: intlMock,
-  notifications: [
-    { appName: 'A1', title: 'Title 1', timestamp: '2 hours ago', id: '1' },
-    {
-      appName: 'A2',
-      title: 'Title 2',
-      subtitle: 'Subtitle 2',
-      body: fiveSentenceLoremIpsum,
-      timestamp: '3 hours ago',
-      id: '2',
-    },
-  ],
+  notifications: [full, fullWithLoremIpsum, partial, minimal],
+  handlers: mockContainerHandlers,
 }

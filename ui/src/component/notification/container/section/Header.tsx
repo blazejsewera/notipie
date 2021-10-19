@@ -2,15 +2,17 @@ import * as React from 'react'
 import type { FC } from '../../../../type/react'
 import { Title } from '../text/Title'
 import { cx } from '../../../../util/cx'
-import { CheckIcon } from '../sprite/icon/CheckIcon'
+import { CheckAllButton } from '../sprite/button/CheckAllButton'
+import type { OnNotificationContainerCheckAll } from '../../../../type/handler'
 
 export interface HeaderProps {
   title: string
+  onCheckAll: OnNotificationContainerCheckAll
 }
 
-export const Header: FC<HeaderProps> = ({ title }) => (
+export const Header: FC<HeaderProps> = ({ title, onCheckAll }) => (
   <div className={cx('flex', 'mb-4', 'mx-2')}>
     <Title>{title}</Title>
-    <CheckIcon />
+    <CheckAllButton onClick={onCheckAll} />
   </div>
 )

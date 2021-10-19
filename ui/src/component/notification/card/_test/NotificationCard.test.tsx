@@ -4,13 +4,19 @@ import type { Notification } from '../../../../type/notification'
 import { NotificationCard } from '../NotificationCard'
 import { intlMock } from '../../../../mock/intl.mock'
 import { full, fullWithImage, fullWithLoremIpsum, minimal, partial } from '../../../../mock/notification.mock'
+import type { NotificationCardHandlers } from '../../../../type/handler'
 
 describe('NotificationCard component', () => {
   // given
   const intl = intlMock
+  const handlers: NotificationCardHandlers = {
+    onArchive: jest.fn(),
+    onCheck: jest.fn(),
+    onSettings: jest.fn(),
+  }
 
   const testNotificationCard = (notification: Notification) => {
-    const tree = render(<NotificationCard notification={notification} intl={intl} />).toJSON()
+    const tree = render(<NotificationCard {...{ notification, intl, handlers }} />).toJSON()
     expect(tree).toMatchSnapshot()
   }
 

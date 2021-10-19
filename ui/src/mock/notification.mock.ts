@@ -1,10 +1,17 @@
 import type { Notification } from '../type/notification'
 import { fiveSentenceLoremIpsum } from './asset/text/lipsum'
 import githubIcon from './asset/icon/github-icon.svg'
+import { NotificationCardHandlers } from '../type/handler'
 
 const body = `#12 add some new amazing functionality
 
 Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.`
+
+const handlers: NotificationCardHandlers = {
+  onArchive: () => {},
+  onCheck: () => {},
+  onSettings: () => {},
+}
 
 export const full: Notification = {
   appName: 'Github',
@@ -13,6 +20,7 @@ export const full: Notification = {
   body,
   timestamp: '2 hours ago',
   id: '0',
+  handlers,
 }
 
 export const fullWithImage: Notification = {
@@ -33,6 +41,7 @@ export const partial: Notification = {
   body: full.body,
   timestamp: full.timestamp,
   id: '3',
+  handlers,
 }
 
 export const minimal: Notification = {
@@ -40,4 +49,5 @@ export const minimal: Notification = {
   title: full.title,
   timestamp: full.timestamp,
   id: '4',
+  handlers,
 }
