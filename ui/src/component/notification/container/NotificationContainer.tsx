@@ -2,9 +2,9 @@ import * as React from 'react'
 import type { FC } from '../../../type/react'
 import type { Notification } from '../../../type/notification'
 import type { Intl } from '../../../i18l/intl'
-import { NotificationCard } from '../card/NotificationCard'
 import { cx } from '../../../util/cx'
 import { Header } from './section/Header'
+import { NotificationCardList } from './section/NotificationCardList'
 
 export interface NotificationContainerProps {
   title: string
@@ -16,11 +16,7 @@ export const NotificationContainer: FC<NotificationContainerProps> = ({ title, n
   return (
     <div className={cx('bg-gray-100', 'inline-block', 'p-5', 'pb-6', 'rounded-3xl', 'shadow-xl')}>
       <Header title={title} />
-      <div className={cx('grid grid-cols-1 space-y-5')}>
-        {notifications.map((notification) => (
-          <NotificationCard key={notification.id} notification={notification} intl={intl} />
-        ))}
-      </div>
+      <NotificationCardList {...{ notifications, intl }} />
     </div>
   )
 }
