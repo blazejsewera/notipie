@@ -22,7 +22,7 @@ export const TrimmableText: FC<TrimmableTextProps> = ({ children, threshold = 15
     <span>
       {isTrimmed ? text.slice(0, threshold) : text}
       <span
-        className="text-blue-500 cursor-pointer"
+        className="text-blue-500 dark:text-blue-400 cursor-pointer"
         onClick={() => setIsTrimmed(!isTrimmed)}
         aria-label={isTrimmed ? gt('show more') : gt('show less')}
       >

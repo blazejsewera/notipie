@@ -2,7 +2,7 @@
 
 exports[`NotificationCard component renders correctly with full notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+  className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -40,22 +40,22 @@ exports[`NotificationCard component renders correctly with full notification 1`]
       className="my-auto inline-block ml-5"
     >
       <p
-        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+        className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
       >
         New Pull Request
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — notipie
       </p>
     </div>
   </div>
   <div
-    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
   />
   <p
-    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
   >
     <span>
       #12 add some new amazing functionality
@@ -70,13 +70,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       className="inline-block"
     >
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — by 
         Github
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         2 hours ago
       </p>
@@ -90,7 +90,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -124,7 +124,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -146,7 +146,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -174,13 +174,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 
 exports[`NotificationCard component renders correctly with full with image notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+  className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
   >
     <div
-      className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+      className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default border dark:bg-gray-300 dark:border-gray-300"
     >
       <img
         src="test-file-stub"
@@ -190,22 +190,22 @@ exports[`NotificationCard component renders correctly with full with image notif
       className="my-auto inline-block ml-5"
     >
       <p
-        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+        className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
       >
         New Pull Request
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — notipie
       </p>
     </div>
   </div>
   <div
-    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
   />
   <p
-    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
   >
     <span>
       #12 add some new amazing functionality
@@ -220,13 +220,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       className="inline-block"
     >
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — by 
         Github
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         2 hours ago
       </p>
@@ -240,7 +240,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -274,7 +274,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -296,7 +296,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -324,7 +324,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 
 exports[`NotificationCard component renders correctly with full with very long text notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+  className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -362,28 +362,28 @@ exports[`NotificationCard component renders correctly with full with very long t
       className="my-auto inline-block ml-5"
     >
       <p
-        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+        className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
       >
         New Pull Request
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — notipie
       </p>
     </div>
   </div>
   <div
-    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
   />
   <p
-    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
   >
     <span>
       Explicabo ipsum iusto qui porro iste possimus ad voluptatem. Nam maxime voluptatem nostrum deleniti saepe. Officia dolor velit sunt velit placeat amet
       <span
         aria-label="show more"
-        className="text-blue-500 cursor-pointer"
+        className="text-blue-500 dark:text-blue-400 cursor-pointer"
         onClick={[Function]}
       >
         [...]
@@ -397,13 +397,13 @@ exports[`NotificationCard component renders correctly with full with very long t
       className="inline-block"
     >
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — by 
         Github
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         2 hours ago
       </p>
@@ -417,7 +417,7 @@ exports[`NotificationCard component renders correctly with full with very long t
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -451,7 +451,7 @@ exports[`NotificationCard component renders correctly with full with very long t
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -473,7 +473,7 @@ exports[`NotificationCard component renders correctly with full with very long t
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -501,7 +501,7 @@ exports[`NotificationCard component renders correctly with full with very long t
 
 exports[`NotificationCard component renders correctly with minimal notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+  className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -539,17 +539,17 @@ exports[`NotificationCard component renders correctly with minimal notification 
       className="my-auto inline-block ml-5"
     >
       <p
-        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+        className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
       >
         New Pull Request
       </p>
     </div>
   </div>
   <div
-    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
   />
   <p
-    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
   >
     <span>
       
@@ -562,13 +562,13 @@ exports[`NotificationCard component renders correctly with minimal notification 
       className="inline-block"
     >
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — by 
         Github
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         2 hours ago
       </p>
@@ -582,7 +582,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -616,7 +616,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -638,7 +638,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -666,7 +666,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
 
 exports[`NotificationCard component renders correctly with partial notification 1`] = `
 <div
-  className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+  className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
 >
   <div
     className="flex"
@@ -704,17 +704,17 @@ exports[`NotificationCard component renders correctly with partial notification 
       className="my-auto inline-block ml-5"
     >
       <p
-        className="text-lg font-bold mb-0 leading-5 text-gray-800"
+        className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
       >
         New Pull Request
       </p>
     </div>
   </div>
   <div
-    className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+    className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
   />
   <p
-    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+    className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
   >
     <span>
       #12 add some new amazing functionality
@@ -729,13 +729,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       className="inline-block"
     >
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         — by 
         Github
       </p>
       <p
-        className="text-xs font-bold text-gray-500"
+        className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
         2 hours ago
       </p>
@@ -749,7 +749,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -783,7 +783,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"
@@ -805,7 +805,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         type="button"
       >
         <svg
-          className="stroke-current text-gray-500 w-5 h-5"
+          className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
           fill="none"
           height={24}
           stroke="currentColor"

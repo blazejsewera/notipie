@@ -7,5 +7,5 @@ export interface TitleProps {
 }
 
 export const Title: FC<TitleProps> = ({ children }) => (
-  <p className={cx('text-lg', 'font-bold', 'mb-0', 'leading-5', 'text-gray-800')}>{children}</p>
+  <p className={cx('text-lg', 'font-bold', 'mb-0', 'leading-5', 'text-gray-800', 'dark:text-gray-300')}>{children}</p>
 )

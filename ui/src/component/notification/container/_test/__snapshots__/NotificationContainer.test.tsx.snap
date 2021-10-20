@@ -2,13 +2,13 @@
 
 exports[`NotificationContainer component renders correctly with multiple notifications 1`] = `
 <div
-  className="bg-gray-100 inline-block p-5 pb-6 rounded-3xl shadow-xl"
+  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl"
 >
   <div
     className="flex mb-4 mx-2"
   >
     <p
-      className="text-2xl font-bold text-gray-800"
+      className="text-2xl font-bold text-gray-800 dark:text-gray-300"
     >
       TestTitle
     </p>
@@ -18,7 +18,7 @@ exports[`NotificationContainer component renders correctly with multiple notific
       type="button"
     >
       <svg
-        className="stroke-current text-gray-500 w-5 h-5"
+        className="stroke-current text-gray-500 dark:text-gray-300 w-5 h-5"
         fill="none"
         height={24}
         stroke="currentColor"
@@ -42,7 +42,7 @@ exports[`NotificationContainer component renders correctly with multiple notific
     className="grid grid-cols-1 space-y-5"
   >
     <div
-      className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+      className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
     >
       <div
         className="flex"
@@ -80,22 +80,22 @@ exports[`NotificationContainer component renders correctly with multiple notific
           className="my-auto inline-block ml-5"
         >
           <p
-            className="text-lg font-bold mb-0 leading-5 text-gray-800"
+            className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
           >
             New Pull Request
           </p>
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             — notipie
           </p>
         </div>
       </div>
       <div
-        className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+        className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
       />
       <p
-        className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+        className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
       >
         <span>
           #12 add some new amazing functionality
@@ -110,13 +110,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
           className="inline-block"
         >
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             — by 
             Github
           </p>
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             2 hours ago
           </p>
@@ -130,7 +130,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -164,7 +164,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -186,7 +186,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -211,7 +211,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       </div>
     </div>
     <div
-      className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+      className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
     >
       <div
         className="flex"
@@ -249,17 +249,17 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
           className="my-auto inline-block ml-5"
         >
           <p
-            className="text-lg font-bold mb-0 leading-5 text-gray-800"
+            className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
           >
             New Pull Request
           </p>
         </div>
       </div>
       <div
-        className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+        className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
       />
       <p
-        className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+        className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
       >
         <span>
           
@@ -272,13 +272,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
           className="inline-block"
         >
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             — by 
             Github
           </p>
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             2 hours ago
           </p>
@@ -292,7 +292,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -326,7 +326,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -348,7 +348,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -378,13 +378,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 
 exports[`NotificationContainer component renders correctly with no notifications 1`] = `
 <div
-  className="bg-gray-100 inline-block p-5 pb-6 rounded-3xl shadow-xl"
+  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl"
 >
   <div
     className="flex mb-4 mx-2"
   >
     <p
-      className="text-2xl font-bold text-gray-800"
+      className="text-2xl font-bold text-gray-800 dark:text-gray-300"
     >
       TestTitle
     </p>
@@ -394,7 +394,7 @@ exports[`NotificationContainer component renders correctly with no notifications
       type="button"
     >
       <svg
-        className="stroke-current text-gray-500 w-5 h-5"
+        className="stroke-current text-gray-500 dark:text-gray-300 w-5 h-5"
         fill="none"
         height={24}
         stroke="currentColor"
@@ -422,13 +422,13 @@ exports[`NotificationContainer component renders correctly with no notifications
 
 exports[`NotificationContainer component renders correctly with one notification 1`] = `
 <div
-  className="bg-gray-100 inline-block p-5 pb-6 rounded-3xl shadow-xl"
+  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl"
 >
   <div
     className="flex mb-4 mx-2"
   >
     <p
-      className="text-2xl font-bold text-gray-800"
+      className="text-2xl font-bold text-gray-800 dark:text-gray-300"
     >
       TestTitle
     </p>
@@ -438,7 +438,7 @@ exports[`NotificationContainer component renders correctly with one notification
       type="button"
     >
       <svg
-        className="stroke-current text-gray-500 w-5 h-5"
+        className="stroke-current text-gray-500 dark:text-gray-300 w-5 h-5"
         fill="none"
         height={24}
         stroke="currentColor"
@@ -462,7 +462,7 @@ exports[`NotificationContainer component renders correctly with one notification
     className="grid grid-cols-1 space-y-5"
   >
     <div
-      className="rounded-3xl bg-white w-80 p-5 shadow-lg relative"
+      className="rounded-3xl bg-white dark:bg-gray-800 w-80 p-5 shadow-lg relative"
     >
       <div
         className="flex"
@@ -500,22 +500,22 @@ exports[`NotificationContainer component renders correctly with one notification
           className="my-auto inline-block ml-5"
         >
           <p
-            className="text-lg font-bold mb-0 leading-5 text-gray-800"
+            className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
           >
             New Pull Request
           </p>
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             — notipie
           </p>
         </div>
       </div>
       <div
-        className="rounded-full w-2.5 h-2.5 bg-yellow-500 absolute top-4 right-4"
+        className="rounded-full w-2.5 h-2.5 bg-yellow-500 dark:bg-yellow-600 absolute top-4 right-4"
       />
       <p
-        className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800"
+        className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
       >
         <span>
           #12 add some new amazing functionality
@@ -530,13 +530,13 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
           className="inline-block"
         >
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             — by 
             Github
           </p>
           <p
-            className="text-xs font-bold text-gray-500"
+            className="text-xs font-bold text-gray-500 dark:text-gray-400"
           >
             2 hours ago
           </p>
@@ -550,7 +550,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -584,7 +584,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"
@@ -606,7 +606,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
             type="button"
           >
             <svg
-              className="stroke-current text-gray-500 w-5 h-5"
+              className="stroke-current text-gray-500 dark:text-gray-400 w-5 h-5"
               fill="none"
               height={24}
               stroke="currentColor"

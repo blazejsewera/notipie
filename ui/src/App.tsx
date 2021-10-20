@@ -10,8 +10,10 @@ import { NotificationContainer } from './component/notification/container/Notifi
 export const App: FC = () => {
   const notifications = [full, fullWithImage, partial, minimal]
   return (
-    <div className="App bg-gray-200 min-h-screen p-10">
-      <NotificationContainer title="Tag title" {...{ notifications, handlers: mockContainerHandlers, intl }} />
+    <div className="App dark min-h-screen">
+      <div className="bg-gray-200 dark:bg-gray-600 min-h-screen p-10">
+        <NotificationContainer title="Tag title" {...{ notifications, handlers: mockContainerHandlers, intl }} />
+      </div>
     </div>
   )
 }

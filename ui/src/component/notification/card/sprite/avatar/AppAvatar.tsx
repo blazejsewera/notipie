@@ -25,7 +25,7 @@ export const AppAvatar: FC<AppAvatarProps> = ({ appName, appImgUri, bgColor, siz
 
   if (appImgUri) {
     return (
-      <div className={cx(...sizeClasses, ...styleClasses)}>
+      <div className={cx(...sizeClasses, ...styleClasses, 'border', 'dark:bg-gray-300', 'dark:border-gray-300')}>
         <ImgAppAvatar appImgUri={appImgUri} />
       </div>
     )
