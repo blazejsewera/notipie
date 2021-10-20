@@ -8,7 +8,7 @@ export default {
   component: AppAvatar,
 } as Meta
 
-export const ExampleAppAvatar: Story<AppAvatarProps> = (args) => <AppAvatar {...args} />
+export const ExampleAppAvatar: Story<AppAvatarProps> = args => <AppAvatar {...args} />
 
 ExampleAppAvatar.args = {
   appName: 'Testapp',

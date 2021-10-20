@@ -6,4 +6,4 @@ export interface Intl {
   getTranslation: (text: string) => string
 }
 
-export const intl: Intl = { getTranslation: (text) => text }
+export const intl: Intl = { getTranslation: text => text }

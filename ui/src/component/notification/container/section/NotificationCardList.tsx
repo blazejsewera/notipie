@@ -12,7 +12,7 @@ export interface NotificationCardListProps {
 
 export const NotificationCardList: FC<NotificationCardListProps> = ({ notifications, intl }) => (
   <div className={cx('grid grid-cols-1 space-y-5')}>
-    {notifications.map((notification) => (
+    {notifications.map(notification => (
       <NotificationCard key={notification.id} {...{ notification, intl }} />
     ))}
   </div>

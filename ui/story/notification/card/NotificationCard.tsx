@@ -12,7 +12,7 @@ export default {
 } as Meta
 
 const NotificationCardStoryFactory = (notification: Notification) => {
-  const story: Story<NotificationCardProps> = (args) => <NotificationCard {...args} />
+  const story: Story<NotificationCardProps> = args => <NotificationCard {...args} />
 
   story.args = {
     intl: intlMock,
@@ -27,6 +27,6 @@ const [Full, FullWithImage, FullWithLoremIpsum, Partial, Minimal] = [
   fullWithLoremIpsum,
   partial,
   minimal,
-].map((n) => NotificationCardStoryFactory(n))
+].map(n => NotificationCardStoryFactory(n))
 
 export { Full, FullWithImage, FullWithLoremIpsum, Partial, Minimal }

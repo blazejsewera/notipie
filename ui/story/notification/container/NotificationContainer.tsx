@@ -11,7 +11,7 @@ export default {
   component: NotificationContainer,
 } as Meta
 
-export const ExampleNotificationContainer: Story<NotificationContainerProps> = (args) => (
+export const ExampleNotificationContainer: Story<NotificationContainerProps> = args => (
   <NotificationContainer {...args} />
 )
 
