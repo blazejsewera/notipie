@@ -20,6 +20,8 @@ jobs:
 
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.5
+        with:
+          go-version: "^1.17.0"
 
       - name: Install dependencies
         run: make
