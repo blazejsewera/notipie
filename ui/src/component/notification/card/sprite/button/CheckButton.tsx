@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Archive } from '../../../../../external/icon'
-import type { OnNotificationCardCheck } from '../../../../../type/handler'
-import type { FC } from '../../../../../type/react'
+import { OnNotificationCardCheck } from '../../../../../type/handler'
+import { FC } from '../../../../../type/react'
 import { ControlButton } from './ControlButton'
 
 export interface CheckButtonProps {

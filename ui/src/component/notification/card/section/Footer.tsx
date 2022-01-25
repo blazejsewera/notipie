@@ -1,6 +1,6 @@
 import * as React from 'react'
-import type { NotificationCardHandlers } from '../../../../type/handler'
-import type { FC } from '../../../../type/react'
+import { NotificationCardHandlers } from '../../../../type/handler'
+import { FC } from '../../../../type/react'
 import { cx } from '../../../../util/cx'
 import { Meta } from '../text/Meta'
 import { Controls } from './Controls'

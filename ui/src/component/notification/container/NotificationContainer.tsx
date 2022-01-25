@@ -1,11 +1,11 @@
 import * as React from 'react'
-import type { FC } from '../../../type/react'
-import type { Notification } from '../../../type/notification'
-import type { Intl } from '../../../i18l/intl'
+import { FC } from '../../../type/react'
+import { Notification } from '../../../type/notification'
+import { Intl } from '../../../i18l/intl'
 import { cx } from '../../../util/cx'
 import { Header } from './section/Header'
 import { NotificationCardList } from './section/NotificationCardList'
-import type { NotificationContainerHandlers } from '../../../type/handler'
+import { NotificationContainerHandlers } from '../../../type/handler'
 
 export interface NotificationContainerProps {
   title: string

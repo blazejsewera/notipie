@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useState } from 'react'
-import type { Intl } from '../../../../i18l/intl'
-import type { FC } from '../../../../type/react'
+import { Intl } from '../../../../i18l/intl'
+import { FC } from '../../../../type/react'
 
 export interface TrimmableTextProps {
   threshold?: number

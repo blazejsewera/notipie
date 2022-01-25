@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { create as render } from 'react-test-renderer'
-import type { Notification } from '../../../../type/notification'
+import { Notification } from '../../../../type/notification'
 import { NotificationCard } from '../NotificationCard'
 import { intlMock } from '../../../../mock/intl.mock'
 import { full, fullWithImage, fullWithLoremIpsum, minimal, partial } from '../../../../mock/notification.mock'
-import type { NotificationCardHandlers } from '../../../../type/handler'
+import { NotificationCardHandlers } from '../../../../type/handler'
 
 describe('NotificationCard component', () => {
   // given

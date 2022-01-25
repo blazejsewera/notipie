@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Meta, Story } from '@storybook/react'
-import type { NotificationContainerProps } from '../../../src/component/notification/container/NotificationContainer'
+import { NotificationContainerProps } from '../../../src/component/notification/container/NotificationContainer'
 import { NotificationContainer } from '../../../src/component/notification/container/NotificationContainer'
 import { intlMock } from '../../../src/mock/intl.mock'
 import { full, fullWithLoremIpsum, minimal, partial } from '../../../src/mock/notification.mock'

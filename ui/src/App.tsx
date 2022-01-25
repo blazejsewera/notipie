@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { FC } from './type/react'
+import { FC } from './type/react'
 import { intl } from './i18l/intl'
 import { cx } from './util/cx'
 import { full, fullWithImage, minimal, partial } from './mock/notification.mock'

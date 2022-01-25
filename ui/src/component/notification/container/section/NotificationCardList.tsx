@@ -1,7 +1,7 @@
 import * as React from 'react'
-import type { FC } from '../../../../type/react'
-import type { Notification } from '../../../../type/notification'
-import type { Intl } from '../../../../i18l/intl'
+import { FC } from '../../../../type/react'
+import { Notification } from '../../../../type/notification'
+import { Intl } from '../../../../i18l/intl'
 import { cx } from '../../../../util/cx'
 import { NotificationCard } from '../../card/NotificationCard'
 

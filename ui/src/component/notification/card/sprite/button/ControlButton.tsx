@@ -1,8 +1,8 @@
 import * as React from 'react'
-import type { FC } from '../../../../../type/react'
-import type { Icon } from '../../../../../external/icon'
+import { FC } from '../../../../../type/react'
+import { Icon } from '../../../../../external/icon'
 import { cx } from '../../../../../util/cx'
-import type {
+import {
   OnNotificationCardArchive,
   OnNotificationCardCheck,
   OnNotificationCardSettings,

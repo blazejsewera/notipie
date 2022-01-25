@@ -1,4 +1,4 @@
-import type { Notification } from '../type/notification'
+import { Notification } from '../type/notification'
 import { fiveSentenceLoremIpsum } from './asset/text/lipsum'
 import githubIcon from './asset/icon/github-icon.svg'
 import { NotificationCardHandlers } from '../type/handler'

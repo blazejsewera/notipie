@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { FC } from '../../../../type/react'
+import { FC } from '../../../../type/react'
 import { cx } from '../../../../util/cx'
 
 export interface MetaProps {

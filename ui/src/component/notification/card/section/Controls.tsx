@@ -1,8 +1,8 @@
 import * as React from 'react'
-import type { FC } from '../../../../type/react'
+import { FC } from '../../../../type/react'
 import { Archive, Check, Settings } from '../../../../external/icon'
 import { ControlButton } from '../sprite/button/ControlButton'
-import type { NotificationCardHandlers } from '../../../../type/handler'
+import { NotificationCardHandlers } from '../../../../type/handler'
 
 export interface ControlsProps {
   handlers: NotificationCardHandlers

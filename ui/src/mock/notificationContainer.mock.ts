@@ -1,4 +1,4 @@
-import type { NotificationContainerHandlers } from '../type/handler'
+import { NotificationContainerHandlers } from '../type/handler'
 
 export const handlers: NotificationContainerHandlers = {
   onCheckAll: () => {},

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { create as render } from 'react-test-renderer'
-import type { Notification } from '../../../../type/notification'
+import { Notification } from '../../../../type/notification'
 import { intlMock } from '../../../../mock/intl.mock'
 import { NotificationContainer } from '../NotificationContainer'
 import { full, minimal } from '../../../../mock/notification.mock'
-import type { NotificationContainerHandlers } from '../../../../type/handler'
+import { NotificationContainerHandlers } from '../../../../type/handler'
 
 describe('NotificationContainer component', () => {
   // given

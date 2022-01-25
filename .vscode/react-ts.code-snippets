@@ -10,7 +10,7 @@
     "prefix": "fc",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react' // adjust relative import",
+      "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export const ${TM_FILENAME_BASE}: FC = () => (",
       "\t$0",
@@ -23,7 +23,7 @@
     "prefix": "fcc",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react' // adjust relative import",
+      "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\tchildren: ${1:type}",
@@ -40,7 +40,7 @@
     "prefix": "fcp",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react' // adjust relative import",
+      "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t${2:prop: type}",
@@ -57,7 +57,7 @@
     "prefix": "fcpc",
     "body": [
       "import * as React from 'react'",
-      "import type { FCPC } from '../../../../../../type/react' // adjust relative import",
+      "import { FCPC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t${2:prop: type}",
@@ -75,7 +75,7 @@
     "prefix": "fcpb",
     "body": [
       "import * as React from 'react'",
-      "import type { FC } from '../../../../../../type/react' // adjust relative import",
+      "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
       "\t${2:prop: type}",

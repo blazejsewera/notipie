@@ -1,9 +1,9 @@
 import * as React from 'react'
-import type { FC } from '../../../../type/react'
+import { FC } from '../../../../type/react'
 import { Title } from '../text/Title'
 import { cx } from '../../../../util/cx'
 import { CheckAllButton } from '../sprite/button/CheckAllButton'
-import type { OnNotificationContainerCheckAll } from '../../../../type/handler'
+import { OnNotificationContainerCheckAll } from '../../../../type/handler'
 
 export interface HeaderProps {
   title: string

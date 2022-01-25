@@ -5,7 +5,7 @@
     "body": [
       "import * as React from 'react'",
       "import { Meta, Story } from '@storybook/react'",
-      "import type { ${TM_FILENAME_BASE}Props } from '$1'",
+      "import { ${TM_FILENAME_BASE}Props } from '$1'",
       "import { ${TM_FILENAME_BASE} } from '$1'",
       "",
       "export default {",
