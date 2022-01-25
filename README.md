@@ -1,6 +1,8 @@
 # Notipie
 A notification aggregator.
 
+[![Notipie CI](https://github.com/blazejsewera/notipie/actions/workflows/ci.yml/badge.svg)](https://github.com/blazejsewera/notipie/actions/workflows/ci.yml)
+
 ## Quick links
 - [board](https://github.com/jazzsewera/notipie/projects/1)
 - [issues](https://github.com/jazzsewera/notipie/issues)
