@@ -86,6 +86,14 @@ test-core:
 
 # lint
 
+lint-fix: lint-ui-fix lint-core
+	@echo "> linted and fixed"
+
+lint-ui-fix:
+	@cd ui; \
+	yarn lint:fix
+	@echo "> linted and fixed ui"
+
 lint: lint-ui lint-core
 	@echo "> linted"
 

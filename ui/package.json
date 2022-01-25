@@ -11,9 +11,10 @@
     "storybook": "start-storybook -p 6006 -s './public' --ci",
     "build-storybook": "build-storybook",
     "checkTs": "tsc --noEmit",
-    "lint": "eslint --fix --max-warnings 0 'src/**/*.{tsx,ts,jsx,js}'",
-    "format": "prettier --write 'src/**/*.{tsx,ts,jsx,js}'",
-    "lint:staged": "lint-staged"
+    "lint": "eslint --max-warnings 0 'src/**/*.{tsx,ts,jsx,js}'",
+    "lint:fix": "eslint --fix --max-warnings 0 'src/**/*.{tsx,ts,jsx,js}'",
+    "lint:staged": "lint-staged",
+    "format": "prettier --write 'src/**/*.{tsx,ts,jsx,js}'"
   },
   "dependencies": {
     "react": "^17.0.2",
