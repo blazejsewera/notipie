@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { TrimmableText as Trim } from '../TrimmableText'
 import { intlMock } from '../../../../../mock/intl.mock'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { create as render } from 'react-test-renderer'
 import { Notification } from '../../../../type/notification'
 import { NotificationCard } from '../NotificationCard'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Archive } from '../../../../../external/icon'
 import { OnNotificationCardCheck } from '../../../../../type/handler'
 import { FC } from '../../../../../type/react'

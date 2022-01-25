@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { FC } from '../../../../type/react'
 import { cx } from '../../../../util/cx'
 import { AppAvatar } from '../sprite/avatar/AppAvatar'

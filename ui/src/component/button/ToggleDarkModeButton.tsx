@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { FC } from '../../type/react'
 import { Moon, Sun } from '../../external/icon'
 import { cx } from '../../util/cx'

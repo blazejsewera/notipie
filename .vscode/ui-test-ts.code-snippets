@@ -3,7 +3,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "rtest",
     "body": [
-      "import * as React from 'react'",
       "import { ${TM_FILENAME_BASE/(.*)\\.test$/$1/} } from '../${TM_FILENAME_BASE/(.*)\\.test$/$1/}'",
       "",
       "describe('$1', () => {",

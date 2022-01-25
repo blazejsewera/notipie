@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { NotificationCardHandlers } from '../../../../type/handler'
 import { FC } from '../../../../type/react'
 import { cx } from '../../../../util/cx'

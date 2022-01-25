@@ -9,7 +9,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fc",
     "body": [
-      "import * as React from 'react'",
       "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export const ${TM_FILENAME_BASE}: FC = () => (",
@@ -22,7 +21,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcc",
     "body": [
-      "import * as React from 'react'",
       "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
@@ -39,7 +37,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcp",
     "body": [
-      "import * as React from 'react'",
       "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
@@ -56,7 +53,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcpc",
     "body": [
-      "import * as React from 'react'",
       "import { FCPC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",
@@ -74,7 +70,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "fcpb",
     "body": [
-      "import * as React from 'react'",
       "import { FC } from '../../../../../../type/react' // adjust relative import",
       "",
       "export interface ${TM_FILENAME_BASE}Props {",

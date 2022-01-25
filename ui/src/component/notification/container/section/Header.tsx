@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { FC } from '../../../../type/react'
 import { Title } from '../text/Title'
 import { cx } from '../../../../util/cx'

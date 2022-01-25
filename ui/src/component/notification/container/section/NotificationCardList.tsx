@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { FC } from '../../../../type/react'
 import { Notification } from '../../../../type/notification'
 import { Intl } from '../../../../i18l/intl'

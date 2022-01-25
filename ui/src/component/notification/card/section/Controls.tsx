@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { FC } from '../../../../type/react'
 import { Archive, Check, Settings } from '../../../../external/icon'
 import { ControlButton } from '../sprite/button/ControlButton'
