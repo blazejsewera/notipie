@@ -10,7 +10,7 @@
     "ui"
   ],
   "scripts": {
-    "postinstall": "cd core && make sync && make tidy && cd .. && husky install",
+    "postinstall": "husky install",
     "commitlint": "commitlint"
   },
   "devDependencies": {
