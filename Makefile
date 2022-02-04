@@ -2,7 +2,20 @@
 
 # install & no-params
 
-all: install
+all: install copy-example-configs
+
+copy-example-configs: copy-example-configs-ui copy-example-configs-core
+	@echo "> configs copied"
+
+copy-example-configs-ui:
+	@test -f ui/notipie.config.ts && \
+	echo "> configs for ui already exist" || (\
+		cp ui/notipie.config.ts.example ui/notipie.config.ts && \
+		echo "> example configs for ui copied" \
+	)
+
+copy-example-configs-core:
+	@echo "> configs for core not implemented yet"
 
 install: install-workspace install-core
 	@echo "> workspace ready"
@@ -21,11 +34,21 @@ install-core:
 
 # clean
 
-nuke: clean
+nuke: clean remove-configs
 	@rm -rf node_modules
 	@cd ui; \
 	rm -rf node_modules
 	@echo "> nuked all node_modules"
+
+remove-configs: remove-configs-ui remove-configs-core
+	@echo "> configs removed"
+
+remove-configs-ui:
+	@rm -f ui/notipie.config.ts
+	@echo "> config for ui removed"
+
+remove-configs-core:
+	@echo "> config for core not implemented yet"
 
 clean: clean-ui clean-core
 	@echo "> cleaned"

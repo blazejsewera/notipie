@@ -1,0 +1,7 @@
+export type Config = {
+  mode: 'dev' | 'prod'
+}
+
+export const config: Config = {
+  mode: 'dev',
+}

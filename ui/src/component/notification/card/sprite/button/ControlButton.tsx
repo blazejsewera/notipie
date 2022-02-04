@@ -1,6 +1,6 @@
 import { FC } from '../../../../../type/react'
 import { Icon } from '../../../../../external/icon'
-import { cx } from '../../../../../util/cx'
+import { cx } from '../../../../../util/classname/cx'
 import {
   OnNotificationCardArchive,
   OnNotificationCardCheck,

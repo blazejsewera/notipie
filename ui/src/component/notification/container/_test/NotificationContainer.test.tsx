@@ -1,8 +1,8 @@
 import { create as render } from 'react-test-renderer'
-import { Notification } from '../../../../type/notification'
+import { NotificationWithHandlers } from '../../../../type/notification'
 import { intlMock } from '../../../../mock/intl.mock'
 import { NotificationContainer } from '../NotificationContainer'
-import { full, minimal } from '../../../../mock/notification.mock'
+import { fullWithHandlers, minimalWithHandlers } from '../../../../mock/notification.mock'
 import { NotificationContainerHandlers } from '../../../../type/handler'
 
 describe('NotificationContainer component', () => {
@@ -10,8 +10,10 @@ describe('NotificationContainer component', () => {
   const intl = intlMock
   const handlers: NotificationContainerHandlers = { onCheckAll: jest.fn() }
 
-  const testNotificationContainer = (notifications: Notification[]) => {
-    const tree = render(<NotificationContainer {...{ title: 'TestTitle', notifications, intl, handlers }} />).toJSON()
+  const testNotificationContainer = (notificationsWithHandlers: NotificationWithHandlers[]) => {
+    const tree = render(
+      <NotificationContainer {...{ title: 'TestTitle', notificationsWithHandlers, intl, handlers }} />,
+    ).toJSON()
     expect(tree).toMatchSnapshot()
   }
 
@@ -19,9 +21,9 @@ describe('NotificationContainer component', () => {
     testNotificationContainer([])
   })
   it('renders correctly with one notification', () => {
-    testNotificationContainer([full])
+    testNotificationContainer([fullWithHandlers])
   })
   it('renders correctly with multiple notifications', () => {
-    testNotificationContainer([full, minimal])
+    testNotificationContainer([fullWithHandlers, minimalWithHandlers])
   })
 })

@@ -1,6 +1,6 @@
 import { NotificationCardHandlers } from '../../../../type/handler'
 import { FC } from '../../../../type/react'
-import { cx } from '../../../../util/cx'
+import { cx } from '../../../../util/classname/cx'
 import { Meta } from '../text/Meta'
 import { Controls } from './Controls'
 

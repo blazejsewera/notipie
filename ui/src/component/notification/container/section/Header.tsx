@@ -1,6 +1,6 @@
 import { FC } from '../../../../type/react'
 import { Title } from '../text/Title'
-import { cx } from '../../../../util/cx'
+import { cx } from '../../../../util/classname/cx'
 import { CheckAllButton } from '../sprite/button/CheckAllButton'
 import { OnNotificationContainerCheckAll } from '../../../../type/handler'
 

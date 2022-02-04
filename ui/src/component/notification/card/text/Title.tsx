@@ -1,5 +1,5 @@
 import { FC } from '../../../../type/react'
-import { cx } from '../../../../util/cx'
+import { cx } from '../../../../util/classname/cx'
 
 export interface TitleProps {
   children: string

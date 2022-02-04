@@ -1,4 +1,4 @@
-import { Notification } from '../type/notification'
+import { Notification, NotificationWithHandlers } from '../type/notification'
 import { fiveSentenceLoremIpsum } from './asset/text/lipsum'
 import githubIcon from './asset/icon/github-icon.svg'
 import { NotificationCardHandlers } from '../type/handler'
@@ -20,8 +20,9 @@ export const full: Notification = {
   body,
   timestamp: '2 hours ago',
   id: '0',
-  handlers,
 }
+
+export const fullWithHandlers: NotificationWithHandlers = { notification: full, handlers }
 
 export const fullWithImage: Notification = {
   ...full,
@@ -29,11 +30,15 @@ export const fullWithImage: Notification = {
   appImgUri: githubIcon,
 }
 
+export const fullWithImageWithHandlers: NotificationWithHandlers = { notification: fullWithImage, handlers }
+
 export const fullWithLoremIpsum: Notification = {
   ...full,
   id: '2',
   body: fiveSentenceLoremIpsum,
 }
+
+export const fullWithLoremIpsumWithHandlers: NotificationWithHandlers = { notification: fullWithLoremIpsum, handlers }
 
 export const partial: Notification = {
   appName: full.appName,
@@ -41,13 +46,15 @@ export const partial: Notification = {
   body: full.body,
   timestamp: full.timestamp,
   id: '3',
-  handlers,
 }
+
+export const partialWithHandlers: NotificationWithHandlers = { notification: partial, handlers }
 
 export const minimal: Notification = {
   appName: full.appName,
   title: full.title,
   timestamp: full.timestamp,
   id: '4',
-  handlers,
 }
+
+export const minimalWithHandlers: NotificationWithHandlers = { notification: minimal, handlers }

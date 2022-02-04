@@ -1,6 +1,6 @@
 import { FC } from '../../../../../type/react'
 import { CheckSquare } from '../../../../../external/icon'
-import { cx } from '../../../../../util/cx'
+import { cx } from '../../../../../util/classname/cx'
 import { OnNotificationContainerCheckAll } from '../../../../../type/handler'
 
 export interface CheckAllButtonProps {

@@ -8,7 +8,7 @@ export type Notification = {
   subtitle?: string
   body?: string
   id?: string
-  handlers: NotificationCardHandlers
+  relativeTime?: string
 }
 
 export type NotificationWithHandlers = {
