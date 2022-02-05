@@ -1,30 +1,34 @@
-import { Notification } from '../../type/notification'
+import { NotificationWithHandlers } from '../../type/notification'
 
-type DuplicateDetector = (notifications: Notification[], current: Notification) => boolean
+type DuplicateDetector = (
+  notificationsWithHandlers: NotificationWithHandlers[],
+  current: NotificationWithHandlers,
+) => boolean
 
-const isDuplicateByIdInArray: DuplicateDetector = (notifications, current) => {
-  if (!current.id) return false
-  return notifications.map(m => m.id ?? '').includes(current.id)
+const isDuplicateByIdInArray: DuplicateDetector = (notificationsWithHandlers, current) => {
+  if (!current.notification.id) return false
+  return notificationsWithHandlers.map(m => m.notification.id ?? '').includes(current.notification.id)
 }
 
-type NotificationMerger = (notifications: Notification[]) => Notification[]
+type NotificationMerger = (notificationsWithHandlers: NotificationWithHandlers[]) => NotificationWithHandlers[]
 
 /**
- * Merges (deduplicates) notification array based on notification id.
+ * Merges (deduplicates) notificationWithHandlers array based on notification id.
  * If an id is not present in the notification, it is not deduplicated.
  *
  * @example
- * const notifications = [
- *   { appName: 'a', timestamp: 'a', title: 'a', id: '1' },
- *   { appName: 'b', timestamp: 'b', title: 'b', id: '2' },
- *   { appName: 'a', timestamp: 'a', title: 'a', id: '1' },
+ * const notificationsWithHandlers = [
+ *   { notification: { appName: 'a', timestamp: 'a', title: 'a', id: '1' }, handlers: {...} },
+ *   { notification: { appName: 'b', timestamp: 'b', title: 'b', id: '2' }, handlers: {...} },
+ *   { notification: { appName: 'a', timestamp: 'a', title: 'a', id: '1' }, handlers: {...} },
  * ]
- * const merged = merge(notifications)
+ * const merged = merge(notificationsWithHandlers)
  * // will merge them into a 2-element array containing 0th and 1st element of msgs
  * // id: '1' is deduplicated
  */
-export const merge: NotificationMerger = notifications =>
-  notifications.reduce(
-    (merged: Notification[], current) => (isDuplicateByIdInArray(merged, current) ? merged : [...merged, current]),
+export const merge: NotificationMerger = notificationsWithHandlers =>
+  notificationsWithHandlers.reduce(
+    (merged: NotificationWithHandlers[], current) =>
+      isDuplicateByIdInArray(merged, current) ? merged : [...merged, current],
     [],
   )

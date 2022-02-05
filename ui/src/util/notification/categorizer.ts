@@ -1,6 +1,8 @@
-import { Notification } from '../../type/notification'
+import { NotificationWithHandlers } from '../../type/notification'
 
-type NotificationCategorizer = (notifications: Notification[]) => Record<string, Notification[]>
+type NotificationCategorizer = (
+  notificationsWithHandlers: NotificationWithHandlers[],
+) => Record<string, NotificationWithHandlers[]>
 
 /**
  * Categorizes notifications by username, and puts them in an object, where
@@ -15,11 +17,11 @@ type NotificationCategorizer = (notifications: Notification[]) => Record<string,
  * const categorized = byUsername(msgs)
  * // will group them into { a: [...(2 msgs)], b: [...(1 msg)] }
  */
-export const byUsername: NotificationCategorizer = notifications =>
-  notifications.reduce(
-    (categorized: Record<string, Notification[]>, current) => ({
+export const byAppName: NotificationCategorizer = notificationsWithHandlers =>
+  notificationsWithHandlers.reduce(
+    (categorized: Record<string, NotificationWithHandlers[]>, current) => ({
       ...categorized,
-      [current.appName]: [...(categorized[current.appName] ?? []), current],
+      [current.notification.appName]: [...(categorized[current.notification.appName] ?? []), current],
     }),
     {},
   )

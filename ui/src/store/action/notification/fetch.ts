@@ -1,4 +1,4 @@
-import { Notification } from '../../../type/notification'
+import { NotificationWithHandlers } from '../../../type/notification'
 
 export const T_REQUEST = 'notification/fetch/request'
 export type Request = {
@@ -9,13 +9,16 @@ export const actionRequest = (): Request => ({ type: T_REQUEST })
 export const T_SUCCESS = 'notification/fetch/success'
 export type Success = {
   type: typeof T_SUCCESS
-  notifications: Notification[]
+  notificationsWithHandlers: NotificationWithHandlers[]
 }
-export const actionSuccess = (notifications: Notification[]): Success => ({ type: T_SUCCESS, notifications })
+export const actionSuccess = (notificationsWithHandlers: NotificationWithHandlers[]): Success => ({
+  type: T_SUCCESS,
+  notificationsWithHandlers,
+})
 
 export const T_FAIL = 'notification/fetch/fail'
 export type Fail = {
   type: typeof T_FAIL
-  notification: string
+  message: string
 }
-export const actionFail = (notification: string): Fail => ({ type: T_FAIL, notification })
+export const actionFail = (message: string): Fail => ({ type: T_FAIL, message })

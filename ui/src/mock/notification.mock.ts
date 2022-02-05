@@ -7,7 +7,7 @@ const body = `#12 add some new amazing functionality
 
 Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and that.`
 
-const handlers: NotificationCardHandlers = {
+export const mockNotificationCardHandlers: NotificationCardHandlers = {
   onArchive: () => {},
   onCheck: () => {},
   onSettings: () => {},
@@ -22,7 +22,7 @@ export const full: Notification = {
   id: '0',
 }
 
-export const fullWithHandlers: NotificationWithHandlers = { notification: full, handlers }
+export const fullWithHandlers: NotificationWithHandlers = { notification: full, handlers: mockNotificationCardHandlers }
 
 export const fullWithImage: Notification = {
   ...full,
@@ -30,7 +30,10 @@ export const fullWithImage: Notification = {
   appImgUri: githubIcon,
 }
 
-export const fullWithImageWithHandlers: NotificationWithHandlers = { notification: fullWithImage, handlers }
+export const fullWithImageWithHandlers: NotificationWithHandlers = {
+  notification: fullWithImage,
+  handlers: mockNotificationCardHandlers,
+}
 
 export const fullWithLoremIpsum: Notification = {
   ...full,
@@ -38,7 +41,10 @@ export const fullWithLoremIpsum: Notification = {
   body: fiveSentenceLoremIpsum,
 }
 
-export const fullWithLoremIpsumWithHandlers: NotificationWithHandlers = { notification: fullWithLoremIpsum, handlers }
+export const fullWithLoremIpsumWithHandlers: NotificationWithHandlers = {
+  notification: fullWithLoremIpsum,
+  handlers: mockNotificationCardHandlers,
+}
 
 export const partial: Notification = {
   appName: full.appName,
@@ -48,7 +54,10 @@ export const partial: Notification = {
   id: '3',
 }
 
-export const partialWithHandlers: NotificationWithHandlers = { notification: partial, handlers }
+export const partialWithHandlers: NotificationWithHandlers = {
+  notification: partial,
+  handlers: mockNotificationCardHandlers,
+}
 
 export const minimal: Notification = {
   appName: full.appName,
@@ -57,4 +66,7 @@ export const minimal: Notification = {
   id: '4',
 }
 
-export const minimalWithHandlers: NotificationWithHandlers = { notification: minimal, handlers }
+export const minimalWithHandlers: NotificationWithHandlers = {
+  notification: minimal,
+  handlers: mockNotificationCardHandlers,
+}

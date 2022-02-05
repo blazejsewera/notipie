@@ -15,10 +15,9 @@ You will need:
 - `yarn` with `node.js` version `16` or higher.
 
 ## Quick start
-Just run `yarn` from the project root. All dependencies for all modules should
+Just run `make` from the project root. All dependencies for all modules should
 automatically download.
 
 ## Project components
 - `core` -- backend
 - `ui` -- frontend
-- `ui-components` -- reusable components for the frontend

@@ -2,7 +2,7 @@
 
 exports[`NotificationContainer component renders correctly with multiple notifications 1`] = `
 <div
-  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl"
+  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl "
 >
   <div
     className="flex mb-4 mx-2"
@@ -378,7 +378,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 
 exports[`NotificationContainer component renders correctly with no notifications 1`] = `
 <div
-  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl"
+  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl "
 >
   <div
     className="flex mb-4 mx-2"
@@ -422,7 +422,7 @@ exports[`NotificationContainer component renders correctly with no notifications
 
 exports[`NotificationContainer component renders correctly with one notification 1`] = `
 <div
-  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl"
+  className="bg-gray-100 dark:bg-gray-700 inline-block p-5 pb-6 rounded-3xl shadow-xl "
 >
   <div
     className="flex mb-4 mx-2"

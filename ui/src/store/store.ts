@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { Store } from 'redux'
 import { Action } from './action/action'
-import { Notification } from '../type/notification'
+import { NotificationWithHandlers } from '../type/notification'
 import { T_FAIL, T_REQUEST, T_SUCCESS } from './action/notification/fetch'
 import { T_RECEIVE_PUSHED, T_RECEIVE_PUSHED_ERROR } from './action/notification/push'
 import { merge } from '../util/notification/merger'
@@ -12,23 +12,13 @@ import { config } from '../config/config'
 
 export type State = {
   state: 'loading' | 'ok' | 'fail'
-  notifications: Notification[]
-  notificationForm: Notification
+  notificationsWithHandlers: NotificationWithHandlers[]
   isDarkMode: boolean
-}
-
-const emptyNotification: Notification = {
-  title: '',
-  subtitle: '',
-  body: '',
-  appName: '',
-  timestamp: '',
 }
 
 const defaultState: State = {
   state: 'ok',
-  notifications: [],
-  notificationForm: emptyNotification,
+  notificationsWithHandlers: [],
   isDarkMode: false,
 }
 
@@ -42,22 +32,25 @@ const reducer: Reducer = (previousState = defaultState, action) => {
       return {
         ...previousState,
         state: 'ok',
-        notifications: merge([...previousState.notifications, ...action.notifications]),
+        notificationsWithHandlers: merge([
+          ...previousState.notificationsWithHandlers,
+          ...action.notificationsWithHandlers,
+        ]),
       } // PERF: possible room for optimization
     case T_FAIL:
-      console.warn(action.notification)
+      console.warn(action.message)
       return { ...previousState, state: 'fail' }
     case T_RECEIVE_PUSHED:
       return {
         ...previousState,
         state: 'ok',
-        notifications: merge([...previousState.notifications, action.notification]),
+        notificationsWithHandlers: merge([...previousState.notificationsWithHandlers, action.notificationWithHandlers]),
       } // PERF: possible room for optimization
     case T_RECEIVE_PUSHED_ERROR:
-      console.warn(action.notification)
+      console.warn(action.message)
       return { ...previousState, state: 'fail' }
     case T_UPDATE_TIME:
-      return { ...previousState, notifications: updateTimeAll(previousState.notifications) }
+      return { ...previousState, notificationsWithHandlers: updateTimeAll(previousState.notificationsWithHandlers) }
     case T_DARKMODE_ON:
       return { ...previousState, isDarkMode: true }
     case T_DARKMODE_OFF:
