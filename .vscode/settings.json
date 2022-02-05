@@ -14,25 +14,7 @@
   "jest.debugCodeLens.showWhenTestStateIn": [],
 
   // formatting
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
+  "[typescript][typescriptreact][javascript][javascriptreact][jsonc][json][html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
