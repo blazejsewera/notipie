@@ -2,8 +2,9 @@ package domain
 
 import (
 	"fmt"
-	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 	"time"
+
+	"github.com/jazzsewera/notipie/core/pkg/lib/util"
 )
 
 type Notification struct {

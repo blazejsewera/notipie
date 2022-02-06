@@ -2,8 +2,9 @@ package domain
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTag_registerUser(t *testing.T) {
@@ -71,7 +72,7 @@ func TestTag_removeTag(t *testing.T) {
 		name := "2"
 
 		// when
-		tags, err := removeTag(tags, name)
+		_, err := removeTag(tags, name)
 
 		// then
 		if assert.Error(t, err) {
