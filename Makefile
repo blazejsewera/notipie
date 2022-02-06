@@ -125,6 +125,11 @@ lint-ui:
 	yarn lint
 	@echo "> linted ui"
 
+lint-ui-staged:
+	@cd ui; \
+	yarn lint:staged
+	@echo "> linted staged ui"
+
 lint-core:
 	@cd core; \
 	$(MAKE) lint
@@ -145,3 +150,9 @@ format-core:
 	@cd core; \
 	$(MAKE) format
 	@echo "> formatted core"
+
+
+# pre-commit check
+
+pre-commit: format lint-ui-staged
+	@echo "> pre-commit check done"
