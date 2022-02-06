@@ -40,7 +40,7 @@ export const AppCanvas: FC<AppCanvasProps> = ({
           'px-5',
           'sm:py-12',
           'sm:px-8',
-          verticallyScrollable ? '' : 'min-w-max',
+          verticallyScrollable ? 'min-w-max' : '',
         )}
       >
         {children}

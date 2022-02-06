@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { Intl } from '../../../i18l/intl'
 import { State } from '../../../store/store'
-import { NotificationContainerHandlers } from '../../../type/handler'
+import { NotificationContainerHandlersFactory } from '../../../type/handler'
 import { NotificationWithHandlers } from '../../../type/notification'
 import { FC } from '../../../type/react'
 import { cx } from '../../../util/classname/cx'
@@ -10,14 +10,14 @@ import { NotificationContainer } from '../container/NotificationContainer'
 
 export interface NotificationBoardProps {
   notificationsWithHandlers: NotificationWithHandlers[]
-  containerHandlers: NotificationContainerHandlers
+  containerHandlersFactory: NotificationContainerHandlersFactory
   intl: Intl
 }
 
 export const NotificationBoard: FC<NotificationBoardProps> = ({
   notificationsWithHandlers,
   intl,
-  containerHandlers,
+  containerHandlersFactory,
 }) => {
   const categorized = byAppName(notificationsWithHandlers) // PERF: possible room for optimization
   const appNames = Object.keys(categorized)
@@ -27,7 +27,7 @@ export const NotificationBoard: FC<NotificationBoardProps> = ({
       title={appName}
       notificationsWithHandlers={categorized[appName]}
       intl={intl}
-      handlers={containerHandlers}
+      handlers={containerHandlersFactory(appName)}
       style={cx('inline-block')}
     />
   ))

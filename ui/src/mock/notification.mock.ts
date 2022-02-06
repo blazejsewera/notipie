@@ -70,3 +70,15 @@ export const minimalWithHandlers: NotificationWithHandlers = {
   notification: minimal,
   handlers: mockNotificationCardHandlers,
 }
+
+export const otherApp: Notification = {
+  appName: 'Jenkins',
+  title: 'Build succeeded',
+  timestamp: full.timestamp,
+  id: '5',
+}
+
+export const otherAppWithHandlers: NotificationWithHandlers = {
+  notification: otherApp,
+  handlers: mockNotificationCardHandlers,
+}

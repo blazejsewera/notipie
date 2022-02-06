@@ -13,3 +13,5 @@ export type OnNotificationContainerCheckAll = () => void
 export interface NotificationContainerHandlers {
   onCheckAll: OnNotificationContainerCheckAll
 }
+
+export type NotificationContainerHandlersFactory = (category: string) => NotificationContainerHandlers
