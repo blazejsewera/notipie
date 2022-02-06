@@ -1,6 +1,6 @@
-import { FC } from '../../type/react'
-import { Moon, Sun } from '../../external/icon'
-import { cx } from '../../util/classname/cx'
+import { FC } from '../../../../type/react'
+import { Moon, Sun } from '../../../../external/icon'
+import { cx } from '../../../../util/classname/cx'
 
 export interface ToggleDarkModeButtonProps {
   isDarkMode: boolean

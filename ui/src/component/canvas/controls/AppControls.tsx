@@ -1,6 +1,6 @@
 import { FC } from '../../../type/react'
 import { cx } from '../../../util/classname/cx'
-import { ToggleDarkModeButton } from '../../button/ToggleDarkModeButton'
+import { ToggleDarkModeButton } from './button/ToggleDarkModeButton'
 
 export interface AppControlsProps {
   isDarkMode: boolean
