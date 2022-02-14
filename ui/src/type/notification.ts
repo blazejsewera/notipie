@@ -9,6 +9,7 @@ export type Notification = {
   body?: string
   id?: string
   relativeTime?: string
+  read?: boolean
 }
 
 export type NotificationWithHandlers = {

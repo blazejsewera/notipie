@@ -15,6 +15,7 @@ import {
   minimalWithHandlers,
   otherAppWithHandlers,
   partialWithHandlers,
+  readWithHandlers,
 } from './mock/notification.mock'
 
 export const App: FC = () => {
@@ -25,6 +26,7 @@ export const App: FC = () => {
       partialWithHandlers,
       minimalWithHandlers,
       otherAppWithHandlers,
+      readWithHandlers,
     ]
 
     dispatch(actionFetchSuccess(notificationsWithHandlers))

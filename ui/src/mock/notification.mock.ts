@@ -10,7 +10,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
 export const mockNotificationCardHandlers: NotificationCardHandlers = {
   onArchive: () => {},
   onCheck: () => {},
-  onSettings: () => {},
+  onExternal: () => {},
 }
 
 export const full: Notification = {
@@ -80,5 +80,16 @@ export const otherApp: Notification = {
 
 export const otherAppWithHandlers: NotificationWithHandlers = {
   notification: otherApp,
+  handlers: mockNotificationCardHandlers,
+}
+
+export const read: Notification = {
+  ...full,
+  id: '6',
+  read: true,
+}
+
+export const readWithHandlers: NotificationWithHandlers = {
+  notification: read,
   handlers: mockNotificationCardHandlers,
 }

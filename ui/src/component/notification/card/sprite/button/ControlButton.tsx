@@ -4,12 +4,12 @@ import { cx } from '../../../../../util/classname/cx'
 import {
   OnNotificationCardArchive,
   OnNotificationCardCheck,
-  OnNotificationCardSettings,
+  OnNotificationCardExternal,
 } from '../../../../../type/handler'
 
 export interface ControlButtonProps {
   SvgIcon: Icon
-  onClick: OnNotificationCardArchive | OnNotificationCardCheck | OnNotificationCardSettings
+  onClick: OnNotificationCardArchive | OnNotificationCardCheck | OnNotificationCardExternal
 }
 
 export const ControlButton: FC<ControlButtonProps> = ({ SvgIcon, onClick }) => {

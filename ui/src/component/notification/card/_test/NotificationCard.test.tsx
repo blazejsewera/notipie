@@ -8,6 +8,7 @@ import {
   fullWithLoremIpsumWithHandlers,
   minimalWithHandlers,
   partialWithHandlers,
+  readWithHandlers,
 } from '../../../../mock/notification.mock'
 import { NotificationCardHandlers } from '../../../../type/handler'
 
@@ -17,7 +18,7 @@ describe('NotificationCard component', () => {
   const handlers: NotificationCardHandlers = {
     onArchive: jest.fn(),
     onCheck: jest.fn(),
-    onSettings: jest.fn(),
+    onExternal: jest.fn(),
   }
 
   const testNotificationCard = (notificationWithHandlers: NotificationWithHandlers) => {
@@ -39,5 +40,8 @@ describe('NotificationCard component', () => {
   })
   it('renders correctly with minimal notification', () => {
     testNotificationCard(minimalWithHandlers)
+  })
+  it('renders correctly with read notification', () => {
+    testNotificationCard(readWithHandlers)
   })
 })

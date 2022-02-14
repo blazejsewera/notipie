@@ -19,7 +19,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({ notificationWithHa
   return (
     <div className={cx('rounded-3xl', 'bg-white', 'dark:bg-gray-800', 'w-80', 'p-5', 'shadow-lg', 'relative')}>
       <Header {...{ appName, appImgUri, title, subtitle }} />
-      <Indicator />
+      {notification.read || <Indicator />}
       <Body intl={intl}>{body ?? ''}</Body>
       <Footer {...{ appName, timestamp, handlers }} />
     </div>

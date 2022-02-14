@@ -1,11 +1,11 @@
 export type OnNotificationCardCheck = () => void
 export type OnNotificationCardArchive = () => void
-export type OnNotificationCardSettings = () => void
+export type OnNotificationCardExternal = () => void
 
 export interface NotificationCardHandlers {
   onCheck: OnNotificationCardCheck
   onArchive: OnNotificationCardArchive
-  onSettings: OnNotificationCardSettings
+  onExternal: OnNotificationCardExternal
 }
 
 export type OnNotificationContainerCheckAll = () => void
