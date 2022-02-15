@@ -1,9 +1,15 @@
 package main
 
 import (
-	"github.com/jazzsewera/notipie/core/internal/pkg/lib"
+	"github.com/jazzsewera/notipie/core/internal/impl"
+	"github.com/jazzsewera/notipie/core/internal/impl/net"
 )
 
 func main() {
-	lib.Serve()
+	hub := net.NewHub()
+
+	endpoint := impl.Endpoint{}
+
+	endpoint.SetupFor(hub)
+	endpoint.Run()
 }
