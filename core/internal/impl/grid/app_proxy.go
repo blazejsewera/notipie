@@ -51,6 +51,7 @@ func (p *AppProxy) Receive(netNotification model.NetNotification) {
 }
 
 func (p *AppProxy) notificationOf(netNotification model.NetNotification) (domain.Notification, error) {
+	netNotification.AddID()
 	app := p.getOrCreateApp(netNotification.AppName)
 	timestamp, err := time.Parse(timeFormat.RFC3339Milli, netNotification.Timestamp)
 	if err != nil {
