@@ -1,6 +1,7 @@
 package net
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -19,13 +20,17 @@ func PreflightHandler(c *gin.Context) {
 
 func PushNotificationHandlerFor(hub *Hub) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		notification := model.Notification{}
-		c.ShouldBindJSON(&notification)
+		notification := model.NetNotification{}
+		err := c.ShouldBindJSON(&notification)
+		if err != nil {
+			fmt.Printf("error when binding json: %s", err)
+			return
+		}
 		hub.broadcast <- domainNotificationOf(notification)
 	}
 }
 
-func domainNotificationOf(n model.Notification) domain.Notification {
+func domainNotificationOf(n model.NetNotification) domain.Notification {
 	return domain.Notification{}
 }
 

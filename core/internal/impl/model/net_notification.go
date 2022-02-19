@@ -1,6 +1,6 @@
 package model
 
-type Notification struct {
+type NetNotification struct {
 	AppName    string `json:"appName" binding:"required"`
 	Timestamp  string `json:"timestamp" binding:"required"`
 	AppImgUri  string `json:"appImgUri,omitempty"`
