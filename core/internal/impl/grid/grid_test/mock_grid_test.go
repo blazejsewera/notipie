@@ -41,7 +41,7 @@ func (m *MockUserRepository) GetNotificationCount() int {
 func NewMockGrid() *MockGrid {
 	rootTag := &domain.Tag{Name: "root"}
 	handler := mockCommandHandler{}
-	mockApp := domain.NewApp("appId", "TestApp", "", "", handler)
+	mockApp := domain.NewApp("appId", "TestApp", "", handler)
 	repo := &MockUserRepository{Done: make(chan struct{})}
 	mockUser := domain.NewUser("userId", "TestUser", repo)
 	return &MockGrid{

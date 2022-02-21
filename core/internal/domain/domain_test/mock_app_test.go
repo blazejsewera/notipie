@@ -26,5 +26,5 @@ func NewMockAsyncCommandHandler() *MockAsyncCommandHandler {
 
 func NewTestApp() (*domain.App, *MockAsyncCommandHandler) {
 	commandHandler := NewMockAsyncCommandHandler()
-	return domain.NewApp("1", "TestApp", "smallIconURI", "bigIconURI", commandHandler), commandHandler
+	return domain.NewApp("1", "TestApp", "iconURI", commandHandler), commandHandler
 }

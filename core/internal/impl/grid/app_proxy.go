@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/domain"
 	"github.com/jazzsewera/notipie/core/internal/impl/model"
-	timeFormat "github.com/jazzsewera/notipie/core/pkg/lib/time"
+	"github.com/jazzsewera/notipie/core/pkg/lib/timeformat"
 	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
 	"time"
 )
@@ -51,42 +51,47 @@ func (p *AppProxy) Receive(netNotification model.NetNotification) {
 }
 
 func (p *AppProxy) notificationOf(netNotification model.NetNotification) (domain.Notification, error) {
-	netNotification.AddID()
-	app := p.getOrCreateApp(netNotification.AppName)
-	timestamp, err := time.Parse(timeFormat.RFC3339Milli, netNotification.Timestamp)
+	nn := model.AddIDTo(netNotification)
+	app := p.getOrCreateApp(nn)
+	timestamp, err := time.Parse(timeformat.RFC3339Milli, nn.Timestamp)
 	if err != nil {
 		return domain.Notification{}, err
 	}
 
 	notification := domain.Notification{
-		ID:        netNotification.ID,
+		ID:        nn.ID,
 		App:       app,
 		Timestamp: timestamp,
-		Title:     netNotification.Title,
-		Body:      netNotification.Body,
+		Title:     nn.Title,
+		Body:      nn.Body,
 		Urgency:   domain.Medium, // TODO: Implement urgency
 	}
 
 	return notification, nil
 }
 
-func (p *AppProxy) getOrCreateApp(appName string) *domain.App {
-	app, ok := p.apps[appName]
+func (p *AppProxy) getOrCreateApp(n model.NetNotification) *domain.App {
+	appID := n.AppID
+
+	app, ok := p.apps[appID]
 	if ok {
 		return app
 	}
 
-	return p.createAndInitApp(appName)
+	return p.createAndInitApp(n)
+
 }
 
-func (p *AppProxy) createAndInitApp(appName string) *domain.App {
+func (p *AppProxy) createAndInitApp(n model.NetNotification) *domain.App {
+	appID := uuid.Generate()
+
 	app := &domain.App{
-		ID:   uuid.Generate(),
-		Name: appName,
-		// TODO: Implement small and big icon img
+		ID:      appID,
+		Name:    n.AppName,
+		IconURI: n.AppImgURI,
 	}
 
-	p.apps[appName] = app
+	p.apps[appID] = app
 	app.AddTag(p.grid.GetRootTag())
 	app.Start()
 

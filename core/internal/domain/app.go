@@ -8,16 +8,15 @@ import (
 type App struct {
 	ID             string
 	Name           string
-	SmallIconURI   string
-	BigIconURI     string
+	IconURI        string
 	CommandChan    chan Command
 	tags           []*Tag
 	tagsMutex      sync.Mutex
 	commandHandler CommandHandler
 }
 
-func NewApp(id, name, smallIconURI, bigIconURI string, commandHandler CommandHandler) *App {
-	return &App{ID: id, Name: name, SmallIconURI: smallIconURI, BigIconURI: bigIconURI, commandHandler: commandHandler}
+func NewApp(id, name, iconURI string, commandHandler CommandHandler) *App {
+	return &App{ID: id, Name: name, IconURI: iconURI, commandHandler: commandHandler}
 }
 
 func (a *App) Start() {
