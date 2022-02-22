@@ -2,12 +2,10 @@ package net
 
 import (
 	"bytes"
-	"encoding/json"
 	"log"
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/jazzsewera/notipie/core/internal/domain"
 )
 
 const (
@@ -37,24 +35,19 @@ func (c *Client) readPump() {
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
-		_, notification_bytes, err := c.conn.ReadMessage()
+		_, notificationBytes, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
 			}
 			break
 		}
-		notification_bytes = bytes.TrimSpace(bytes.Replace(notification_bytes, newline, space, -1))
-
-		notification := &domain.Notification{}
-		err = json.Unmarshal(notification_bytes, notification)
+		notificationBytes = bytes.TrimSpace(bytes.Replace(notificationBytes, newline, space, -1))
 
 		if err != nil {
-			log.Printf("could not deserialize %s", string(notification_bytes))
+			log.Printf("could not deserialize %s", string(notificationBytes))
 			continue
 		}
-
-		c.hub.broadcast <- *notification
 	}
 }
 
