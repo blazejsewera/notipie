@@ -1,14 +1,10 @@
 package main
 
-import (
-	"github.com/jazzsewera/notipie/core/internal/impl"
-)
+import notipie "github.com/jazzsewera/notipie/core/internal/infra"
 
 func main() {
-	//hub := net.NewHub()
-
-	endpoint := impl.Endpoint{}
-
-	endpoint.Setup()
-	endpoint.Run()
+	config := notipie.DefaultConfig()
+	appCtx := notipie.AppContext{}
+	appCtx.Init(config)
+	appCtx.Start()
 }
