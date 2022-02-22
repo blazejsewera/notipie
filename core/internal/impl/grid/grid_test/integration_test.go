@@ -10,13 +10,13 @@ func TestAppToGrid(t *testing.T) {
 	// given
 	mockGrid := NewMockGrid()
 	appProxy := grid.NewAppProxy(mockGrid)
-	netNotification := NewTestNetNotification()
+	appNotification := NewTestAppNotification()
 	mockGrid.Start()
 	appProxy.Listen()
 
 	// when
 	util.AsyncRun(func() {
-		appProxy.NetNotificationChan <- netNotification
+		appProxy.AppNotificationChan <- appNotification
 	})
 
 	// then

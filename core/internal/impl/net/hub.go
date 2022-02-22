@@ -2,26 +2,35 @@ package net
 
 import (
 	"encoding/json"
-	"log"
-
-	"github.com/jazzsewera/notipie/core/internal/domain"
+	"github.com/jazzsewera/notipie/core/internal/impl/model"
+	"github.com/jazzsewera/notipie/core/pkg/lib/log"
+	"go.uber.org/zap"
 )
 
+type ClientHub interface {
+	GetBroadcastChan() chan model.ClientNotification
+}
+
 type Hub struct {
-	user       *domain.User
 	clients    map[*Client]bool
-	broadcast  chan domain.Notification
+	broadcast  chan model.ClientNotification
 	register   chan *Client
 	unregister chan *Client
+	l          *zap.Logger
 }
 
 func NewHub() *Hub {
 	return &Hub{
-		broadcast:  make(chan domain.Notification),
+		broadcast:  make(chan model.ClientNotification),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[*Client]bool),
+		l:          log.For("net").Named("hub"),
 	}
+}
+
+func (h *Hub) GetBroadcastChan() chan model.ClientNotification {
+	return h.broadcast
 }
 
 func (h *Hub) Run() {
@@ -35,13 +44,13 @@ func (h *Hub) Run() {
 				close(client.send)
 			}
 		case notification := <-h.broadcast:
-			notification_bytes, err := json.Marshal(notification)
+			notificationBytes, err := json.Marshal(notification)
 			if err != nil {
-				log.Printf("could not serialize notification")
+				h.l.Warn("could not serialize notification", zap.Error(err))
 			}
 			for client := range h.clients {
 				select {
-				case client.send <- notification_bytes:
+				case client.send <- notificationBytes:
 				default:
 					close(client.send)
 					delete(h.clients, client)

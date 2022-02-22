@@ -8,12 +8,12 @@ import (
 
 func TestAppProxy(t *testing.T) {
 	// given
-	netNotification := NewTestNetNotification()
+	appNotification := NewTestAppNotification()
 	appProxy := grid.NewAppProxy(grid.NewGrid())
 	appProxy.Listen()
 
 	// when
-	appProxy.Receive(netNotification)
+	appProxy.Receive(appNotification)
 
 	// then
 	assert.Equal(t, 1, appProxy.GetAppCount())

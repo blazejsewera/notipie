@@ -2,7 +2,7 @@ package grid_test
 
 import "github.com/jazzsewera/notipie/core/internal/impl/model"
 
-func NewTestNetNotification() model.AppNotification {
+func NewTestAppNotification() model.AppNotification {
 	return model.AppNotification{
 		HashableNetNotification: model.HashableNetNotification{
 			AppName:    "TestApp",

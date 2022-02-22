@@ -10,12 +10,12 @@ import (
 )
 
 type AppProxy interface {
-	GetNetNotificationChan() chan model.AppNotification
+	GetAppNotificationChan() chan model.AppNotification
 	GetAppCount() int
 }
 
 type AppProxyImpl struct {
-	NetNotificationChan chan model.AppNotification
+	AppNotificationChan chan model.AppNotification
 	grid                Grid
 	apps                map[string]*domain.App
 }
@@ -25,18 +25,18 @@ func NewAppProxy(grid Grid) *AppProxyImpl {
 }
 
 func (p *AppProxyImpl) Listen() {
-	if p.NetNotificationChan == nil {
-		p.NetNotificationChan = make(chan model.AppNotification)
+	if p.AppNotificationChan == nil {
+		p.AppNotificationChan = make(chan model.AppNotification)
 	}
 	go func() {
 		for {
-			p.Receive(<-p.NetNotificationChan)
+			p.Receive(<-p.AppNotificationChan)
 		}
 	}()
 }
 
-func (p *AppProxyImpl) GetNetNotificationChan() chan model.AppNotification {
-	return p.NetNotificationChan
+func (p *AppProxyImpl) GetAppNotificationChan() chan model.AppNotification {
+	return p.AppNotificationChan
 }
 
 func (p *AppProxyImpl) GetAppCount() int {

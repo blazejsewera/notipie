@@ -2,6 +2,7 @@ package net
 
 import (
 	"fmt"
+	"github.com/jazzsewera/notipie/core/internal/impl/grid"
 	"log"
 	"net/http"
 
@@ -18,7 +19,7 @@ func PreflightHandler(c *gin.Context) {
 	c.Header("Connection", "keep-alive")
 }
 
-func PushNotificationHandlerFor(hub *Hub) gin.HandlerFunc {
+func PushNotificationHandlerFor(appProxy grid.AppProxy) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		notification := model.AppNotification{}
 		err := c.ShouldBindJSON(&notification)
@@ -26,7 +27,7 @@ func PushNotificationHandlerFor(hub *Hub) gin.HandlerFunc {
 			fmt.Printf("error when binding json: %s", err)
 			return
 		}
-		hub.broadcast <- domainNotificationOf(notification)
+		appProxy.GetAppNotificationChan() <- notification
 	}
 }
 
