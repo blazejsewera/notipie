@@ -9,19 +9,24 @@ import (
 	"time"
 )
 
-type AppProxy struct {
-	NetNotificationChan chan model.NetNotification
+type AppProxy interface {
+	GetNetNotificationChan() chan model.AppNotification
+	GetAppCount() int
+}
+
+type AppProxyImpl struct {
+	NetNotificationChan chan model.AppNotification
 	grid                Grid
 	apps                map[string]*domain.App
 }
 
-func NewAppProxy(grid Grid) *AppProxy {
-	return &AppProxy{grid: grid, apps: make(map[string]*domain.App)}
+func NewAppProxy(grid Grid) *AppProxyImpl {
+	return &AppProxyImpl{grid: grid, apps: make(map[string]*domain.App)}
 }
 
-func (p *AppProxy) Listen() {
+func (p *AppProxyImpl) Listen() {
 	if p.NetNotificationChan == nil {
-		p.NetNotificationChan = make(chan model.NetNotification)
+		p.NetNotificationChan = make(chan model.AppNotification)
 	}
 	go func() {
 		for {
@@ -30,11 +35,15 @@ func (p *AppProxy) Listen() {
 	}()
 }
 
-func (p *AppProxy) GetAppCount() int {
+func (p *AppProxyImpl) GetNetNotificationChan() chan model.AppNotification {
+	return p.NetNotificationChan
+}
+
+func (p *AppProxyImpl) GetAppCount() int {
 	return len(p.apps)
 }
 
-func (p *AppProxy) Receive(netNotification model.NetNotification) {
+func (p *AppProxyImpl) Receive(netNotification model.AppNotification) {
 	notification, err := p.notificationOf(netNotification)
 	if err != nil {
 		fmt.Printf("error when converting a notification: %s", err)
@@ -50,7 +59,7 @@ func (p *AppProxy) Receive(netNotification model.NetNotification) {
 	}
 }
 
-func (p *AppProxy) notificationOf(netNotification model.NetNotification) (domain.Notification, error) {
+func (p *AppProxyImpl) notificationOf(netNotification model.AppNotification) (domain.Notification, error) {
 	nn := model.AddIDTo(netNotification)
 	app := p.getOrCreateApp(nn)
 	timestamp, err := time.Parse(timeformat.RFC3339Milli, nn.Timestamp)
@@ -70,7 +79,7 @@ func (p *AppProxy) notificationOf(netNotification model.NetNotification) (domain
 	return notification, nil
 }
 
-func (p *AppProxy) getOrCreateApp(n model.NetNotification) *domain.App {
+func (p *AppProxyImpl) getOrCreateApp(n model.AppNotification) *domain.App {
 	appID := n.AppID
 
 	app, ok := p.apps[appID]
@@ -82,7 +91,7 @@ func (p *AppProxy) getOrCreateApp(n model.NetNotification) *domain.App {
 
 }
 
-func (p *AppProxy) createAndInitApp(n model.NetNotification) *domain.App {
+func (p *AppProxyImpl) createAndInitApp(n model.AppNotification) *domain.App {
 	appID := uuid.Generate()
 
 	app := &domain.App{

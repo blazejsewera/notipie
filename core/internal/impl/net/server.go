@@ -20,7 +20,7 @@ func PreflightHandler(c *gin.Context) {
 
 func PushNotificationHandlerFor(hub *Hub) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		notification := model.NetNotification{}
+		notification := model.AppNotification{}
 		err := c.ShouldBindJSON(&notification)
 		if err != nil {
 			fmt.Printf("error when binding json: %s", err)
@@ -30,7 +30,7 @@ func PushNotificationHandlerFor(hub *Hub) gin.HandlerFunc {
 	}
 }
 
-func domainNotificationOf(n model.NetNotification) domain.Notification {
+func domainNotificationOf(n model.AppNotification) domain.Notification {
 	return domain.Notification{}
 }
 

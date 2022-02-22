@@ -1,4 +1,4 @@
-package usecase
+package persistence
 
 import "github.com/jazzsewera/notipie/core/internal/domain"
 

@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestNetNotification(t *testing.T) {
+func TestAppNotification(t *testing.T) {
 	// given
-	netNotification := model.NetNotification{
+	appNotification := model.AppNotification{
 		HashableNetNotification: model.HashableNetNotification{
 			AppName: "1",
 			AppID:   "2",
@@ -18,24 +18,24 @@ func TestNetNotification(t *testing.T) {
 		Read:      true,
 		ApiKey:    "5",
 	}
-	netNotificationJSON := `{"appName":"1","appId":"2","title":"3","timestamp":"4","read":true,"apiKey":"5"}`
+	appNotificationJSON := `{"appName":"1","appId":"2","title":"3","timestamp":"4","read":true,"apiKey":"5"}`
 
 	t.Run("marshal json", func(t *testing.T) {
 		// when
-		marshaled := netNotification.ToJSON()
+		marshaled := appNotification.ToJSON()
 
 		// then
-		assert.Equal(t, netNotificationJSON, marshaled)
+		assert.Equal(t, appNotificationJSON, marshaled)
 	})
 
 	t.Run("unmarshal json", func(t *testing.T) {
 		t.Run("valid", func(t *testing.T) {
 			// when
-			unmarshaled, err := model.NetNotificationFromJSON(netNotificationJSON)
+			unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSON)
 
 			// then
 			if assert.NoError(t, err) {
-				assert.Equal(t, netNotification, unmarshaled)
+				assert.Equal(t, appNotification, unmarshaled)
 			}
 		})
 
@@ -44,7 +44,7 @@ func TestNetNotification(t *testing.T) {
 			invalidJSON := `{"title":"1"}`
 
 			// when
-			_, err := model.NetNotificationFromJSON(invalidJSON)
+			_, err := model.AppNotificationFromJSON(invalidJSON)
 
 			// then
 			if assert.Error(t, err) {
@@ -58,9 +58,9 @@ func TestNetNotification(t *testing.T) {
 		expectedHash := "8Mkt7MhqpOfj27kg8m6Ss+KWcwsA2IIL+Et9UBMCJUs="
 
 		// when
-		nnWithID := model.AddIDTo(netNotification)
+		anWithID := model.AddIDTo(appNotification)
 
 		// then
-		assert.Equal(t, expectedHash, nnWithID.ID)
+		assert.Equal(t, expectedHash, anWithID.ID)
 	})
 }
