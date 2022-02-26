@@ -8,7 +8,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/jazzsewera/notipie/core/internal/domain"
 	"github.com/jazzsewera/notipie/core/internal/impl/model"
 )
 
@@ -31,18 +30,8 @@ func PushNotificationHandlerFor(appProxy grid.AppProxy) gin.HandlerFunc {
 	}
 }
 
-func domainNotificationOf(n model.AppNotification) domain.Notification {
-	return domain.Notification{}
-}
-
 func WSHandlerFor(hub *Hub) gin.HandlerFunc {
-	var upgrader = websocket.Upgrader{
-		ReadBufferSize:  1024,
-		WriteBufferSize: 1024,
-		CheckOrigin: func(r *http.Request) bool {
-			return true // TODO: replace this dev value
-		},
-	}
+	upgrader := createUpgrader()
 
 	return func(c *gin.Context) {
 		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
@@ -50,10 +39,20 @@ func WSHandlerFor(hub *Hub) gin.HandlerFunc {
 			log.Println(err)
 			return
 		}
-		client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
+		client := NewClient(hub, conn)
 		client.hub.register <- client
 
 		go client.writePump()
 		go client.readPump()
+	}
+}
+
+func createUpgrader() *websocket.Upgrader {
+	return &websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+		CheckOrigin: func(r *http.Request) bool {
+			return true // TODO: replace this dev value
+		},
 	}
 }
