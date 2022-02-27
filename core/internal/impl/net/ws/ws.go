@@ -1,4 +1,4 @@
-package net
+package ws
 
 import (
 	"bytes"
@@ -11,7 +11,8 @@ import (
 )
 
 type Client struct {
-	hub            *Hub
+	UUID           string
+	hub            ClientHub
 	conn           *websocket.Conn
 	send           chan []byte
 	l              *zap.Logger
@@ -23,7 +24,7 @@ type Client struct {
 	space          []byte
 }
 
-func NewClient(hub *Hub, conn *websocket.Conn) *Client {
+func NewClient(uuid string, hub ClientHub, conn *websocket.Conn) *Client {
 	writeWait := 10 * time.Second
 	pongWait := 60 * time.Second
 	pingPeriod := (pongWait * 9) / 10
@@ -33,6 +34,7 @@ func NewClient(hub *Hub, conn *websocket.Conn) *Client {
 	space := []byte{' '}
 
 	return &Client{
+		UUID:           uuid,
 		hub:            hub,
 		conn:           conn,
 		send:           make(chan []byte, 256),
@@ -57,7 +59,7 @@ func (c *Client) readPump() {
 }
 
 func closeConnFor(c *Client) {
-	c.hub.unregister <- c
+	c.hub.GetUnregisterChan() <- c.UUID
 	err := c.conn.Close()
 	if err != nil {
 		c.l.Error("could not close websocket", zap.Error(err))

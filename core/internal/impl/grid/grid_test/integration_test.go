@@ -2,24 +2,32 @@ package grid_test
 
 import (
 	"github.com/jazzsewera/notipie/core/internal/impl/grid"
-	"github.com/jazzsewera/notipie/core/pkg/lib/util"
+	"github.com/jazzsewera/notipie/core/internal/impl/model"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestAppToGrid(t *testing.T) {
+func TestGrid(t *testing.T) {
 	// given
-	mockGrid := NewMockGrid()
-	appProxy := grid.NewAppProxy(mockGrid)
-	appNotification := NewTestAppNotification()
-	mockGrid.Start()
-	appProxy.Listen()
+	cnExpected := NewTestClientNotification()
+	t.Run("send notification - receive on user proxy", func(t *testing.T) {
+		// given
+		g := grid.NewGrid()
+		an := NewTestAppNotification()
+		g.Start()
 
-	// when
-	util.AsyncRun(func() {
-		appProxy.AppNotificationChan <- appNotification
+		// when
+		g.GetAppNotificationChan() <- an
+
+		// then
+		userProxy, _ := g.GetUserProxy(grid.RootUsername)
+		cn := <-userProxy.GetClientNotificationChan()
+		assertClientNotificationEqual(t, cnExpected, cn)
 	})
+}
 
-	// then
-	done := mockGrid.MockUserRepository.Done
-	util.AsyncAssert(t, done).Equal(1, mockGrid.MockUserRepository.GetNotificationCount())
+func assertClientNotificationEqual(t testing.TB, expected model.ClientNotification, actual model.ClientNotification) {
+	t.Helper()
+	expected.AppID = actual.AppID
+	assert.Equal(t, expected, actual)
 }

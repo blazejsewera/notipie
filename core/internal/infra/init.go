@@ -25,13 +25,10 @@ func (c *AppContext) initLogger(prod bool) {
 
 func (c *AppContext) initGrid() {
 	c.gr = grid.NewGrid()
-	c.ap = grid.NewAppProxy(c.gr)
-	c.up = grid.NewUserProxy()
-	return
 }
 
 func (c *AppContext) initEndpoint() {
-	c.ep = impl.NewEndpoint(c.gr, c.ap, c.up)
+	c.ep = impl.NewEndpoint(c.gr)
 }
 
 func (c *AppContext) Start() {

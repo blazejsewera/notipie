@@ -14,6 +14,10 @@ type Tag struct {
 	appsMutex        sync.Mutex
 }
 
+func NewTag(name string) *Tag {
+	return &Tag{Name: name}
+}
+
 func (t *Tag) Listen() {
 	if t.NotificationChan == nil {
 		t.NotificationChan = make(chan Notification)

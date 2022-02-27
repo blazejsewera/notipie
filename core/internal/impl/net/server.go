@@ -3,7 +3,8 @@ package net
 import (
 	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/impl/grid"
-	"log"
+	"github.com/jazzsewera/notipie/core/pkg/lib/log"
+	"go.uber.org/zap"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +19,7 @@ func PreflightHandler(c *gin.Context) {
 	c.Header("Connection", "keep-alive")
 }
 
-func PushNotificationHandlerFor(appProxy grid.AppProxy) gin.HandlerFunc {
+func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		notification := model.AppNotification{}
 		err := c.ShouldBindJSON(&notification)
@@ -26,24 +27,28 @@ func PushNotificationHandlerFor(appProxy grid.AppProxy) gin.HandlerFunc {
 			fmt.Printf("error when binding json: %s", err)
 			return
 		}
-		appProxy.GetAppNotificationChan() <- notification
+		grid.GetAppNotificationChan() <- notification
 	}
 }
 
-func WSHandlerFor(hub *Hub) gin.HandlerFunc {
+func WSHandlerFor(grid grid.Grid) gin.HandlerFunc {
+	l := log.For("impl").Named("net").Named("server")
 	upgrader := createUpgrader()
 
 	return func(c *gin.Context) {
-		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+		username := c.DefaultQuery("user", "root") // TODO: add user auth
+		userProxy, err := grid.GetUserProxy(username)
 		if err != nil {
-			log.Println(err)
+			l.Error("could not get user proxy", zap.Error(err))
 			return
 		}
-		client := NewClient(hub, conn)
-		client.hub.register <- client
-
-		go client.writePump()
-		go client.readPump()
+		hub := userProxy.GetClientHub()
+		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+		if err != nil {
+			l.Error("could not upgrade conn", zap.Error(err))
+			return
+		}
+		hub.GetRegisterChan() <- conn
 	}
 }
 

@@ -112,10 +112,10 @@ func TestUser_SubscribeToTag(t *testing.T) {
 	tag := NewTestTag()
 
 	// when
-	user.SubscribeToTag(&tag)
+	user.SubscribeToTag(tag)
 
 	// then
-	assert.ElementsMatch(t, []*domain.Tag{&tag}, user.Tags)
+	assert.ElementsMatch(t, []*domain.Tag{tag}, user.Tags)
 }
 
 func TestUser_UnsubscribeFromTag(t *testing.T) {
@@ -123,7 +123,7 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		// given
 		user, _ := NewTestUser()
 		tag := NewTestTag()
-		user.Tags = []*domain.Tag{&tag}
+		user.Tags = []*domain.Tag{tag}
 
 		// when
 		err := user.UnsubscribeFromTag(tag.Name)

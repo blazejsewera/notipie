@@ -8,12 +8,16 @@ import (
 )
 
 type Notification struct {
-	ID        string
-	App       *App
-	Timestamp time.Time
-	Title     string
-	Body      string
-	Urgency   Urgency
+	ID         string
+	App        *App
+	Timestamp  time.Time
+	Title      string
+	Subtitle   string
+	Body       string
+	Urgency    Urgency
+	ExtURI     string
+	ReadURI    string
+	ArchiveURI string
 }
 
 func (n Notification) String() string {

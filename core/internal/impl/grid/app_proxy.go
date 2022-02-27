@@ -4,47 +4,27 @@ import (
 	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/domain"
 	"github.com/jazzsewera/notipie/core/internal/impl/model"
+	"github.com/jazzsewera/notipie/core/pkg/lib/log"
 	"github.com/jazzsewera/notipie/core/pkg/lib/timeformat"
-	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
+	"go.uber.org/zap"
 	"time"
 )
 
 type AppProxy interface {
-	GetAppNotificationChan() chan model.AppNotification
-	GetAppCount() int
+	Receive(appNotification model.AppNotification)
 }
 
 type AppProxyImpl struct {
-	AppNotificationChan chan model.AppNotification
-	grid                Grid
-	apps                map[string]*domain.App
+	app *domain.App
+	l   *zap.Logger
 }
 
-func NewAppProxy(grid Grid) *AppProxyImpl {
-	return &AppProxyImpl{grid: grid, apps: make(map[string]*domain.App)}
+func NewAppProxy(app *domain.App) *AppProxyImpl {
+	return &AppProxyImpl{app: app, l: log.For("grid").Named("app_proxy")}
 }
 
-func (p *AppProxyImpl) Listen() {
-	if p.AppNotificationChan == nil {
-		p.AppNotificationChan = make(chan model.AppNotification)
-	}
-	go func() {
-		for {
-			p.Receive(<-p.AppNotificationChan)
-		}
-	}()
-}
-
-func (p *AppProxyImpl) GetAppNotificationChan() chan model.AppNotification {
-	return p.AppNotificationChan
-}
-
-func (p *AppProxyImpl) GetAppCount() int {
-	return len(p.apps)
-}
-
-func (p *AppProxyImpl) Receive(netNotification model.AppNotification) {
-	notification, err := p.notificationOf(netNotification)
+func (p *AppProxyImpl) Receive(appNotification model.AppNotification) {
+	notification, err := p.notificationOf(appNotification)
 	if err != nil {
 		fmt.Printf("error when converting a notification: %s", err)
 		return
@@ -54,55 +34,30 @@ func (p *AppProxyImpl) Receive(netNotification model.AppNotification) {
 	err = app.Send(notification)
 
 	if err != nil {
-		fmt.Printf("error when sending a notification: %s", err)
+		p.l.Error("error when sending a notification", zap.Error(err))
 		return
 	}
 }
 
-func (p *AppProxyImpl) notificationOf(netNotification model.AppNotification) (domain.Notification, error) {
-	nn := model.AddIDTo(netNotification)
-	app := p.getOrCreateApp(nn)
-	timestamp, err := time.Parse(timeformat.RFC3339Milli, nn.Timestamp)
+func (p *AppProxyImpl) notificationOf(appNotification model.AppNotification) (domain.Notification, error) {
+	an := model.AddIDTo(appNotification)
+	timestamp, err := time.Parse(timeformat.RFC3339Milli, an.Timestamp)
 	if err != nil {
 		return domain.Notification{}, err
 	}
 
 	notification := domain.Notification{
-		ID:        nn.ID,
-		App:       app,
-		Timestamp: timestamp,
-		Title:     nn.Title,
-		Body:      nn.Body,
-		Urgency:   domain.Medium, // TODO: Implement urgency
+		ID:         an.ID,
+		App:        p.app,
+		Timestamp:  timestamp,
+		Title:      an.Title,
+		Subtitle:   an.Subtitle,
+		Body:       an.Body,
+		Urgency:    domain.Medium, // TODO: implement urgency
+		ExtURI:     an.ExtURI,
+		ReadURI:    an.ReadURI,
+		ArchiveURI: an.ArchiveURI,
 	}
 
 	return notification, nil
-}
-
-func (p *AppProxyImpl) getOrCreateApp(n model.AppNotification) *domain.App {
-	appID := n.AppID
-
-	app, ok := p.apps[appID]
-	if ok {
-		return app
-	}
-
-	return p.createAndInitApp(n)
-
-}
-
-func (p *AppProxyImpl) createAndInitApp(n model.AppNotification) *domain.App {
-	appID := uuid.Generate()
-
-	app := &domain.App{
-		ID:      appID,
-		Name:    n.AppName,
-		IconURI: n.AppImgURI,
-	}
-
-	p.apps[appID] = app
-	app.AddTag(p.grid.GetRootTag())
-	app.Start()
-
-	return app
 }

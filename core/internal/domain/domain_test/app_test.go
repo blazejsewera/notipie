@@ -24,10 +24,10 @@ func TestApp_AddTag(t *testing.T) {
 	app, _ := NewTestApp()
 
 	// when
-	app.AddTag(&tag)
+	app.AddTag(tag)
 
 	// then
-	assert.ElementsMatch(t, []*domain.Tag{&tag}, app.GetTags())
+	assert.ElementsMatch(t, []*domain.Tag{tag}, app.GetTags())
 }
 
 func TestApp_RemoveTag(t *testing.T) {
@@ -35,7 +35,7 @@ func TestApp_RemoveTag(t *testing.T) {
 		// given
 		tag := NewTestTag()
 		app, _ := NewTestApp()
-		app.AddTag(&tag)
+		app.AddTag(tag)
 
 		// when
 		err := app.RemoveTag(tag.Name)

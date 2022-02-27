@@ -30,7 +30,7 @@ func TestIntegration_AppToUser(t *testing.T) {
 		app, _ := NewTestApp()
 		notification := NewTestNotification(app)
 
-		app.AddTag(&tag)
+		app.AddTag(tag)
 
 		// when
 		err := app.Send(notification)
@@ -47,15 +47,15 @@ func TestIntegration_AppToUser(t *testing.T) {
 		tag2.Listen()
 
 		app, _ := NewTestApp()
-		app.AddTag(&tag1)
-		app.AddTag(&tag2)
+		app.AddTag(tag1)
+		app.AddTag(tag2)
 
 		user1, repo1 := NewTestUserWithAsyncRepo()
 		user2, repo2 := NewTestUserWithAsyncRepo()
 
-		user1.SubscribeToTag(&tag1)
-		user1.SubscribeToTag(&tag2)
-		user2.SubscribeToTag(&tag1)
+		user1.SubscribeToTag(tag1)
+		user1.SubscribeToTag(tag2)
+		user2.SubscribeToTag(tag1)
 
 		user1.Listen()
 		user2.Listen()
@@ -90,12 +90,12 @@ func TestIntegration_UserToApp(t *testing.T) {
 		tag.Listen()
 
 		app, handler := NewTestApp()
-		app.AddTag(&tag)
+		app.AddTag(tag)
 		app.Start()
 
 		user, _ := NewTestUser()
 
-		user.SubscribeToTag(&tag)
+		user.SubscribeToTag(tag)
 		user.Listen()
 
 		notification := NewTestNotification(app)

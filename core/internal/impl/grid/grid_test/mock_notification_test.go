@@ -18,3 +18,13 @@ func NewTestAppNotification() model.AppNotification {
 		Read:      false,
 	}
 }
+
+func NewTestClientNotification() model.ClientNotification {
+	an := NewTestAppNotification()
+	return model.ClientNotification{
+		HashableNetNotification: an.HashableNetNotification,
+		ID:                      an.ID,
+		Timestamp:               an.Timestamp,
+		Read:                    an.Read,
+	}
+}
