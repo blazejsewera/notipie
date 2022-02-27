@@ -12,7 +12,7 @@ func TestGrid(t *testing.T) {
 	cnExpected := NewTestClientNotification()
 	t.Run("send notification - receive on user proxy", func(t *testing.T) {
 		// given
-		g := grid.NewGrid()
+		g := grid.NewGrid(MockClientHubFactory{})
 		an := NewTestAppNotification()
 		g.Start()
 
@@ -21,7 +21,7 @@ func TestGrid(t *testing.T) {
 
 		// then
 		userProxy, _ := g.GetUserProxy(grid.RootUsername)
-		cn := <-userProxy.GetClientNotificationChan()
+		cn := <-userProxy.GetClientHub().GetBroadcastChan()
 		assertClientNotificationEqual(t, cnExpected, cn)
 	})
 }

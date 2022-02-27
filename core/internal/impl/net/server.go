@@ -1,7 +1,6 @@
 package net
 
 import (
-	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/impl/grid"
 	"github.com/jazzsewera/notipie/core/pkg/lib/log"
 	"go.uber.org/zap"
@@ -20,13 +19,16 @@ func PreflightHandler(c *gin.Context) {
 }
 
 func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
+	l := log.For("impl").Named("net").Named("server")
+
 	return func(c *gin.Context) {
 		notification := model.AppNotification{}
 		err := c.ShouldBindJSON(&notification)
 		if err != nil {
-			fmt.Printf("error when binding json: %s", err)
+			l.Error("error when binding json", zap.Error(err))
 			return
 		}
+		l.Debug("received notification", zap.Reflect("notification", notification))
 		grid.GetAppNotificationChan() <- notification
 	}
 }

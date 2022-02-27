@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"github.com/jazzsewera/notipie/core/internal/domain"
 	"github.com/jazzsewera/notipie/core/internal/impl/model"
+	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
 	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
 )
 
 type Grid interface {
+	Start()
 	AddUser(username string)
 	GetRootTag() *domain.Tag
 	GetAppNotificationChan() chan model.AppNotification
@@ -19,14 +21,16 @@ type GridImpl struct {
 	apps                map[string]AppProxy
 	users               map[string]UserProxy
 	appNotificationChan chan model.AppNotification
+	clientHubFactory    ws.ClientHubFactory
 }
 
-func NewGrid() *GridImpl {
+func NewGrid(clientHubFactory ws.ClientHubFactory) *GridImpl {
 	return &GridImpl{
 		rootTag:             domain.NewTag(RootTagName),
 		apps:                make(map[string]AppProxy),
 		users:               make(map[string]UserProxy),
 		appNotificationChan: make(chan model.AppNotification),
+		clientHubFactory:    clientHubFactory,
 	}
 }
 
@@ -47,7 +51,7 @@ func (g *GridImpl) createAndStartRootUser() {
 }
 
 func (g *GridImpl) AddUser(username string) {
-	up := NewUserProxy(username)
+	up := NewUserProxy(username, g.clientHubFactory.GetClientHub())
 	g.users[username] = up
 	up.Start()
 }

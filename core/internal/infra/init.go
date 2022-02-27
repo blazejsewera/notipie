@@ -3,6 +3,7 @@ package infra
 import (
 	"github.com/jazzsewera/notipie/core/internal/impl"
 	"github.com/jazzsewera/notipie/core/internal/impl/grid"
+	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
 	"github.com/jazzsewera/notipie/core/pkg/lib/log"
 )
 
@@ -24,13 +25,15 @@ func (c *AppContext) initLogger(prod bool) {
 }
 
 func (c *AppContext) initGrid() {
-	c.gr = grid.NewGrid()
+	c.gr = grid.NewGrid(ws.DefaultClientHubFactory{})
+	c.gr.Start()
 }
 
 func (c *AppContext) initEndpoint() {
 	c.ep = impl.NewEndpoint(c.gr)
+	c.ep.Setup()
 }
 
 func (c *AppContext) Start() {
-
+	c.ep.Run()
 }

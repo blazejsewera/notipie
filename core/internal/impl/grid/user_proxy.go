@@ -10,35 +10,32 @@ import (
 )
 
 type UserProxy interface {
-	GetClientNotificationChan() chan model.ClientNotification
 	GetClientHub() ws.ClientHub
 	SubscribeUserToTag(tag *domain.Tag)
 }
 
 type UserProxyImpl struct {
-	user                   *domain.User
-	repo                   persistence.RealtimeNotificationRepo
-	hub                    ws.ClientHub
-	clientNotificationChan chan model.ClientNotification
+	user *domain.User
+	repo persistence.RealtimeNotificationRepo
+	hub  ws.ClientHub
 }
 
-func NewUserProxy(username string) *UserProxyImpl {
+func NewUserProxy(username string, hub ws.ClientHub) *UserProxyImpl {
 	repo := persistence.NewMemRealtimeNotificationRepository()
 	userID := uuid.Generate()
 	user := domain.NewUser(userID, username, repo)
-	hub := ws.NewHub()
 	return &UserProxyImpl{
-		user:                   user,
-		repo:                   repo,
-		hub:                    hub,
-		clientNotificationChan: make(chan model.ClientNotification),
+		user: user,
+		repo: repo,
+		hub:  hub,
 	}
 }
 
 func (p *UserProxyImpl) Start() {
 	p.user.Listen()
+	p.hub.Run()
 	go func() {
-		p.clientNotificationChan <- clientNotificationOf(<-p.repo.GetNotificationChan())
+		p.hub.GetBroadcastChan() <- clientNotificationOf(<-p.repo.GetNotificationChan())
 	}()
 }
 
@@ -60,10 +57,6 @@ func clientNotificationOf(n domain.Notification) model.ClientNotification {
 		Timestamp: timestamp,
 		Read:      false,
 	} // TODO: implement urgency
-}
-
-func (p *UserProxyImpl) GetClientNotificationChan() chan model.ClientNotification {
-	return p.clientNotificationChan
 }
 
 func (p *UserProxyImpl) GetClientHub() ws.ClientHub {

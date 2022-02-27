@@ -13,6 +13,17 @@ type ClientHub interface {
 	GetBroadcastChan() chan model.ClientNotification
 	GetRegisterChan() chan *websocket.Conn
 	GetUnregisterChan() chan string
+	Run()
+}
+
+type ClientHubFactory interface {
+	GetClientHub() ClientHub
+}
+
+type DefaultClientHubFactory struct{}
+
+func (f DefaultClientHubFactory) GetClientHub() ClientHub {
+	return NewHub()
 }
 
 type Hub struct {
@@ -46,33 +57,35 @@ func (h *Hub) GetUnregisterChan() chan string {
 }
 
 func (h *Hub) Run() {
-	for {
-		select {
-		case conn := <-h.register:
-			clientUUID := uuid.Generate()
-			client := NewClient(clientUUID, h, conn)
-			go client.readPump()
-			go client.writePump()
-			h.clients[clientUUID] = client
+	go func() {
+		for {
+			select {
+			case conn := <-h.register:
+				clientUUID := uuid.Generate()
+				client := NewClient(clientUUID, h, conn)
+				go client.readPump()
+				go client.writePump()
+				h.clients[clientUUID] = client
 
-		case clientUUID := <-h.unregister:
-			if client, ok := h.clients[clientUUID]; ok {
-				close(client.send)
-				delete(h.clients, clientUUID)
-			}
-		case notification := <-h.broadcast:
-			notificationBytes, err := json.Marshal(notification)
-			if err != nil {
-				h.l.Warn("could not serialize notification", zap.Error(err))
-			}
-			for clientUUID, client := range h.clients {
-				select {
-				case client.send <- notificationBytes:
-				default:
+			case clientUUID := <-h.unregister:
+				if client, ok := h.clients[clientUUID]; ok {
 					close(client.send)
 					delete(h.clients, clientUUID)
 				}
+			case notification := <-h.broadcast:
+				notificationBytes, err := json.Marshal(notification)
+				if err != nil {
+					h.l.Warn("could not serialize notification", zap.Error(err))
+				}
+				for clientUUID, client := range h.clients {
+					select {
+					case client.send <- notificationBytes:
+					default:
+						close(client.send)
+						delete(h.clients, clientUUID)
+					}
+				}
 			}
 		}
-	}
+	}()
 }
