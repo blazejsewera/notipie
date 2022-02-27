@@ -1,10 +1,11 @@
 package infra
 
 import (
-	"github.com/jazzsewera/notipie/core/internal/impl"
-	"github.com/jazzsewera/notipie/core/internal/impl/grid"
-	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
-	"github.com/jazzsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/internal/impl"
+	"github.com/blazejsewera/notipie/core/internal/impl/grid"
+	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/gin-gonic/gin"
 )
 
 type AppContext struct {
@@ -15,9 +16,18 @@ type AppContext struct {
 }
 
 func (c *AppContext) Init(config Config) {
+	c.initGin(config.prod)
 	c.initLogger(config.prod)
 	c.initGrid()
 	c.initEndpoint()
+}
+
+func (c *AppContext) initGin(prod bool) {
+	if prod {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
 }
 
 func (c *AppContext) initLogger(prod bool) {

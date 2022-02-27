@@ -1,6 +1,6 @@
 package grid_test
 
-import "github.com/jazzsewera/notipie/core/internal/impl/model"
+import "github.com/blazejsewera/notipie/core/internal/impl/model"
 
 func NewTestAppNotification() model.AppNotification {
 	return model.AppNotification{

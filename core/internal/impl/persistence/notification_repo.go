@@ -1,6 +1,6 @@
 package persistence
 
-import "github.com/jazzsewera/notipie/core/internal/domain"
+import "github.com/blazejsewera/notipie/core/internal/domain"
 
 type RealtimeNotificationRepo interface {
 	GetNotificationChan() chan domain.Notification

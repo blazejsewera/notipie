@@ -1,6 +1,6 @@
 package main
 
-import notipie "github.com/jazzsewera/notipie/core/internal/infra"
+import notipie "github.com/blazejsewera/notipie/core/internal/infra"
 
 func main() {
 	config := notipie.DefaultConfig()

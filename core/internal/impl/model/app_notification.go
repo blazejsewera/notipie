@@ -3,7 +3,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
+	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 )
 
 type AppNotification struct {

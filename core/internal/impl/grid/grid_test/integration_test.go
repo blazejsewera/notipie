@@ -1,8 +1,8 @@
 package grid_test
 
 import (
-	"github.com/jazzsewera/notipie/core/internal/impl/grid"
-	"github.com/jazzsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/impl/grid"
+	"github.com/blazejsewera/notipie/core/internal/impl/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

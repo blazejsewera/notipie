@@ -1,4 +1,4 @@
-module github.com/jazzsewera/notipie/core
+module github.com/blazejsewera/notipie/core
 
 go 1.16
 

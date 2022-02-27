@@ -1,12 +1,12 @@
 package grid
 
 import (
-	"github.com/jazzsewera/notipie/core/internal/domain"
-	"github.com/jazzsewera/notipie/core/internal/impl/model"
-	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
-	"github.com/jazzsewera/notipie/core/internal/impl/persistence"
-	"github.com/jazzsewera/notipie/core/pkg/lib/timeformat"
-	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
+	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/internal/impl/persistence"
+	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
+	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 )
 
 type UserProxy interface {

@@ -2,10 +2,10 @@ package grid
 
 import (
 	"fmt"
-	"github.com/jazzsewera/notipie/core/internal/domain"
-	"github.com/jazzsewera/notipie/core/internal/impl/model"
-	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
-	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
+	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 )
 
 type Grid interface {

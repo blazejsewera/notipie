@@ -1,7 +1,7 @@
 package domain_test
 
 import (
-	"github.com/jazzsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/internal/domain"
 	"time"
 )
 

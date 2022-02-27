@@ -2,7 +2,7 @@ package domain_test
 
 import (
 	"fmt"
-	"github.com/jazzsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/internal/domain"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

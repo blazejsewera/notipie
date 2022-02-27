@@ -1,11 +1,11 @@
 package impl
 
 import (
+	"github.com/blazejsewera/notipie/core/internal/impl/grid"
+	"github.com/blazejsewera/notipie/core/internal/impl/net"
+	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/gin-gonic/gin"
-	"github.com/jazzsewera/notipie/core/internal/impl/grid"
-	"github.com/jazzsewera/notipie/core/internal/impl/net"
-	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
-	"github.com/jazzsewera/notipie/core/pkg/lib/log"
 	"go.uber.org/zap"
 )
 
@@ -18,16 +18,15 @@ type Endpoint struct {
 
 func NewEndpoint(grid grid.Grid) *Endpoint {
 	return &Endpoint{
-		r:    gin.Default(),
+		r:    gin.New(),
 		grid: grid,
 		l:    log.For("impl").Named("endpoint"),
 	}
 }
 
 func (e *Endpoint) Setup() {
-	e.r.GET("/", func(c *gin.Context) {
-		c.String(200, "OK")
-	})
+	e.r.Use(gin.Recovery())
+	e.r.GET("/", net.PingHandler)
 
 	e.r.OPTIONS("/push", net.PreflightHandler)
 	e.r.POST("/push", net.PushNotificationHandlerFor(e.grid))

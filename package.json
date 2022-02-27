@@ -2,7 +2,7 @@
   "name": "notipie",
   "version": "0.3.0",
   "description": "Notification aggregator",
-  "repository": "https://github.com/jazzsewera/notipie",
+  "repository": "https://github.com/blazejsewera/notipie",
   "author": "Blazej Sewera",
   "license": "MPL-2.0",
   "private": true,

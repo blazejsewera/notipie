@@ -3,10 +3,10 @@
 all: clean sync tidy lint build test
 
 build:
-	go build github.com/jazzsewera/notipie/core/cmd/notipie
+	go build github.com/blazejsewera/notipie/core/cmd/notipie
 
 run:
-	go run github.com/jazzsewera/notipie/core/cmd/notipie
+	go run github.com/blazejsewera/notipie/core/cmd/notipie
 
 test:
 	go test ./...

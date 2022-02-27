@@ -1,9 +1,9 @@
 package grid_test
 
 import (
+	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
 	"github.com/gorilla/websocket"
-	"github.com/jazzsewera/notipie/core/internal/impl/model"
-	"github.com/jazzsewera/notipie/core/internal/impl/net/ws"
 )
 
 type MockClientHubFactory struct{}

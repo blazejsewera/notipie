@@ -1,11 +1,10 @@
 package grid
 
 import (
-	"fmt"
-	"github.com/jazzsewera/notipie/core/internal/domain"
-	"github.com/jazzsewera/notipie/core/internal/impl/model"
-	"github.com/jazzsewera/notipie/core/pkg/lib/log"
-	"github.com/jazzsewera/notipie/core/pkg/lib/timeformat"
+	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
 	"go.uber.org/zap"
 	"time"
 )
@@ -20,13 +19,14 @@ type AppProxyImpl struct {
 }
 
 func NewAppProxy(app *domain.App) *AppProxyImpl {
-	return &AppProxyImpl{app: app, l: log.For("grid").Named("app_proxy")}
+	return &AppProxyImpl{app: app, l: log.For("impl").Named("grid").Named("app_proxy")}
 }
 
 func (p *AppProxyImpl) Receive(appNotification model.AppNotification) {
+	p.l.Debug("received appNotification", zap.Reflect("appNotification", appNotification))
 	notification, err := p.notificationOf(appNotification)
 	if err != nil {
-		fmt.Printf("error when converting a notification: %s", err)
+		p.l.Error("error when converting a notification", zap.Error(err))
 		return
 	}
 
@@ -37,6 +37,7 @@ func (p *AppProxyImpl) Receive(appNotification model.AppNotification) {
 		p.l.Error("error when sending a notification", zap.Error(err))
 		return
 	}
+	p.l.Debug("sent domain notification with app", zap.String("appID", app.ID), zap.String("appName", app.Name))
 }
 
 func (p *AppProxyImpl) notificationOf(appNotification model.AppNotification) (domain.Notification, error) {

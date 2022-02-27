@@ -1,11 +1,10 @@
 package ws
 
 import (
-	"encoding/json"
+	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 	"github.com/gorilla/websocket"
-	"github.com/jazzsewera/notipie/core/internal/impl/model"
-	"github.com/jazzsewera/notipie/core/pkg/lib/log"
-	"github.com/jazzsewera/notipie/core/pkg/lib/uuid"
 	"go.uber.org/zap"
 )
 
@@ -66,26 +65,33 @@ func (h *Hub) Run() {
 				go client.readPump()
 				go client.writePump()
 				h.clients[clientUUID] = client
+				h.l.Debug("registered client in hub", logClientUUID(clientUUID))
 
 			case clientUUID := <-h.unregister:
 				if client, ok := h.clients[clientUUID]; ok {
 					close(client.send)
 					delete(h.clients, clientUUID)
+					h.l.Debug("unregistered client from hub", logClientUUID(clientUUID))
 				}
 			case notification := <-h.broadcast:
-				notificationBytes, err := json.Marshal(notification)
-				if err != nil {
-					h.l.Warn("could not serialize notification", zap.Error(err))
-				}
+				notificationJSON := notification.ToJSON()
+				h.l.Debug("broadcasting notification to clients", zap.String("notificationJSON", notificationJSON))
+				notificationBytes := []byte(notificationJSON)
 				for clientUUID, client := range h.clients {
 					select {
 					case client.send <- notificationBytes:
+						h.l.Debug("sent notification to client", logClientUUID(clientUUID))
 					default:
 						close(client.send)
 						delete(h.clients, clientUUID)
+						h.l.Debug("closed connection for client", logClientUUID(clientUUID))
 					}
 				}
 			}
 		}
 	}()
+}
+
+func logClientUUID(uuid string) zap.Field {
+	return zap.String("clientUUID", uuid)
 }
