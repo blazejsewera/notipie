@@ -81,11 +81,7 @@ func (g *GridImpl) createAppProxy(n model.AppNotification) AppProxy {
 func (g *GridImpl) createAndInitDomainApp(n model.AppNotification) *domain.App {
 	appID := uuid.Generate()
 
-	app := &domain.App{
-		ID:      appID,
-		Name:    n.AppName,
-		IconURI: n.AppImgURI,
-	} // TODO: implement command handler, use NewApp()
+	app := domain.NewApp(appID, n.AppName, n.AppImgURI, nil) // TODO: implement command handler
 
 	app.AddTag(g.rootTag)
 	app.Start()

@@ -2,6 +2,7 @@ package ws
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"go.uber.org/zap"
 	"io"
@@ -90,7 +91,7 @@ func (c *Client) readWholeMessage() {
 	for {
 		err := c.readMessage()
 		if err != nil {
-			c.l.Error("error when reading message from websocket", zap.Error(err))
+			c.l.Debug("websocket closed on the other end")
 			return
 		}
 	}
@@ -99,8 +100,8 @@ func (c *Client) readWholeMessage() {
 func (c *Client) readMessage() error {
 	n, notificationBytes, err := c.conn.ReadMessage()
 	if err != nil {
-		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-			c.l.Error("websocket unexpectedly closed, see error below")
+		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure, websocket.CloseNoStatusReceived) {
+			c.l.Error("websocket unexpectedly closed")
 		}
 		return err
 	}
@@ -122,7 +123,10 @@ func (c *Client) writePump() {
 	for {
 		select {
 		case message, ok := <-c.send:
-			c.broadcastMessage(message, ok)
+			err := c.broadcastMessage(message, ok)
+			if err != nil {
+				return
+			}
 		case <-ticker.C:
 			c.ping()
 		}
@@ -135,26 +139,23 @@ func (c *Client) getTicker() *time.Ticker {
 
 func (c *Client) stopTickerAndCloseConn(ticker *time.Ticker) {
 	ticker.Stop()
-	err := c.conn.Close()
-	if err != nil {
-		c.l.Error("could not close websocket connection", zap.Error(err))
-		return
-	}
+	_ = c.conn.Close()
 	c.l.Debug("closed websocket connection", zap.String("uuid", c.UUID))
 }
 
-func (c *Client) broadcastMessage(message []byte, ok bool) {
+func (c *Client) broadcastMessage(message []byte, ok bool) error {
 	err := c.setWriteDeadline()
 	if err != nil {
-		return
+		return err
 	}
 	if !ok {
 		c.sendCloseMessage()
-		return
+		return fmt.Errorf("sent close message")
 	}
 
 	c.writeMessage(message)
 	c.l.Debug("broadcast message", zap.String("uuid", c.UUID), zap.ByteString("message", message))
+	return nil
 }
 
 func (c *Client) setWriteDeadline() error {
@@ -167,11 +168,7 @@ func (c *Client) setWriteDeadline() error {
 }
 
 func (c *Client) sendCloseMessage() {
-	err := c.conn.WriteMessage(websocket.CloseMessage, []byte{})
-	if err != nil {
-		c.l.Error("error when sending close message to websocket", zap.Error(err))
-		return
-	}
+	_ = c.conn.WriteMessage(websocket.CloseMessage, []byte{})
 	c.l.Debug("sent close message", zap.String("uuid", c.UUID))
 }
 
@@ -206,10 +203,10 @@ func (c *Client) handleQueuedMessages(w io.Writer) {
 func (c *Client) close(w io.Closer) {
 	err := w.Close()
 	if err != nil {
-		c.l.Error("error when closing websocket", zap.Error(err))
+		c.l.Error("error when closing writer", zap.Error(err))
 		return
 	}
-	c.l.Debug("closed websocket", zap.String("uuid", c.UUID))
+	c.l.Debug("closed writer", zap.String("uuid", c.UUID))
 }
 
 func (c *Client) ping() {

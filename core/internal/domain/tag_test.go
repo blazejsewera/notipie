@@ -34,7 +34,7 @@ func TestTag_registerApp(t *testing.T) {
 func TestTag_broadcast(t *testing.T) {
 	t.Run("no users", func(t *testing.T) {
 		// given
-		tag := Tag{}
+		tag := NewTag("TestTag")
 		notification := Notification{}
 
 		// when
@@ -58,7 +58,7 @@ func TestTag_removeTag(t *testing.T) {
 		name := "2"
 
 		// when
-		tags, err := removeTag(tags, name)
+		tags, _, err := removeTag(tags, name)
 
 		// then
 		if assert.NoError(t, err) {
@@ -72,7 +72,7 @@ func TestTag_removeTag(t *testing.T) {
 		name := "2"
 
 		// when
-		_, err := removeTag(tags, name)
+		_, _, err := removeTag(tags, name)
 
 		// then
 		if assert.Error(t, err) {

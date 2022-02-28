@@ -1,6 +1,10 @@
 package domain
 
-import "sync"
+import (
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"go.uber.org/zap"
+	"sync"
+)
 
 type User struct {
 	ID                 string
@@ -10,10 +14,11 @@ type User struct {
 	repo               NotificationRepository
 	tagsMutex          sync.Mutex
 	lastNotificationID string
+	l                  *zap.Logger
 }
 
 func NewUser(id, username string, repo NotificationRepository) *User {
-	return &User{ID: id, Username: username, repo: repo}
+	return &User{ID: id, Username: username, repo: repo, l: log.For("domain").Named("user")}
 }
 
 func (u *User) Listen() {
@@ -41,11 +46,21 @@ func (u *User) SubscribeToTag(tag *Tag) {
 	tag.registerUser(u)
 }
 
-func (u *User) UnsubscribeFromTag(name string) (err error) {
+func (u *User) UnsubscribeFromTag(name string) error {
+	var err error
+	var tag *Tag
+
 	u.tagsMutex.Lock()
 	defer u.tagsMutex.Unlock()
-	u.Tags, err = removeTag(u.Tags, name)
-	return
+
+	u.Tags, tag, err = removeTag(u.Tags, name)
+	if err != nil {
+		u.l.Warn("could not unsubscribe from tag", zap.String("tagName", name), zap.String("userID", u.ID), zap.String("username", u.Username), zap.Error(err))
+		return err
+	}
+	tag.unregisterUser(u.ID)
+	u.l.Info("removed tag from user", zap.String("tagName", name), zap.String("userID", u.ID), zap.String("userName", u.Username))
+	return nil
 }
 
 func (u *User) GetLastNotifications(n int) []Notification {

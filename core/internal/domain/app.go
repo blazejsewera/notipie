@@ -2,6 +2,8 @@ package domain
 
 import (
 	"fmt"
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"go.uber.org/zap"
 	"sync"
 )
 
@@ -13,10 +15,11 @@ type App struct {
 	tags           []*Tag
 	tagsMutex      sync.Mutex
 	commandHandler CommandHandler
+	l              *zap.Logger
 }
 
 func NewApp(id, name, iconURI string, commandHandler CommandHandler) *App {
-	return &App{ID: id, Name: name, IconURI: iconURI, commandHandler: commandHandler}
+	return &App{ID: id, Name: name, IconURI: iconURI, commandHandler: commandHandler, l: log.For("domain").Named("app")}
 }
 
 func (a *App) Start() {
@@ -29,10 +32,13 @@ func (a *App) Start() {
 			a.commandHandler.HandleCommand(<-a.CommandChan)
 		}
 	}()
+
+	a.l.Debug("started app", zap.String("id", a.ID), zap.String("name", a.Name))
 }
 
 func (a *App) Send(notification Notification) error {
 	if len(a.tags) == 0 {
+		a.l.Warn("no tags attached to app", zap.String("id", a.ID), zap.String("name", a.Name))
 		return &SendError{
 			App:          a,
 			Notification: notification,
@@ -43,21 +49,42 @@ func (a *App) Send(notification Notification) error {
 
 	for _, tag := range a.tags {
 		tag.NotificationChan <- notification
+		a.l.Info(
+			"sent notification to tag",
+			zap.String("tagName", tag.Name),
+			zap.String("appID", a.ID),
+			zap.String("appName", a.Name),
+			zap.String("notificationID", notification.ID),
+		)
 	}
 
 	return nil
 }
 
 func (a *App) AddTag(tag *Tag) {
-	a.tags = append(a.tags, tag)
-	tag.registerApp(a)
-}
-
-func (a *App) RemoveTag(name string) (err error) {
 	a.tagsMutex.Lock()
 	defer a.tagsMutex.Unlock()
-	a.tags, err = removeTag(a.tags, name)
-	return
+
+	a.tags = append(a.tags, tag)
+	tag.registerApp(a)
+	a.l.Info("added tag to app", zap.String("tagName", tag.Name), zap.String("appID", a.ID), zap.String("appName", a.Name))
+}
+
+func (a *App) RemoveTag(name string) error {
+	var err error
+	var tag *Tag
+
+	a.tagsMutex.Lock()
+	defer a.tagsMutex.Unlock()
+
+	a.tags, tag, err = removeTag(a.tags, name)
+	if err != nil {
+		a.l.Warn("could not remove tag from app", zap.String("tagName", name), zap.String("appID", a.ID), zap.String("appName", a.Name), zap.Error(err))
+		return err
+	}
+	tag.unregisterApp(a.ID)
+	a.l.Info("removed tag from app", zap.String("tagName", name), zap.String("appID", a.ID), zap.String("appName", a.Name))
+	return nil
 }
 
 func (a *App) GetTags() []*Tag {
