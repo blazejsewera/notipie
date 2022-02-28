@@ -32,13 +32,14 @@ func (e *Endpoint) Setup() {
 	e.r.POST("/push", net.PushNotificationHandlerFor(e.grid))
 
 	e.r.GET("/ws", net.WSHandlerFor(e.grid))
+	e.l.Debug("gin endpoint setup complete")
 }
 
 func (e *Endpoint) Run() {
+	e.l.Info("starting endpoint")
 	err := e.r.Run()
 	if err != nil {
 		e.l.Fatal("could not run endpoint", zap.Error(err))
 		return
 	}
-	e.l.Info("endpoint running")
 }

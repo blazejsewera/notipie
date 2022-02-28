@@ -11,6 +11,7 @@ import (
 
 type AppProxy interface {
 	Receive(appNotification model.AppNotification)
+	GetAppID() string
 }
 
 type AppProxyImpl struct {
@@ -61,4 +62,8 @@ func (p *AppProxyImpl) notificationOf(appNotification model.AppNotification) (do
 	}
 
 	return notification, nil
+}
+
+func (p *AppProxyImpl) GetAppID() string {
+	return p.app.ID
 }

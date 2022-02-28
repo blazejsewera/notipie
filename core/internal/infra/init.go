@@ -16,22 +16,31 @@ type AppContext struct {
 }
 
 func (c *AppContext) Init(config Config) {
-	c.initGin(config.prod)
 	c.initLogger(config.prod)
+	c.initGin(config.prod)
 	c.initGrid()
 	c.initEndpoint()
 }
 
+func (c *AppContext) initLogger(prod bool) {
+	log.Init(prod)
+}
+
 func (c *AppContext) initGin(prod bool) {
+	l := log.For("infra").Named("init")
 	if prod {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
 		gin.SetMode(gin.DebugMode)
+		gin.DefaultWriter = voidWriter{}
+		l.Info("gin is running in Debug mode")
 	}
 }
 
-func (c *AppContext) initLogger(prod bool) {
-	log.Init(prod)
+type voidWriter struct{}
+
+func (v voidWriter) Write([]byte) (n int, err error) {
+	return 0, nil
 }
 
 func (c *AppContext) initGrid() {

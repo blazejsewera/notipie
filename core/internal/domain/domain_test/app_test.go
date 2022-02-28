@@ -28,6 +28,7 @@ func TestApp_AddTag(t *testing.T) {
 
 	// then
 	assert.ElementsMatch(t, []*domain.Tag{tag}, app.GetTags())
+	assert.ElementsMatch(t, []*domain.App{app}, tag.Apps)
 }
 
 func TestApp_RemoveTag(t *testing.T) {
@@ -43,6 +44,7 @@ func TestApp_RemoveTag(t *testing.T) {
 		// then
 		if assert.NoError(t, err) {
 			assert.Empty(t, app.GetTags())
+			assert.Empty(t, tag.Apps)
 		}
 	})
 

@@ -116,6 +116,7 @@ func TestUser_SubscribeToTag(t *testing.T) {
 
 	// then
 	assert.ElementsMatch(t, []*domain.Tag{tag}, user.Tags)
+	assert.ElementsMatch(t, []*domain.User{user}, tag.Users)
 }
 
 func TestUser_UnsubscribeFromTag(t *testing.T) {
@@ -129,8 +130,10 @@ func TestUser_UnsubscribeFromTag(t *testing.T) {
 		err := user.UnsubscribeFromTag(tag.Name)
 
 		// then
-		require.NoError(t, err)
-		assert.Empty(t, user.Tags)
+		if assert.NoError(t, err) {
+			assert.Empty(t, user.Tags)
+			assert.Empty(t, tag.Users)
+		}
 	})
 
 	t.Run("not found", func(t *testing.T) {

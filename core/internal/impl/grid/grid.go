@@ -5,7 +5,9 @@ import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
 	"github.com/blazejsewera/notipie/core/internal/impl/model"
 	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
+	"go.uber.org/zap"
 )
 
 type Grid interface {
@@ -13,6 +15,7 @@ type Grid interface {
 	AddUser(username string)
 	GetRootTag() *domain.Tag
 	GetAppNotificationChan() chan model.AppNotification
+	GetAppIDChan() chan string
 	GetUserProxy(userID string) (UserProxy, error)
 }
 
@@ -21,7 +24,9 @@ type GridImpl struct {
 	apps                map[string]AppProxy
 	users               map[string]UserProxy
 	appNotificationChan chan model.AppNotification
+	appIDChan           chan string
 	clientHubFactory    ws.ClientHubFactory
+	l                   *zap.Logger
 }
 
 func NewGrid(clientHubFactory ws.ClientHubFactory) *GridImpl {
@@ -30,7 +35,9 @@ func NewGrid(clientHubFactory ws.ClientHubFactory) *GridImpl {
 		apps:                make(map[string]AppProxy),
 		users:               make(map[string]UserProxy),
 		appNotificationChan: make(chan model.AppNotification),
+		appIDChan:           make(chan string),
 		clientHubFactory:    clientHubFactory,
+		l:                   log.For("impl").Named("grid").Named("grid"),
 	}
 }
 
@@ -42,12 +49,16 @@ func (g *GridImpl) Start() {
 			g.receive(<-g.appNotificationChan)
 		}
 	}()
+
+	g.l.Debug("started grid")
 }
 
 func (g *GridImpl) createAndStartRootUser() {
 	g.AddUser(RootUsername)
 	up, _ := g.GetUserProxy(RootUsername)
 	up.SubscribeUserToTag(g.GetRootTag())
+
+	g.l.Debug("created and started root user")
 }
 
 func (g *GridImpl) AddUser(username string) {
@@ -57,8 +68,14 @@ func (g *GridImpl) AddUser(username string) {
 }
 
 func (g *GridImpl) receive(appNotification model.AppNotification) {
+	g.l.Debug("received appNotification", zap.Reflect("appNotification", appNotification))
 	ap := g.getOrCreateAppProxy(appNotification)
+	g.sendBackAppID(ap)
 	ap.Receive(appNotification)
+}
+
+func (g *GridImpl) sendBackAppID(ap AppProxy) {
+	g.appIDChan <- ap.GetAppID()
 }
 
 func (g *GridImpl) getOrCreateAppProxy(n model.AppNotification) AppProxy {
@@ -69,7 +86,9 @@ func (g *GridImpl) getOrCreateAppProxy(n model.AppNotification) AppProxy {
 		return ap
 	}
 
-	return g.createAppProxy(n)
+	newAP := g.createAppProxy(n)
+	g.apps[appID] = newAP
+	return newAP
 
 }
 
@@ -95,6 +114,10 @@ func (g *GridImpl) GetRootTag() *domain.Tag {
 
 func (g *GridImpl) GetAppNotificationChan() chan model.AppNotification {
 	return g.appNotificationChan
+}
+
+func (g *GridImpl) GetAppIDChan() chan string {
+	return g.appIDChan
 }
 
 func (g *GridImpl) GetUserProxy(username string) (UserProxy, error) {

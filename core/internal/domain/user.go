@@ -18,7 +18,12 @@ type User struct {
 }
 
 func NewUser(id, username string, repo NotificationRepository) *User {
-	return &User{ID: id, Username: username, repo: repo, l: log.For("domain").Named("user")}
+	return &User{
+		ID:       id,
+		Username: username,
+		repo:     repo,
+		l:        log.For("domain").Named("user").With(zap.String("userID", id), zap.String("username", username)),
+	}
 }
 
 func (u *User) Listen() {
@@ -30,20 +35,45 @@ func (u *User) Listen() {
 			u.Receive(<-u.NotificationChan)
 		}
 	}()
+
+	u.l.Debug("started user")
 }
 
 func (u *User) Receive(notification Notification) {
+	u.logRxNotification(notification)
 	if notification.ID != u.lastNotificationID {
 		u.repo.SaveNotification(notification)
 		u.lastNotificationID = notification.ID
+		u.logNotificationSaved(notification)
+	} else {
+		u.l.Debug("notificationID same as lastNotificationID", zap.String("notificationID", notification.ID))
 	}
+}
+
+func (u *User) logRxNotification(notification Notification) {
+	u.l.Debug(
+		"received notification",
+		zap.String("notificationID", notification.ID),
+		zap.String("lastNotificationID", u.lastNotificationID),
+	)
+}
+
+func (u *User) logNotificationSaved(notification Notification) {
+	u.l.Info(
+		"notification saved",
+		zap.String("notificationID", notification.ID),
+		zap.String("notificationTitle", notification.Title),
+		zap.String("appName", notification.App.Name),
+	)
 }
 
 func (u *User) SubscribeToTag(tag *Tag) {
 	u.tagsMutex.Lock()
+	defer u.tagsMutex.Unlock()
+
 	u.Tags = append(u.Tags, tag)
-	u.tagsMutex.Unlock()
 	tag.registerUser(u)
+	u.l.Info("subscribed to tag", zap.String("tagName", tag.Name))
 }
 
 func (u *User) UnsubscribeFromTag(name string) error {
@@ -55,11 +85,11 @@ func (u *User) UnsubscribeFromTag(name string) error {
 
 	u.Tags, tag, err = removeTag(u.Tags, name)
 	if err != nil {
-		u.l.Warn("could not unsubscribe from tag", zap.String("tagName", name), zap.String("userID", u.ID), zap.String("username", u.Username), zap.Error(err))
+		u.l.Warn("could not unsubscribe from tag", zap.String("tagName", name), zap.Error(err))
 		return err
 	}
 	tag.unregisterUser(u.ID)
-	u.l.Info("removed tag from user", zap.String("tagName", name), zap.String("userID", u.ID), zap.String("userName", u.Username))
+	u.l.Info("removed tag from user", zap.String("tagName", name))
 	return nil
 }
 

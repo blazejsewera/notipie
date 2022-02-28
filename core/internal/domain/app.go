@@ -19,7 +19,13 @@ type App struct {
 }
 
 func NewApp(id, name, iconURI string, commandHandler CommandHandler) *App {
-	return &App{ID: id, Name: name, IconURI: iconURI, commandHandler: commandHandler, l: log.For("domain").Named("app")}
+	return &App{
+		ID:             id,
+		Name:           name,
+		IconURI:        iconURI,
+		commandHandler: commandHandler,
+		l:              log.For("domain").Named("app").With(zap.String("appID", id), zap.String("appName", name)),
+	}
 }
 
 func (a *App) Start() {
@@ -33,12 +39,12 @@ func (a *App) Start() {
 		}
 	}()
 
-	a.l.Debug("started app", zap.String("id", a.ID), zap.String("name", a.Name))
+	a.l.Debug("started app")
 }
 
 func (a *App) Send(notification Notification) error {
 	if len(a.tags) == 0 {
-		a.l.Warn("no tags attached to app", zap.String("id", a.ID), zap.String("name", a.Name))
+		a.l.Warn("no tags attached to app")
 		return &SendError{
 			App:          a,
 			Notification: notification,
@@ -49,16 +55,18 @@ func (a *App) Send(notification Notification) error {
 
 	for _, tag := range a.tags {
 		tag.NotificationChan <- notification
-		a.l.Info(
-			"sent notification to tag",
-			zap.String("tagName", tag.Name),
-			zap.String("appID", a.ID),
-			zap.String("appName", a.Name),
-			zap.String("notificationID", notification.ID),
-		)
+		a.logSentNotificationToTag(tag, notification)
 	}
 
 	return nil
+}
+
+func (a *App) logSentNotificationToTag(tag *Tag, notification Notification) {
+	a.l.Info(
+		"sent notification to tag",
+		zap.String("tagName", tag.Name),
+		zap.String("notificationID", notification.ID),
+	)
 }
 
 func (a *App) AddTag(tag *Tag) {
@@ -67,7 +75,7 @@ func (a *App) AddTag(tag *Tag) {
 
 	a.tags = append(a.tags, tag)
 	tag.registerApp(a)
-	a.l.Info("added tag to app", zap.String("tagName", tag.Name), zap.String("appID", a.ID), zap.String("appName", a.Name))
+	a.l.Info("added tag to app", zap.String("tagName", tag.Name))
 }
 
 func (a *App) RemoveTag(name string) error {
@@ -79,11 +87,11 @@ func (a *App) RemoveTag(name string) error {
 
 	a.tags, tag, err = removeTag(a.tags, name)
 	if err != nil {
-		a.l.Warn("could not remove tag from app", zap.String("tagName", name), zap.String("appID", a.ID), zap.String("appName", a.Name), zap.Error(err))
+		a.l.Warn("could not remove tag from app", zap.String("tagName", name), zap.Error(err))
 		return err
 	}
 	tag.unregisterApp(a.ID)
-	a.l.Info("removed tag from app", zap.String("tagName", name), zap.String("appID", a.ID), zap.String("appName", a.Name))
+	a.l.Info("removed tag from app", zap.String("tagName", name))
 	return nil
 }
 

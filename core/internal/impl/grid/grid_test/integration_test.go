@@ -20,14 +20,15 @@ func TestGrid(t *testing.T) {
 		g.GetAppNotificationChan() <- an
 
 		// then
+		appID := <-g.GetAppIDChan()
 		userProxy, _ := g.GetUserProxy(grid.RootUsername)
 		cn := <-userProxy.GetClientHub().GetBroadcastChan()
-		assertClientNotificationEqual(t, cnExpected, cn)
+		assertClientNotificationEqual(t, cnExpected, cn, appID)
 	})
 }
 
-func assertClientNotificationEqual(t testing.TB, expected model.ClientNotification, actual model.ClientNotification) {
+func assertClientNotificationEqual(t testing.TB, expected model.ClientNotification, actual model.ClientNotification, actualAppID string) {
 	t.Helper()
-	expected.AppID = actual.AppID
+	expected.AppID = actualAppID
 	assert.Equal(t, expected, actual)
 }

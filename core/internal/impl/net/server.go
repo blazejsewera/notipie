@@ -11,14 +11,14 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var l = log.For("impl").Named("net").Named("server")
+
 func PingHandler(c *gin.Context) {
-	l := log.For("impl").Named("net").Named("server")
 	logRequest(l, c, "/")
 	c.String(http.StatusOK, "OK")
 }
 
 func PreflightHandler(c *gin.Context) {
-	l := log.For("impl").Named("net").Named("server")
 	logRequest(l, c, "preflight")
 	c.Header("Access-Control-Allow-Origin", "*") // TODO: replace this dev value
 	c.Header("Access-Control-Request-Method", "POST, OPTIONS")
@@ -27,8 +27,6 @@ func PreflightHandler(c *gin.Context) {
 }
 
 func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
-	l := log.For("impl").Named("net").Named("server")
-
 	return func(c *gin.Context) {
 		logRequest(l, c, "push")
 		notification := model.AppNotification{}
@@ -39,11 +37,11 @@ func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
 		}
 		l.Debug("received notification", zap.Reflect("notification", notification))
 		grid.GetAppNotificationChan() <- notification
+		c.JSON(http.StatusCreated, gin.H{"appId": <-grid.GetAppIDChan()})
 	}
 }
 
 func WSHandlerFor(grid grid.Grid) gin.HandlerFunc {
-	l := log.For("impl").Named("net").Named("server")
 	upgrader := createUpgrader()
 
 	return func(c *gin.Context) {

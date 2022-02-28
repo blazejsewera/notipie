@@ -18,7 +18,7 @@ type Tag struct {
 }
 
 func NewTag(name string) *Tag {
-	return &Tag{Name: name, l: log.For("domain").Named("tag")}
+	return &Tag{Name: name, l: log.For("domain").Named("tag").With(zap.String("tagName", name))}
 }
 
 func (t *Tag) Listen() {
@@ -32,12 +32,12 @@ func (t *Tag) Listen() {
 		}
 	}()
 
-	t.l.Debug("started tag", zap.String("name", t.Name))
+	t.l.Debug("started tag")
 }
 
 func (t *Tag) broadcast(notification Notification) error {
 	if len(t.Users) == 0 {
-		t.l.Warn("no users subscribed to tag", zap.String("name", t.Name))
+		t.l.Warn("no users subscribed to tag")
 		return fmt.Errorf(NoUserWhenBroadcastErrorMessage)
 	}
 
@@ -46,7 +46,6 @@ func (t *Tag) broadcast(notification Notification) error {
 		t.l.Info(
 			"sent notification to user",
 			zap.String("username", user.Username),
-			zap.String("tagName", t.Name),
 			zap.String("notificationID", notification.ID),
 		)
 	}
@@ -76,7 +75,7 @@ func (t *Tag) unregisterUser(userID string) {
 		t.l.Warn("error when unregistering user from tag", zap.Error(err))
 		return
 	}
-	t.l.Info("unregistered app from tag", zap.String("tagName", t.Name), zap.String("userID", userID))
+	t.l.Info("unregistered app from tag", zap.String("userID", userID))
 }
 
 func (t *Tag) unregisterApp(appID string) {
@@ -90,7 +89,7 @@ func (t *Tag) unregisterApp(appID string) {
 		t.l.Warn("error when unregistering app from tag", zap.Error(err))
 		return
 	}
-	t.l.Info("unregistered app from tag", zap.String("tagName", t.Name), zap.String("appID", appID))
+	t.l.Info("unregistered app from tag", zap.String("appID", appID))
 }
 
 const (
