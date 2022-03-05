@@ -90,6 +90,9 @@ dev-core:
 	@cd core; \
 	$(MAKE) run
 
+dev-manual-test:
+	@cd test/manual; \
+	yarn start
 
 # test
 

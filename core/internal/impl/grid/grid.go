@@ -75,7 +75,9 @@ func (g *GridImpl) receive(appNotification model.AppNotification) {
 }
 
 func (g *GridImpl) sendBackAppID(ap AppProxy) {
+	g.l.Debug("sending back app id", zap.String("appID", ap.GetAppID()))
 	g.appIDChan <- ap.GetAppID()
+	g.l.Debug("sent back app id")
 }
 
 func (g *GridImpl) getOrCreateAppProxy(n model.AppNotification) AppProxy {
@@ -83,13 +85,15 @@ func (g *GridImpl) getOrCreateAppProxy(n model.AppNotification) AppProxy {
 
 	ap, ok := g.apps[appID]
 	if ok {
+		g.l.Debug("found app", zap.String("appID", appID))
 		return ap
 	}
 
+	g.l.Debug("did not find app", zap.String("appID", appID))
 	newAP := g.createAppProxy(n)
-	g.apps[appID] = newAP
+	newAppID := newAP.GetAppID()
+	g.apps[newAppID] = newAP
 	return newAP
-
 }
 
 func (g *GridImpl) createAppProxy(n model.AppNotification) AppProxy {

@@ -39,7 +39,7 @@ func NewClient(uuid string, hub ClientHub, conn *websocket.Conn) *Client {
 		hub:            hub,
 		conn:           conn,
 		send:           make(chan []byte, 256),
-		l:              log.For("impl").Named("net").Named("ws"),
+		l:              log.For("impl").Named("net").Named("ws").With(zap.String("clientUUID", uuid)),
 		writeWait:      writeWait,
 		pongWait:       pongWait,
 		pingPeriod:     pingPeriod,
@@ -60,7 +60,7 @@ func (c *Client) readPump() {
 }
 
 func closeConnFor(c *Client) {
-	c.l.Debug("closing conn", zap.String("uuid", c.UUID))
+	c.l.Debug("closing conn")
 	c.hub.GetUnregisterChan() <- c.UUID
 	err := c.conn.Close()
 	if err != nil {
@@ -107,7 +107,6 @@ func (c *Client) readMessage() error {
 	}
 	c.l.Debug(
 		"read message from websocket",
-		zap.String("uuid", c.UUID),
 		zap.Int("bytesRead", n),
 		zap.ByteString("notificationBytes", notificationBytes),
 	)
@@ -140,7 +139,7 @@ func (c *Client) getTicker() *time.Ticker {
 func (c *Client) stopTickerAndCloseConn(ticker *time.Ticker) {
 	ticker.Stop()
 	_ = c.conn.Close()
-	c.l.Debug("closed websocket connection", zap.String("uuid", c.UUID))
+	c.l.Debug("closed websocket connection")
 }
 
 func (c *Client) broadcastMessage(message []byte, ok bool) error {
@@ -154,7 +153,7 @@ func (c *Client) broadcastMessage(message []byte, ok bool) error {
 	}
 
 	c.writeMessage(message)
-	c.l.Debug("broadcast message", zap.String("uuid", c.UUID), zap.ByteString("message", message))
+	c.l.Debug("broadcast message", zap.ByteString("message", message))
 	return nil
 }
 
@@ -169,7 +168,7 @@ func (c *Client) setWriteDeadline() error {
 
 func (c *Client) sendCloseMessage() {
 	_ = c.conn.WriteMessage(websocket.CloseMessage, []byte{})
-	c.l.Debug("sent close message", zap.String("uuid", c.UUID))
+	c.l.Debug("sent close message")
 }
 
 func (c *Client) writeMessage(message []byte) {
@@ -206,7 +205,7 @@ func (c *Client) close(w io.Closer) {
 		c.l.Error("error when closing writer", zap.Error(err))
 		return
 	}
-	c.l.Debug("closed writer", zap.String("uuid", c.UUID))
+	c.l.Debug("closed writer")
 }
 
 func (c *Client) ping() {
@@ -218,5 +217,5 @@ func (c *Client) ping() {
 		c.l.Warn("could not ping websocket", zap.Error(err))
 		return
 	}
-	c.l.Debug("pinged websocket", zap.String("uuid", c.UUID))
+	c.l.Debug("pinged websocket")
 }

@@ -42,6 +42,7 @@ func (p *AppProxyImpl) Receive(appNotification model.AppNotification) {
 }
 
 func (p *AppProxyImpl) notificationOf(appNotification model.AppNotification) (domain.Notification, error) {
+	appNotification.AppID = p.app.ID
 	an := model.AddIDTo(appNotification)
 	timestamp, err := time.Parse(timeformat.RFC3339Milli, an.Timestamp)
 	if err != nil {
