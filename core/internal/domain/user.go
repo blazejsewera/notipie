@@ -26,7 +26,7 @@ func NewUser(id, username string, repo NotificationRepository) *User {
 	}
 }
 
-func (u *User) Listen() {
+func (u *User) Start() {
 	if u.NotificationChan == nil {
 		u.NotificationChan = make(chan Notification)
 	}

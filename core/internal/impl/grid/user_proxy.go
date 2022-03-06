@@ -39,8 +39,8 @@ func NewUserProxy(username string, hub ws.ClientHub) *UserProxyImpl {
 }
 
 func (p *UserProxyImpl) Start() {
-	p.user.Listen()
-	p.hub.Run()
+	p.user.Start()
+	p.hub.Start()
 	go func() {
 		for {
 			cn := clientNotificationOf(<-p.repo.GetNotificationChan())

@@ -21,7 +21,7 @@ func NewTag(name string) *Tag {
 	return &Tag{Name: name, l: log.For("domain").Named("tag").With(zap.String("tagName", name))}
 }
 
-func (t *Tag) Listen() {
+func (t *Tag) Start() {
 	if t.NotificationChan == nil {
 		t.NotificationChan = make(chan Notification)
 	}

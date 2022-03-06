@@ -12,7 +12,7 @@ type ClientHub interface {
 	GetBroadcastChan() chan model.ClientNotification
 	GetRegisterChan() chan *websocket.Conn
 	GetUnregisterChan() chan string
-	Run()
+	Start()
 }
 
 type ClientHubFactory interface {
@@ -55,7 +55,7 @@ func (h *Hub) GetUnregisterChan() chan string {
 	return h.unregister
 }
 
-func (h *Hub) Run() {
+func (h *Hub) Start() {
 	go func() {
 		for {
 			select {

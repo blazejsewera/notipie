@@ -43,7 +43,7 @@ func NewGrid(clientHubFactory ws.ClientHubFactory) *GridImpl {
 
 func (g *GridImpl) Start() {
 	g.createAndStartRootUser()
-	g.rootTag.Listen()
+	g.rootTag.Start()
 	go func() {
 		for {
 			g.receive(<-g.appNotificationChan)

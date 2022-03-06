@@ -54,5 +54,5 @@ func (c *AppContext) initEndpoint() {
 }
 
 func (c *AppContext) Start() {
-	c.ep.Run()
+	c.ep.Start()
 }

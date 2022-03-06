@@ -35,7 +35,7 @@ func (e *Endpoint) Setup() {
 	e.l.Debug("gin endpoint setup complete")
 }
 
-func (e *Endpoint) Run() {
+func (e *Endpoint) Start() {
 	e.l.Info("starting endpoint")
 	err := e.r.Run()
 	if err != nil {

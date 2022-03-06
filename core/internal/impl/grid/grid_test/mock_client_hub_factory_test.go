@@ -38,4 +38,4 @@ func (m *MockClientHub) GetUnregisterChan() chan string {
 	return m.unregisterChan
 }
 
-func (m *MockClientHub) Run() {}
+func (m *MockClientHub) Start() {}
