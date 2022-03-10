@@ -3,39 +3,33 @@ package grid_test
 import (
 	"github.com/blazejsewera/notipie/core/internal/impl/model"
 	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/gorilla/websocket"
 )
 
-type MockClientHubFactory struct{}
-
-func (f MockClientHubFactory) GetClientHub() ws.ClientHub {
+var MockClientHubFactory = ws.ClientHubFactoryFunc(func() ws.ClientHub {
 	return NewMockClientHub()
-}
+})
 
 type MockClientHub struct {
-	broadcastChan  chan model.ClientNotification
-	registerChan   chan *websocket.Conn
-	unregisterChan chan string
-}
-
-func NewMockClientHub() *MockClientHub {
-	return &MockClientHub{
-		broadcastChan:  make(chan model.ClientNotification),
-		registerChan:   make(chan *websocket.Conn),
-		unregisterChan: make(chan string),
-	}
-}
-
-func (m *MockClientHub) GetBroadcastChan() chan model.ClientNotification {
-	return m.broadcastChan
-}
-
-func (m *MockClientHub) GetRegisterChan() chan *websocket.Conn {
-	return m.registerChan
-}
-
-func (m *MockClientHub) GetUnregisterChan() chan string {
-	return m.unregisterChan
+	Notifications []model.ClientNotification
+	Done          chan struct{}
 }
 
 func (m *MockClientHub) Start() {}
+
+func (m *MockClientHub) Broadcast(notification model.ClientNotification) {
+	m.Notifications = append(m.Notifications, notification)
+	m.Done <- struct{}{}
+}
+
+func (m *MockClientHub) Register(conn *websocket.Conn) {}
+
+func (m *MockClientHub) Unregister(clientUUID string) {}
+
+func NewMockClientHub() *MockClientHub {
+	return &MockClientHub{Done: make(chan struct{})}
+}
+
+var _ ws.ClientHub = (*MockClientHub)(nil)
+var _ util.Starter = (*MockClientHub)(nil)
