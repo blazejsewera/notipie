@@ -27,12 +27,12 @@ func NewWebSocketNotificationBroadcaster(hub ws.ClientHub) *WebSocketNotificatio
 }
 
 func (b *WebSocketNotificationBroadcaster) Start() {
-	b.hub.Start()
+	b.hub.(util.Starter).Start()
 }
 
 func (b *WebSocketNotificationBroadcaster) Broadcast(notification domain.Notification) {
 	cn := clientNotificationOf(notification)
-	b.hub.GetBroadcastChan() <- cn
+	b.hub.Broadcast(cn)
 	b.l.Debug("broadcast notification to hub", zap.String("notificationID", notification.ID))
 }
 

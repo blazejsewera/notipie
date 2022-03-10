@@ -36,8 +36,8 @@ func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
 			return
 		}
 		l.Debug("received notification", zap.Reflect("notification", notification))
-		grid.GetAppNotificationChan() <- notification
-		c.JSON(http.StatusCreated, gin.H{"appId": <-grid.GetAppIDChan()})
+		grid.ReceiveAppNotification(notification)
+		c.JSON(http.StatusCreated, gin.H{"appId": grid.GetAppID()})
 	}
 }
 
@@ -58,7 +58,7 @@ func WSHandlerFor(grid grid.Grid) gin.HandlerFunc {
 			l.Error("could not upgrade conn", zap.Error(err))
 			return
 		}
-		hub.GetRegisterChan() <- conn
+		hub.Register(conn)
 	}
 }
 

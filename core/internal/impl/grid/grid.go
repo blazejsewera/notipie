@@ -14,8 +14,8 @@ type Grid interface {
 	Start()
 	AddUser(username string)
 	GetRootTag() *domain.Tag
-	GetAppNotificationChan() chan model.AppNotification
-	GetAppIDChan() chan string
+	ReceiveAppNotification(notification model.AppNotification)
+	GetAppID() string
 	GetUserProxy(userID string) (UserProxy, error)
 }
 
@@ -28,6 +28,8 @@ type GridImpl struct {
 	clientHubFactory    ws.ClientHubFactory
 	l                   *zap.Logger
 }
+
+var _ Grid = (*GridImpl)(nil)
 
 func NewGrid(clientHubFactory ws.ClientHubFactory) *GridImpl {
 	return &GridImpl{
@@ -116,12 +118,12 @@ func (g *GridImpl) GetRootTag() *domain.Tag {
 	return g.rootTag
 }
 
-func (g *GridImpl) GetAppNotificationChan() chan model.AppNotification {
-	return g.appNotificationChan
+func (g *GridImpl) ReceiveAppNotification(notification model.AppNotification) {
+	g.appNotificationChan <- notification
 }
 
-func (g *GridImpl) GetAppIDChan() chan string {
-	return g.appIDChan
+func (g *GridImpl) GetAppID() string {
+	return <-g.appIDChan
 }
 
 func (g *GridImpl) GetUserProxy(username string) (UserProxy, error) {

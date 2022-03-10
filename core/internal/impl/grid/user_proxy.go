@@ -6,6 +6,7 @@ import (
 	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
 	"github.com/blazejsewera/notipie/core/internal/impl/persistence"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 	"go.uber.org/zap"
 )
@@ -22,6 +23,10 @@ type UserProxyImpl struct {
 	hub         ws.ClientHub
 	l           *zap.Logger
 }
+
+// UserProxyImpl implements interfaces below
+var _ UserProxy = (*UserProxyImpl)(nil)
+var _ util.Starter = (*UserProxyImpl)(nil)
 
 func NewUserProxy(username string, hub ws.ClientHub) *UserProxyImpl {
 	repo := persistence.NewMemRealtimeNotificationRepository()

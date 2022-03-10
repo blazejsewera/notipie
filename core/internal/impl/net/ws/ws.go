@@ -61,7 +61,7 @@ func (c *Client) readPump() {
 
 func closeConnFor(c *Client) {
 	c.l.Debug("closing conn")
-	c.hub.GetUnregisterChan() <- c.UUID
+	c.hub.Unregister(c.UUID)
 	err := c.conn.Close()
 	if err != nil {
 		c.l.Error("could not close websocket", zap.Error(err))

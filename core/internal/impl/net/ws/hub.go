@@ -3,27 +3,31 @@ package ws
 import (
 	"github.com/blazejsewera/notipie/core/internal/impl/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )
 
 type ClientHub interface {
-	GetBroadcastChan() chan model.ClientNotification
-	GetRegisterChan() chan *websocket.Conn
-	GetUnregisterChan() chan string
-	Start()
+	Broadcast(notification model.ClientNotification)
+	Register(conn *websocket.Conn)
+	Unregister(clientUUID string)
 }
 
 type ClientHubFactory interface {
 	GetClientHub() ClientHub
 }
 
-type DefaultClientHubFactory struct{}
+type ClientHubFactoryFunc func() ClientHub
 
-func (f DefaultClientHubFactory) GetClientHub() ClientHub {
-	return NewHub()
+func (f ClientHubFactoryFunc) GetClientHub() ClientHub {
+	return f()
 }
+
+var DefaultClientHubFactory = ClientHubFactoryFunc(func() ClientHub {
+	return NewHub()
+})
 
 type Hub struct {
 	clients    map[string]*Client
@@ -32,6 +36,10 @@ type Hub struct {
 	unregister chan string
 	l          *zap.Logger
 }
+
+// Hub implements interfaces below
+var _ ClientHub = (*Hub)(nil)
+var _ util.Starter = (*Hub)(nil)
 
 func NewHub() *Hub {
 	return &Hub{
@@ -43,16 +51,16 @@ func NewHub() *Hub {
 	}
 }
 
-func (h *Hub) GetBroadcastChan() chan model.ClientNotification {
-	return h.broadcast
+func (h *Hub) Broadcast(notification model.ClientNotification) {
+	h.broadcast <- notification
 }
 
-func (h *Hub) GetRegisterChan() chan *websocket.Conn {
-	return h.register
+func (h *Hub) Register(conn *websocket.Conn) {
+	h.register <- conn
 }
 
-func (h *Hub) GetUnregisterChan() chan string {
-	return h.unregister
+func (h *Hub) Unregister(clientUUID string) {
+	h.unregister <- clientUUID
 }
 
 func (h *Hub) Start() {

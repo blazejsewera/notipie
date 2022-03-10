@@ -20,7 +20,7 @@ func DefaultConfig() Config {
 func readDefaultConfigFile() string {
 	bytes, err := ioutil.ReadFile(DefaultConfigFilename)
 	if err != nil {
-		panic(fmt.Sprint("could not read default config: ", DefaultConfigFilename))
+		panic(fmt.Sprint("could not read default config: ", DefaultConfigFilename, ", err: ", err))
 	}
 	return string(bytes)
 }

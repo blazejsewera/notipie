@@ -44,7 +44,7 @@ func (v voidWriter) Write([]byte) (n int, err error) {
 }
 
 func (c *AppContext) initGrid() {
-	c.gr = grid.NewGrid(ws.DefaultClientHubFactory{})
+	c.gr = grid.NewGrid(ws.DefaultClientHubFactory)
 	c.gr.Start()
 }
 
