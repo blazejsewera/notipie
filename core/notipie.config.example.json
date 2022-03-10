@@ -1,0 +1,5 @@
+{
+  "prod": false,
+  "address": "localhost",
+  "port": 8080
+}

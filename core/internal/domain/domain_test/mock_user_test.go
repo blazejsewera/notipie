@@ -7,12 +7,20 @@ import (
 
 func NewTestUser() (*domain.User, *MockNotificationRepository) {
 	repo := &MockNotificationRepository{}
-	return domain.NewUser("1", "TestUser", repo), repo
+	broadcaster := &MockNotificationBroadcaster{}
+	return domain.NewUser("1", "TestUser", repo, broadcaster), repo
 }
 
 func NewTestUserWithAsyncRepo() (*domain.User, *MockAsyncNotificationRepository) {
 	repo := NewAsyncNotificationRepository()
-	return domain.NewUser("1", "TestUser", repo), repo
+	broadcaster := &MockNotificationBroadcaster{}
+	return domain.NewUser("1", "TestUser", repo, broadcaster), repo
+}
+
+type MockNotificationBroadcaster struct{}
+
+func (b *MockNotificationBroadcaster) Broadcast(notification domain.Notification) {
+
 }
 
 type MockNotificationRepository struct {

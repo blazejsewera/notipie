@@ -1,3 +1,7 @@
-import { config } from '../../notipie.config'
+import c from '../../notipie.config.json'
 
-export { config }
+type Config = {
+  mode: 'dev' | 'prod'
+}
+
+export const config = c as Config

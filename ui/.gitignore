@@ -14,3 +14,4 @@ node_modules
 .pnp.*
 
 notipie.config.ts
+notipie.config.json

@@ -16,8 +16,8 @@ type AppContext struct {
 }
 
 func (c *AppContext) Init(config Config) {
-	c.initLogger(config.prod)
-	c.initGin(config.prod)
+	c.initLogger(config.Prod)
+	c.initGin(config.Prod)
 	c.initGrid()
 	c.initEndpoint()
 }

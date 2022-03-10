@@ -3,20 +3,26 @@ package infra
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 )
 
 type Config struct {
-	prod    bool
-	address string
-	port    int
+	Prod    bool   `json:"prod"`
+	Address string `json:"address"`
+	Port    int    `json:"port"`
 }
 
 func DefaultConfig() Config {
-	return Config{
-		prod:    false,
-		address: "localhost",
-		port:    8080,
+	configJSON := readDefaultConfigFile()
+	return ConfigFromJSON(configJSON)
+}
+
+func readDefaultConfigFile() string {
+	bytes, err := ioutil.ReadFile(DefaultConfigFilename)
+	if err != nil {
+		panic(fmt.Sprint("could not read default config: ", DefaultConfigFilename))
 	}
+	return string(bytes)
 }
 
 func ConfigFromJSON(jsonStr string) Config {
@@ -27,3 +33,5 @@ func ConfigFromJSON(jsonStr string) Config {
 	}
 	return config
 }
+
+const DefaultConfigFilename = "notipie.config.json"

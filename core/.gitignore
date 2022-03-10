@@ -22,3 +22,6 @@
 # vendor/
 
 /.idea
+
+# Local notipie-core config
+notipie.config.json

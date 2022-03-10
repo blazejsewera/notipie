@@ -12,17 +12,19 @@ type User struct {
 	NotificationChan   chan Notification
 	Tags               []*Tag
 	repo               NotificationRepository
+	broadcaster        NotificationBroadcaster
 	tagsMutex          sync.Mutex
 	lastNotificationID string
 	l                  *zap.Logger
 }
 
-func NewUser(id, username string, repo NotificationRepository) *User {
+func NewUser(id, username string, repo NotificationRepository, broadcaster NotificationBroadcaster) *User {
 	return &User{
-		ID:       id,
-		Username: username,
-		repo:     repo,
-		l:        log.For("domain").Named("user").With(zap.String("userID", id), zap.String("username", username)),
+		ID:          id,
+		Username:    username,
+		repo:        repo,
+		broadcaster: broadcaster,
+		l:           log.For("domain").Named("user").With(zap.String("userID", id), zap.String("username", username)),
 	}
 }
 
@@ -40,9 +42,10 @@ func (u *User) Start() {
 }
 
 func (u *User) Receive(notification Notification) {
-	u.logRxNotification(notification)
+	u.logReceivedNotification(notification)
 	if notification.ID != u.lastNotificationID {
 		u.repo.SaveNotification(notification)
+		u.broadcaster.Broadcast(notification)
 		u.lastNotificationID = notification.ID
 		u.logNotificationSaved(notification)
 	} else {
@@ -50,7 +53,7 @@ func (u *User) Receive(notification Notification) {
 	}
 }
 
-func (u *User) logRxNotification(notification Notification) {
+func (u *User) logReceivedNotification(notification Notification) {
 	u.l.Debug(
 		"received notification",
 		zap.String("notificationID", notification.ID),
@@ -115,4 +118,8 @@ type NotificationRepository interface {
 	GetLastNotifications(n int) []Notification
 	GetNotifications(from, to int) []Notification
 	GetNotificationCount() int
+}
+
+type NotificationBroadcaster interface {
+	Broadcast(notification Notification)
 }

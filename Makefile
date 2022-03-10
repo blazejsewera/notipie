@@ -1,4 +1,17 @@
+# const
+
+UI_DIR=ui
+CORE_DIR=core
+
+CONFIG_FILENAME=notipie.config.json
+EXAMPLE_CONFIG_FILENAME=notipie.config.example.json
+UI_CONFIG_FILENAME=${CONFIG_FILENAME}
+EXAMPLE_UI_CONFIG_FILENAME=${EXAMPLE_CONFIG_FILENAME}
+CORE_CONFIG_FILENAME=${CONFIG_FILENAME}
+EXAMPLE_CORE_CONFIG_FILENAME=${EXAMPLE_CONFIG_FILENAME}
+
 .PHONY: clean
+
 
 # install & no-params
 
@@ -8,14 +21,18 @@ copy-example-configs: copy-example-configs-ui copy-example-configs-core
 	@echo "> configs copied"
 
 copy-example-configs-ui:
-	@test -f ui/notipie.config.ts && \
+	@test -f ${UI_DIR}/${UI_CONFIG_FILENAME} && \
 	echo "> configs for ui already exist" || (\
-		cp ui/notipie.config.ts.example ui/notipie.config.ts && \
+		cp ${UI_DIR}/${EXAMPLE_UI_CONFIG_FILENAME} ${UI_DIR}/${UI_CONFIG_FILENAME} && \
 		echo "> example configs for ui copied" \
 	)
 
 copy-example-configs-core:
-	@echo "> configs for core not implemented yet"
+	@test -f ${CORE_DIR}/${CORE_CONFIG_FILENAME} && \
+	echo "> configs for core already exist" || (\
+		cp ${CORE_DIR}/${EXAMPLE_CORE_CONFIG_FILENAME} ${CORE_DIR}/${CORE_CONFIG_FILENAME} && \
+		echo "> example configs for core copied" \
+	)
 
 install: install-workspace install-core
 	@echo "> workspace ready"
@@ -26,7 +43,7 @@ install-workspace:
 	@echo "> husky installed for git"
 
 install-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	$(MAKE) sync; \
 	$(MAKE) tidy
 	@echo "> workspace for core synced"
@@ -36,7 +53,7 @@ install-core:
 
 nuke: clean remove-configs
 	@rm -rf node_modules
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	rm -rf node_modules
 	@echo "> nuked all node_modules"
 
@@ -44,22 +61,23 @@ remove-configs: remove-configs-ui remove-configs-core
 	@echo "> configs removed"
 
 remove-configs-ui:
-	@rm -f ui/notipie.config.ts
+	@rm -f ${UI_DIR}/${UI_CONFIG_FILENAME}
 	@echo "> config for ui removed"
 
 remove-configs-core:
-	@echo "> config for core not implemented yet"
+	@rm -f ${CORE_DIR}/${CORE_CONFIG_FILENAME}
+	@echo "> config for core removed"
 
 clean: clean-ui clean-core
 	@echo "> cleaned"
 
 clean-ui:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	rm -rf dist
 	@echo "> removed dist from ui"
 
 clean-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	rm -rf notipie
 	@echo "> removed binary from core"
 
@@ -70,12 +88,12 @@ build: build-ui build-core
 	@echo "> built"
 
 build-ui:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn build
 	@echo "> built dist in ui"
 
 build-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	$(MAKE) build
 	@echo "> built binary in core"
 
@@ -83,11 +101,11 @@ build-core:
 # dev
 
 dev-ui:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn dev
 
 dev-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	$(MAKE) run
 
 dev-manual-test:
@@ -100,12 +118,12 @@ test: test-ui test-core
 	@echo "> tests completed"
 
 test-ui:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn test
 	@echo "> completed tests in ui"
 
 test-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	$(MAKE) test
 	@echo "> completed tests in core"
 
@@ -116,7 +134,7 @@ lint-fix: lint-ui-fix lint-core
 	@echo "> linted and fixed"
 
 lint-ui-fix:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn lint:fix
 	@echo "> linted and fixed ui"
 
@@ -124,17 +142,17 @@ lint: lint-ui lint-core
 	@echo "> linted"
 
 lint-ui:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn lint
 	@echo "> linted ui"
 
 lint-ui-staged:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn lint:staged
 	@echo "> linted staged ui"
 
 lint-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	$(MAKE) lint
 	@echo "> linted core"
 
@@ -145,12 +163,12 @@ format: format-ui format-core
 	@echo "> formatted"
 
 format-ui:
-	@cd ui; \
+	@cd ${UI_DIR}; \
 	yarn format
 	@echo "> formatted ui"
 
 format-core:
-	@cd core; \
+	@cd ${CORE_DIR}; \
 	$(MAKE) format
 	@echo "> formatted core"
 
