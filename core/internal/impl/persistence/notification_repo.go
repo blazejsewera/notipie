@@ -11,13 +11,16 @@ type MemRealtimeNotificationRepository struct {
 	l             *zap.Logger
 }
 
+// MemRealtimeNotificationRepository implements interfaces below
+var _ domain.NotificationRepository = (*MemRealtimeNotificationRepository)(nil)
+
 func NewMemRealtimeNotificationRepository() *MemRealtimeNotificationRepository {
 	return &MemRealtimeNotificationRepository{l: log.For("impl").Named("persistence").Named("notification_repo")}
 }
 
 func (r *MemRealtimeNotificationRepository) SaveNotification(notification domain.Notification) {
-	r.l.Debug("received notification", zap.String("notificationID", notification.ID), zap.String("notificationTitle", notification.Title), zap.String("notificationAppID", notification.App.ID))
 	r.notifications = append(r.notifications, notification)
+	r.l.Debug("saved notification", zap.String("notificationID", notification.ID))
 }
 
 func (r *MemRealtimeNotificationRepository) GetLastNotifications(n int) []domain.Notification {

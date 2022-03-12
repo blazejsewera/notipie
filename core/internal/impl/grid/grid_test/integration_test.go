@@ -22,8 +22,8 @@ func TestGrid(t *testing.T) {
 		// then
 		appID := g.GetAppID()
 		userProxy, _ := g.GetUserProxy(grid.RootUsername)
-		<-userProxy.GetClientHub().(*MockClientHub).Done
-		cn := userProxy.GetClientHub().(*MockClientHub).Notifications[0]
+		<-userProxy.GetHub().(*MockClientHub).Done
+		cn := userProxy.GetHub().(*MockClientHub).Notifications[0]
 		assertClientNotificationEqual(t, cnExpected, cn, appID)
 	})
 }

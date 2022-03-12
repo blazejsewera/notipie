@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
+	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 	"go.uber.org/zap"
 	"io"
 	"time"
@@ -11,9 +13,15 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type Client struct {
-	UUID           string
-	hub            ClientHub
+type Client interface {
+	util.StartStopper
+	Broadcast(data []byte)
+	UUID() string
+}
+
+type ClientImpl struct {
+	uuid           string
+	hub            Hub
 	conn           *websocket.Conn
 	send           chan []byte
 	l              *zap.Logger
@@ -25,7 +33,10 @@ type Client struct {
 	space          []byte
 }
 
-func NewClient(uuid string, hub ClientHub, conn *websocket.Conn) *Client {
+var _ Client = (*ClientImpl)(nil)
+
+func NewClient(hub Hub, conn *websocket.Conn) *ClientImpl {
+	clientUUID := uuid.Generate()
 	writeWait := 10 * time.Second
 	pongWait := 60 * time.Second
 	pingPeriod := (pongWait * 9) / 10
@@ -34,12 +45,12 @@ func NewClient(uuid string, hub ClientHub, conn *websocket.Conn) *Client {
 	newline := []byte{'\n'}
 	space := []byte{' '}
 
-	return &Client{
-		UUID:           uuid,
+	return &ClientImpl{
+		uuid:           clientUUID,
 		hub:            hub,
 		conn:           conn,
 		send:           make(chan []byte, 256),
-		l:              log.For("impl").Named("net").Named("ws").With(zap.String("clientUUID", uuid)),
+		l:              log.For("impl").Named("net").Named("ws").With(zap.String("clientUUID", clientUUID)),
 		writeWait:      writeWait,
 		pongWait:       pongWait,
 		pingPeriod:     pingPeriod,
@@ -49,7 +60,30 @@ func NewClient(uuid string, hub ClientHub, conn *websocket.Conn) *Client {
 	}
 }
 
-func (c *Client) readPump() {
+func (c *ClientImpl) Start() {
+	go c.readPump()
+	go c.writePump()
+}
+
+func (c *ClientImpl) Stop() {
+	close(c.send)
+}
+
+func (c *ClientImpl) Broadcast(data []byte) {
+	select {
+	case c.send <- data:
+		c.l.Debug("sent notification to client")
+	default:
+		c.hub.Unregister(c.uuid)
+		c.l.Debug("closed connection for client")
+	}
+}
+
+func (c *ClientImpl) UUID() string {
+	return c.uuid
+}
+
+func (c *ClientImpl) readPump() {
 	defer closeConnFor(c)
 
 	err := c.setWSParams()
@@ -59,9 +93,9 @@ func (c *Client) readPump() {
 	c.readWholeMessage()
 }
 
-func closeConnFor(c *Client) {
+func closeConnFor(c *ClientImpl) {
 	c.l.Debug("closing conn")
-	c.hub.Unregister(c.UUID)
+	c.hub.Unregister(c.uuid)
 	err := c.conn.Close()
 	if err != nil {
 		c.l.Error("could not close websocket", zap.Error(err))
@@ -69,7 +103,7 @@ func closeConnFor(c *Client) {
 	}
 }
 
-func (c *Client) setWSParams() error {
+func (c *ClientImpl) setWSParams() error {
 	c.conn.SetReadLimit(c.maxMessageSize)
 	errOrNil := c.setReadDeadline()
 	c.conn.SetPongHandler(func(string) error {
@@ -78,7 +112,7 @@ func (c *Client) setWSParams() error {
 	return errOrNil
 }
 
-func (c *Client) setReadDeadline() error {
+func (c *ClientImpl) setReadDeadline() error {
 	err := c.conn.SetReadDeadline(time.Now().Add(c.pongWait))
 	if err != nil {
 		c.l.Error("could not set read deadline", zap.Error(err))
@@ -87,7 +121,7 @@ func (c *Client) setReadDeadline() error {
 	return nil
 }
 
-func (c *Client) readWholeMessage() {
+func (c *ClientImpl) readWholeMessage() {
 	for {
 		err := c.readMessage()
 		if err != nil {
@@ -97,7 +131,7 @@ func (c *Client) readWholeMessage() {
 	}
 }
 
-func (c *Client) readMessage() error {
+func (c *ClientImpl) readMessage() error {
 	n, notificationBytes, err := c.conn.ReadMessage()
 	if err != nil {
 		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure, websocket.CloseNoStatusReceived) {
@@ -115,10 +149,23 @@ func (c *Client) readMessage() error {
 	return nil
 }
 
-func (c *Client) writePump() {
+func (c *ClientImpl) writePump() {
 	ticker := c.getTicker()
 	defer c.stopTickerAndCloseConn(ticker)
+	c.broadcastWholeMessageOrPingWS(ticker)
+}
 
+func (c *ClientImpl) getTicker() *time.Ticker {
+	return time.NewTicker(c.pingPeriod)
+}
+
+func (c *ClientImpl) stopTickerAndCloseConn(ticker *time.Ticker) {
+	ticker.Stop()
+	_ = c.conn.Close()
+	c.l.Debug("closed websocket connection")
+}
+
+func (c *ClientImpl) broadcastWholeMessageOrPingWS(ticker *time.Ticker) {
 	for {
 		select {
 		case message, ok := <-c.send:
@@ -132,17 +179,7 @@ func (c *Client) writePump() {
 	}
 }
 
-func (c *Client) getTicker() *time.Ticker {
-	return time.NewTicker(c.pingPeriod)
-}
-
-func (c *Client) stopTickerAndCloseConn(ticker *time.Ticker) {
-	ticker.Stop()
-	_ = c.conn.Close()
-	c.l.Debug("closed websocket connection")
-}
-
-func (c *Client) broadcastMessage(message []byte, ok bool) error {
+func (c *ClientImpl) broadcastMessage(message []byte, ok bool) error {
 	err := c.setWriteDeadline()
 	if err != nil {
 		return err
@@ -157,7 +194,7 @@ func (c *Client) broadcastMessage(message []byte, ok bool) error {
 	return nil
 }
 
-func (c *Client) setWriteDeadline() error {
+func (c *ClientImpl) setWriteDeadline() error {
 	err := c.conn.SetWriteDeadline(time.Now().Add(c.writeWait))
 	if err != nil {
 		c.l.Error("could not set write deadline", zap.Error(err))
@@ -166,12 +203,12 @@ func (c *Client) setWriteDeadline() error {
 	return nil
 }
 
-func (c *Client) sendCloseMessage() {
+func (c *ClientImpl) sendCloseMessage() {
 	_ = c.conn.WriteMessage(websocket.CloseMessage, []byte{})
 	c.l.Debug("sent close message")
 }
 
-func (c *Client) writeMessage(message []byte) {
+func (c *ClientImpl) writeMessage(message []byte) {
 	w, err := c.conn.NextWriter(websocket.TextMessage)
 	if err != nil {
 		return
@@ -183,14 +220,14 @@ func (c *Client) writeMessage(message []byte) {
 	c.close(w)
 }
 
-func (c *Client) write(w io.Writer, message []byte) {
+func (c *ClientImpl) write(w io.Writer, message []byte) {
 	_, err := w.Write(message)
 	if err != nil {
 		c.l.Error("error when writing message to websocket", zap.Error(err))
 	}
 }
 
-func (c *Client) handleQueuedMessages(w io.Writer) {
+func (c *ClientImpl) handleQueuedMessages(w io.Writer) {
 	n := len(c.send)
 	c.l.Debug("handling queued messages", zap.Int("unhandledMessages", n))
 	for i := 0; i < n; i++ {
@@ -199,7 +236,7 @@ func (c *Client) handleQueuedMessages(w io.Writer) {
 	}
 }
 
-func (c *Client) close(w io.Closer) {
+func (c *ClientImpl) close(w io.Closer) {
 	err := w.Close()
 	if err != nil {
 		c.l.Error("error when closing writer", zap.Error(err))
@@ -208,7 +245,7 @@ func (c *Client) close(w io.Closer) {
 	c.l.Debug("closed writer")
 }
 
-func (c *Client) ping() {
+func (c *ClientImpl) ping() {
 	err := c.setWriteDeadline()
 	if err != nil {
 		return

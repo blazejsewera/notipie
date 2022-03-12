@@ -4,102 +4,99 @@ import (
 	"github.com/blazejsewera/notipie/core/internal/impl/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
-	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )
 
-type ClientHub interface {
+type Hub interface {
+	util.Starter
 	Broadcast(notification model.ClientNotification)
 	Register(conn *websocket.Conn)
 	Unregister(clientUUID string)
 }
 
-type ClientHubFactory interface {
-	GetClientHub() ClientHub
+type HubImpl struct {
+	clientFactory ClientFactory
+	clients       map[string]Client
+	broadcast     chan model.ClientNotification
+	register      chan *websocket.Conn
+	unregister    chan string
+	l             *zap.Logger
 }
 
-type ClientHubFactoryFunc func() ClientHub
+// HubImpl implements interfaces below
+var _ Hub = (*HubImpl)(nil)
+var _ util.Starter = (*HubImpl)(nil)
 
-func (f ClientHubFactoryFunc) GetClientHub() ClientHub {
-	return f()
-}
-
-var DefaultClientHubFactory = ClientHubFactoryFunc(func() ClientHub {
-	return NewHub()
-})
-
-type Hub struct {
-	clients    map[string]*Client
-	broadcast  chan model.ClientNotification
-	register   chan *websocket.Conn
-	unregister chan string
-	l          *zap.Logger
-}
-
-// Hub implements interfaces below
-var _ ClientHub = (*Hub)(nil)
-var _ util.Starter = (*Hub)(nil)
-
-func NewHub() *Hub {
-	return &Hub{
-		broadcast:  make(chan model.ClientNotification),
-		register:   make(chan *websocket.Conn),
-		unregister: make(chan string),
-		clients:    make(map[string]*Client),
-		l:          log.For("impl").Named("net").Named("hub"),
+func NewHub(clientFactory ClientFactory) *HubImpl {
+	h := &HubImpl{
+		clientFactory: clientFactory,
+		broadcast:     make(chan model.ClientNotification),
+		register:      make(chan *websocket.Conn),
+		unregister:    make(chan string),
+		clients:       make(map[string]Client),
+		l:             log.For("impl").Named("net").Named("hub"),
 	}
+	clientFactory.SetHub(h)
+
+	return h
 }
 
-func (h *Hub) Broadcast(notification model.ClientNotification) {
+func (h *HubImpl) Broadcast(notification model.ClientNotification) {
 	h.broadcast <- notification
 }
 
-func (h *Hub) Register(conn *websocket.Conn) {
+func (h *HubImpl) Register(conn *websocket.Conn) {
 	h.register <- conn
 }
 
-func (h *Hub) Unregister(clientUUID string) {
+func (h *HubImpl) Unregister(clientUUID string) {
 	h.unregister <- clientUUID
 }
 
-func (h *Hub) Start() {
-	go func() {
-		for {
-			select {
-			case conn := <-h.register:
-				clientUUID := uuid.Generate()
-				client := NewClient(clientUUID, h, conn)
-				go client.readPump()
-				go client.writePump()
-				h.clients[clientUUID] = client
-				h.l.Debug("registered client in hub", logClientUUID(clientUUID))
+func (h *HubImpl) Start() {
+	go h.handleChannels()
+}
 
-			case clientUUID := <-h.unregister:
-				if client, ok := h.clients[clientUUID]; ok {
-					close(client.send)
-					delete(h.clients, clientUUID)
-					h.l.Debug("unregistered client from hub", logClientUUID(clientUUID))
-				}
-			case notification := <-h.broadcast:
-				notificationJSON := notification.ToJSON()
-				h.l.Debug("broadcasting notification to clients", zap.String("notificationJSON", notificationJSON))
-				notificationBytes := []byte(notificationJSON)
-				for clientUUID, client := range h.clients {
-					select {
-					case client.send <- notificationBytes:
-						h.l.Debug("sent notification to client", logClientUUID(clientUUID))
-					default:
-						close(client.send)
-						delete(h.clients, clientUUID)
-						h.l.Debug("closed connection for client", logClientUUID(clientUUID))
-					}
-				}
-			}
+func (h *HubImpl) handleChannels() {
+	for {
+		select {
+		case conn := <-h.register:
+			h.registerClient(conn)
+		case clientUUID := <-h.unregister:
+			h.unregisterClient(clientUUID)
+		case notification := <-h.broadcast:
+			h.broadcastNotification(notification)
 		}
-	}()
+	}
+}
+
+func (h *HubImpl) registerClient(conn *websocket.Conn) {
+	client := NewClient(h, conn)
+	client.Start()
+	h.clients[client.UUID()] = client
+	h.l.Debug("registered client in hub", logClientUUID(client.UUID()))
+}
+
+func (h *HubImpl) unregisterClient(clientUUID string) {
+	if _, ok := h.clients[clientUUID]; ok {
+		delete(h.clients, clientUUID)
+		h.l.Debug("unregistered client from hub", logClientUUID(clientUUID))
+	}
+}
+
+func (h *HubImpl) broadcastNotification(notification model.ClientNotification) {
+	notificationBytes := toJSONBytes(notification)
+	for _, client := range h.clients {
+		client.Broadcast(notificationBytes)
+	}
 }
 
 func logClientUUID(uuid string) zap.Field {
 	return zap.String("clientUUID", uuid)
+}
+
+func toJSONBytes(notification model.ClientNotification) []byte {
+	notificationJSON := notification.ToJSON()
+	return []byte(notificationJSON)
 }

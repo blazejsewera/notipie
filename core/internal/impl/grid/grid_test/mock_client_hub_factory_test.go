@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var MockClientHubFactory = ws.ClientHubFactoryFunc(func() ws.ClientHub {
+var MockClientHubFactory = ws.HubFactoryFunc(func() ws.Hub {
 	return NewMockClientHub()
 })
 
@@ -31,5 +31,5 @@ func NewMockClientHub() *MockClientHub {
 	return &MockClientHub{Done: make(chan struct{})}
 }
 
-var _ ws.ClientHub = (*MockClientHub)(nil)
+var _ ws.Hub = (*MockClientHub)(nil)
 var _ util.Starter = (*MockClientHub)(nil)

@@ -52,7 +52,7 @@ func WSHandlerFor(grid grid.Grid) gin.HandlerFunc {
 			l.Error("could not get user proxy", zap.Error(err))
 			return
 		}
-		hub := userProxy.GetClientHub()
+		hub := userProxy.GetHub()
 		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 		if err != nil {
 			l.Error("could not upgrade conn", zap.Error(err))

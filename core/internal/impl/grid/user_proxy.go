@@ -12,7 +12,7 @@ import (
 )
 
 type UserProxy interface {
-	GetClientHub() ws.ClientHub
+	GetHub() ws.Hub
 	SubscribeUserToTag(tag *domain.Tag)
 }
 
@@ -20,7 +20,7 @@ type UserProxyImpl struct {
 	user        *domain.User
 	repo        *persistence.MemRealtimeNotificationRepository
 	broadcaster *broadcast.WebSocketNotificationBroadcaster
-	hub         ws.ClientHub
+	hub         ws.Hub
 	l           *zap.Logger
 }
 
@@ -28,7 +28,7 @@ type UserProxyImpl struct {
 var _ UserProxy = (*UserProxyImpl)(nil)
 var _ util.Starter = (*UserProxyImpl)(nil)
 
-func NewUserProxy(username string, hub ws.ClientHub) *UserProxyImpl {
+func NewUserProxy(username string, hub ws.Hub) *UserProxyImpl {
 	repo := persistence.NewMemRealtimeNotificationRepository()
 	broadcaster := broadcast.NewWebSocketNotificationBroadcaster(hub)
 	userID := uuid.Generate()
@@ -51,7 +51,7 @@ func (p *UserProxyImpl) Start() {
 	p.l.Debug("started user proxy")
 }
 
-func (p *UserProxyImpl) GetClientHub() ws.ClientHub {
+func (p *UserProxyImpl) GetHub() ws.Hub {
 	return p.hub
 }
 

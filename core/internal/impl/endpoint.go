@@ -12,7 +12,7 @@ import (
 type Endpoint struct {
 	r    *gin.Engine
 	grid grid.Grid
-	hub  *ws.Hub
+	hub  *ws.HubImpl
 	l    *zap.Logger
 }
 

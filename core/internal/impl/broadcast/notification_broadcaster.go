@@ -11,7 +11,7 @@ import (
 )
 
 type WebSocketNotificationBroadcaster struct {
-	hub ws.ClientHub
+	hub ws.Hub
 	l   *zap.Logger
 }
 
@@ -19,7 +19,7 @@ type WebSocketNotificationBroadcaster struct {
 var _ domain.NotificationBroadcaster = (*WebSocketNotificationBroadcaster)(nil)
 var _ util.Starter = (*WebSocketNotificationBroadcaster)(nil)
 
-func NewWebSocketNotificationBroadcaster(hub ws.ClientHub) *WebSocketNotificationBroadcaster {
+func NewWebSocketNotificationBroadcaster(hub ws.Hub) *WebSocketNotificationBroadcaster {
 	return &WebSocketNotificationBroadcaster{
 		hub: hub,
 		l:   log.For("impl").Named("broadcast").Named("notification_broadcaster"),

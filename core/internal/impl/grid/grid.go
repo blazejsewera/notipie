@@ -25,13 +25,13 @@ type GridImpl struct {
 	users               map[string]UserProxy
 	appNotificationChan chan model.AppNotification
 	appIDChan           chan string
-	clientHubFactory    ws.ClientHubFactory
+	clientHubFactory    ws.HubFactory
 	l                   *zap.Logger
 }
 
 var _ Grid = (*GridImpl)(nil)
 
-func NewGrid(clientHubFactory ws.ClientHubFactory) *GridImpl {
+func NewGrid(clientHubFactory ws.HubFactory) *GridImpl {
 	return &GridImpl{
 		rootTag:             domain.NewTag(RootTagName),
 		apps:                make(map[string]AppProxy),
@@ -64,7 +64,7 @@ func (g *GridImpl) createAndStartRootUser() {
 }
 
 func (g *GridImpl) AddUser(username string) {
-	up := NewUserProxy(username, g.clientHubFactory.GetClientHub())
+	up := NewUserProxy(username, g.clientHubFactory.GetHub())
 	g.users[username] = up
 	up.Start()
 }
