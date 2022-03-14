@@ -6,31 +6,31 @@ import (
 	"go.uber.org/zap"
 )
 
-type MemRealtimeNotificationRepository struct {
+type MemRepository struct {
 	notifications []domain.Notification
 	l             *zap.Logger
 }
 
-// MemRealtimeNotificationRepository implements interfaces below
-var _ domain.NotificationRepository = (*MemRealtimeNotificationRepository)(nil)
+//@impl
+var _ domain.NotificationRepository = (*MemRepository)(nil)
 
-func NewMemRealtimeNotificationRepository() *MemRealtimeNotificationRepository {
-	return &MemRealtimeNotificationRepository{l: log.For("impl").Named("persistence").Named("notification_repo")}
+func NewMemRepository() *MemRepository {
+	return &MemRepository{l: log.For("impl").Named("persistence").Named("notification_repo")}
 }
 
-func (r *MemRealtimeNotificationRepository) SaveNotification(notification domain.Notification) {
+func (r *MemRepository) SaveNotification(notification domain.Notification) {
 	r.notifications = append(r.notifications, notification)
 	r.l.Debug("saved notification", zap.String("notificationID", notification.ID))
 }
 
-func (r *MemRealtimeNotificationRepository) GetLastNotifications(n int) []domain.Notification {
+func (r *MemRepository) GetLastNotifications(n int) []domain.Notification {
 	return r.notifications[len(r.notifications)-n:]
 }
 
-func (r *MemRealtimeNotificationRepository) GetNotifications(from, to int) []domain.Notification {
+func (r *MemRepository) GetNotifications(from, to int) []domain.Notification {
 	return r.notifications[from:to]
 }
 
-func (r *MemRealtimeNotificationRepository) GetNotificationCount() int {
+func (r *MemRepository) GetNotificationCount() int {
 	return len(r.notifications)
 }

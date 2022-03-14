@@ -3,6 +3,8 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
 )
 
 type ClientNotification struct {
@@ -30,6 +32,26 @@ func ClientNotificationFromJSON(jsonStr string) (ClientNotification, error) {
 		return ClientNotification{}, fmt.Errorf(NotEnoughInfoInNotificationErrorMessage)
 	}
 	return clientNotification, nil
+}
+
+func ClientNotificationFromDomain(n domain.Notification) ClientNotification {
+	timestamp := n.Timestamp.Format(timeformat.RFC3339Milli)
+	return ClientNotification{
+		HashableNetNotification: HashableNetNotification{
+			AppName:    n.App.Name,
+			AppID:      n.App.ID,
+			AppImgURI:  n.App.IconURI,
+			Title:      n.Title,
+			Subtitle:   n.Subtitle,
+			Body:       n.Body,
+			ExtURI:     n.ExtURI,
+			ReadURI:    n.ReadURI,
+			ArchiveURI: n.ArchiveURI,
+		},
+		ID:        n.ID,
+		Timestamp: timestamp,
+		Read:      false,
+	} // TODO: implement urgency
 }
 
 func (n ClientNotification) validate() bool {

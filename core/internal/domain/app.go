@@ -19,16 +19,18 @@ type App struct {
 }
 
 func NewApp(id, name, iconURI string, commandHandler CommandHandler) *App {
-	return &App{
+	a := &App{
 		ID:             id,
 		Name:           name,
 		IconURI:        iconURI,
 		commandHandler: commandHandler,
 		l:              log.For("domain").Named("app").With(zap.String("appID", id), zap.String("appName", name)),
 	}
+	a.start()
+	return a
 }
 
-func (a *App) Start() {
+func (a *App) start() {
 	if a.CommandChan == nil {
 		a.CommandChan = make(chan Command)
 	}

@@ -7,17 +7,6 @@ import (
 	"testing"
 )
 
-func TestApp_Start(t *testing.T) {
-	// given
-	app, _ := NewTestApp()
-
-	// when
-	app.Start()
-
-	// then
-	assert.NotNil(t, app.CommandChan)
-}
-
 func TestApp_AddTag(t *testing.T) {
 	// given
 	tag := NewTestTag()

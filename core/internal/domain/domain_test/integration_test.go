@@ -26,7 +26,6 @@ func TestIntegration_AppToUser(t *testing.T) {
 	t.Run("send notification - one tag and no users", func(t *testing.T) {
 		// given
 		tag := NewTestTag()
-		tag.Start()
 		app, _ := NewTestApp()
 		notification := NewTestNotification(app)
 
@@ -42,9 +41,7 @@ func TestIntegration_AppToUser(t *testing.T) {
 	t.Run("send notification - multiple tags and multiple users", func(t *testing.T) {
 		// given
 		tag1 := NewTestTag()
-		tag1.Start()
 		tag2 := NewTestTag()
-		tag2.Start()
 
 		app, _ := NewTestApp()
 		app.AddTag(tag1)
@@ -56,9 +53,6 @@ func TestIntegration_AppToUser(t *testing.T) {
 		user1.SubscribeToTag(tag1)
 		user1.SubscribeToTag(tag2)
 		user2.SubscribeToTag(tag1)
-
-		user1.Start()
-		user2.Start()
 
 		notification := NewTestNotification(app)
 
@@ -87,16 +81,13 @@ func TestIntegration_UserToApp(t *testing.T) {
 	t.Run("respond with a command after sent notification", func(t *testing.T) {
 		// given
 		tag := NewTestTag()
-		tag.Start()
 
 		app, handler := NewTestApp()
 		app.AddTag(tag)
-		app.Start()
 
 		user, _ := NewTestUser()
 
 		user.SubscribeToTag(tag)
-		user.Start()
 
 		notification := NewTestNotification(app)
 

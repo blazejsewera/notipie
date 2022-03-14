@@ -1,7 +1,7 @@
 package impl
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/impl/grid"
+	"github.com/blazejsewera/notipie/core/internal/grid"
 	"github.com/blazejsewera/notipie/core/internal/impl/net"
 	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"

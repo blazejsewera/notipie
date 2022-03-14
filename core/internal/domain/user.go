@@ -19,16 +19,18 @@ type User struct {
 }
 
 func NewUser(id, username string, repo NotificationRepository, broadcaster NotificationBroadcaster) *User {
-	return &User{
+	u := &User{
 		ID:          id,
 		Username:    username,
 		repo:        repo,
 		broadcaster: broadcaster,
 		l:           log.For("domain").Named("user").With(zap.String("userID", id), zap.String("username", username)),
 	}
+	u.start()
+	return u
 }
 
-func (u *User) Start() {
+func (u *User) start() {
 	if u.NotificationChan == nil {
 		u.NotificationChan = make(chan Notification)
 	}
@@ -122,4 +124,5 @@ type NotificationRepository interface {
 
 type NotificationBroadcaster interface {
 	Broadcast(notification Notification)
+	RegisterClient(connection interface{})
 }

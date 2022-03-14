@@ -1,9 +1,10 @@
 package infra
 
 import (
+	"github.com/blazejsewera/notipie/core/internal/grid"
 	"github.com/blazejsewera/notipie/core/internal/impl"
-	"github.com/blazejsewera/notipie/core/internal/impl/grid"
-	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
+	"github.com/blazejsewera/notipie/core/internal/impl/broadcast"
+	"github.com/blazejsewera/notipie/core/internal/impl/persistence"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/gin-gonic/gin"
 )
@@ -44,7 +45,9 @@ func (v voidWriter) Write([]byte) (n int, err error) {
 }
 
 func (c *AppContext) initGrid() {
-	c.gr = grid.NewGrid(ws.DefaultHubFactory)
+	r := persistence.MemRepositoryFactory
+	b := broadcast.WebSocketBroadcasterFactory
+	c.gr = grid.NewGrid(r, b)
 	c.gr.Start()
 }
 

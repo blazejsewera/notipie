@@ -19,9 +19,12 @@ func NewTestUserWithAsyncRepo() (*domain.User, *MockAsyncNotificationRepository)
 
 type MockNotificationBroadcaster struct{}
 
-func (b *MockNotificationBroadcaster) Broadcast(notification domain.Notification) {
+//@impl
+var _ domain.NotificationBroadcaster = (*MockNotificationBroadcaster)(nil)
 
-}
+func (b *MockNotificationBroadcaster) Broadcast(domain.Notification) {}
+
+func (b *MockNotificationBroadcaster) RegisterClient(interface{}) {}
 
 type MockNotificationRepository struct {
 	Notifications []domain.Notification

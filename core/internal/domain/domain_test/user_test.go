@@ -94,7 +94,6 @@ func TestUser_Listen(t *testing.T) {
 	notification := NewTestNotification(app)
 
 	timeout := time.After(200 * time.Millisecond)
-	user.Start()
 
 	// when
 	select {

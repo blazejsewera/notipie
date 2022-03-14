@@ -1,12 +1,12 @@
 package net
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/impl/grid"
+	"github.com/blazejsewera/notipie/core/internal/grid"
+	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"go.uber.org/zap"
 	"net/http"
 
-	"github.com/blazejsewera/notipie/core/internal/impl/model"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
@@ -36,8 +36,8 @@ func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
 			return
 		}
 		l.Debug("received notification", zap.Reflect("notification", notification))
-		grid.ReceiveAppNotification(notification)
-		c.JSON(http.StatusCreated, gin.H{"appId": grid.GetAppID()})
+		appID := grid.ReceiveAppNotification(notification)
+		c.JSON(http.StatusCreated, gin.H{"appId": appID})
 	}
 }
 
@@ -52,13 +52,12 @@ func WSHandlerFor(grid grid.Grid) gin.HandlerFunc {
 			l.Error("could not get user proxy", zap.Error(err))
 			return
 		}
-		hub := userProxy.GetHub()
 		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 		if err != nil {
 			l.Error("could not upgrade conn", zap.Error(err))
 			return
 		}
-		hub.Register(conn)
+		userProxy.RegisterClient(conn)
 	}
 }
 

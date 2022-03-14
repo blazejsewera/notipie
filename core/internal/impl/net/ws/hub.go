@@ -1,15 +1,13 @@
 package ws
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
-	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )
 
 type Hub interface {
-	util.Starter
 	Broadcast(notification model.ClientNotification)
 	Register(conn *websocket.Conn)
 	Unregister(clientUUID string)
@@ -24,11 +22,10 @@ type HubImpl struct {
 	l             *zap.Logger
 }
 
-// HubImpl implements interfaces below
+//@impl
 var _ Hub = (*HubImpl)(nil)
-var _ util.Starter = (*HubImpl)(nil)
 
-func NewHub(clientFactory ClientFactory) *HubImpl {
+func NewHubImpl(clientFactory ClientFactory) *HubImpl {
 	h := &HubImpl{
 		clientFactory: clientFactory,
 		broadcast:     make(chan model.ClientNotification),
@@ -38,8 +35,13 @@ func NewHub(clientFactory ClientFactory) *HubImpl {
 		l:             log.For("impl").Named("net").Named("hub"),
 	}
 	clientFactory.SetHub(h)
+	h.start()
 
 	return h
+}
+
+func (h *HubImpl) start() {
+	go h.handleChannels()
 }
 
 func (h *HubImpl) Broadcast(notification model.ClientNotification) {
@@ -52,10 +54,6 @@ func (h *HubImpl) Register(conn *websocket.Conn) {
 
 func (h *HubImpl) Unregister(clientUUID string) {
 	h.unregister <- clientUUID
-}
-
-func (h *HubImpl) Start() {
-	go h.handleChannels()
 }
 
 func (h *HubImpl) handleChannels() {

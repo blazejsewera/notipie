@@ -2,7 +2,7 @@ package grid
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
-	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
 	"go.uber.org/zap"
@@ -10,8 +10,8 @@ import (
 )
 
 type AppProxy interface {
-	Receive(appNotification model.AppNotification)
 	GetAppID() string
+	receive(appNotification model.AppNotification)
 }
 
 type AppProxyImpl struct {
@@ -19,11 +19,14 @@ type AppProxyImpl struct {
 	l   *zap.Logger
 }
 
+//@impl
+var _ AppProxy = (*AppProxyImpl)(nil)
+
 func NewAppProxy(app *domain.App) *AppProxyImpl {
 	return &AppProxyImpl{app: app, l: log.For("impl").Named("grid").Named("app_proxy")}
 }
 
-func (p *AppProxyImpl) Receive(appNotification model.AppNotification) {
+func (p *AppProxyImpl) receive(appNotification model.AppNotification) {
 	p.l.Debug("received appNotification", zap.Reflect("appNotification", appNotification))
 	notification, err := p.notificationOf(appNotification)
 	if err != nil {

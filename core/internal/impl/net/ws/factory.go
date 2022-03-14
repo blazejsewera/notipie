@@ -12,8 +12,8 @@ func (f HubFactoryFunc) GetHub() Hub {
 	return f()
 }
 
-var DefaultHubFactory = HubFactoryFunc(func() Hub {
-	return NewHub(NewClientFactory())
+var WebSocketHubFactory = HubFactoryFunc(func() Hub {
+	return NewHubImpl(NewClientFactory())
 })
 
 type ClientFactory interface {
@@ -21,21 +21,21 @@ type ClientFactory interface {
 	GetClient(conn *websocket.Conn) Client
 }
 
-type DefaultClientFactory struct {
+type WebSocketClientFactory struct {
 	hub Hub
 }
 
-func NewClientFactory() *DefaultClientFactory {
-	return &DefaultClientFactory{}
+func NewClientFactory() *WebSocketClientFactory {
+	return &WebSocketClientFactory{}
 }
 
-// DefaultClientFactory implements interfaces below
-var _ ClientFactory = (*DefaultClientFactory)(nil)
+//@impl
+var _ ClientFactory = (*WebSocketClientFactory)(nil)
 
-func (f *DefaultClientFactory) SetHub(hub Hub) {
+func (f *WebSocketClientFactory) SetHub(hub Hub) {
 	f.hub = hub
 }
 
-func (f *DefaultClientFactory) GetClient(conn *websocket.Conn) Client {
+func (f *WebSocketClientFactory) GetClient(conn *websocket.Conn) Client {
 	return NewClient(f.hub, conn)
 }

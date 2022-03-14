@@ -1,7 +1,7 @@
 package model_test
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

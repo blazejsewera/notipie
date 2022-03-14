@@ -18,10 +18,12 @@ type Tag struct {
 }
 
 func NewTag(name string) *Tag {
-	return &Tag{Name: name, l: log.For("domain").Named("tag").With(zap.String("tagName", name))}
+	t := &Tag{Name: name, l: log.For("domain").Named("tag").With(zap.String("tagName", name))}
+	t.start()
+	return t
 }
 
-func (t *Tag) Start() {
+func (t *Tag) start() {
 	if t.NotificationChan == nil {
 		t.NotificationChan = make(chan Notification)
 	}

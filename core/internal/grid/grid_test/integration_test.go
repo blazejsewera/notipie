@@ -1,29 +1,27 @@
 package grid_test
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/impl/grid"
-	"github.com/blazejsewera/notipie/core/internal/impl/model"
+	"github.com/blazejsewera/notipie/core/internal/grid"
+	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGrid(t *testing.T) {
 	// given
-	cnExpected := NewTestClientNotification()
+	cnExpected := newTestClientNotification()
 	t.Run("send notification - receive on user proxy", func(t *testing.T) {
 		// given
-		g := grid.NewGrid(MockClientHubFactory)
-		an := NewTestAppNotification()
+		g := grid.NewGrid(mockRepositoryFactory, mockBroadcasterFactory)
+		an := newTestAppNotification()
 		g.Start()
 
 		// when
-		g.ReceiveAppNotification(an)
+		appID := g.ReceiveAppNotification(an)
 
 		// then
-		appID := g.GetAppID()
-		userProxy, _ := g.GetUserProxy(grid.RootUsername)
-		<-userProxy.GetHub().(*MockClientHub).Done
-		cn := userProxy.GetHub().(*MockClientHub).Notifications[0]
+		<-mockBroadcasterInstance.Done
+		cn := mockBroadcasterInstance.ClientNotification
 		assertClientNotificationEqual(t, cnExpected, cn, appID)
 	})
 }
