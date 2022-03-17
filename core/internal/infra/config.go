@@ -3,13 +3,13 @@ package infra
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/blazejsewera/notipie/core/internal/impl"
 	"io/ioutil"
 )
 
 type Config struct {
-	Prod    bool   `json:"prod"`
-	Address string `json:"address"`
-	Port    int    `json:"port"`
+	Prod           bool                `json:"prod"`
+	EndpointConfig impl.EndpointConfig `json:"endpointConfig"`
 }
 
 func DefaultConfig() Config {

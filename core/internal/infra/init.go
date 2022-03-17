@@ -20,7 +20,7 @@ func (c *AppContext) Init(config Config) {
 	c.initLogger(config.Prod)
 	c.initGin(config.Prod)
 	c.initGrid()
-	c.initEndpoint()
+	c.initEndpoint(config.EndpointConfig)
 }
 
 func (c *AppContext) initLogger(prod bool) {
@@ -51,8 +51,8 @@ func (c *AppContext) initGrid() {
 	c.gr.Start()
 }
 
-func (c *AppContext) initEndpoint() {
-	c.ep = impl.NewEndpoint(c.gr)
+func (c *AppContext) initEndpoint(epCfg impl.EndpointConfig) {
+	c.ep = impl.NewEndpoint(epCfg, c.gr)
 	c.ep.Setup()
 }
 

@@ -1,5 +1,11 @@
 {
   "prod": false,
-  "address": "localhost",
-  "port": 8080
+  "endpointConfig": {
+    "address": "localhost",
+    "port": 8080,
+    "prefix": "/",
+    "root": "",
+    "push": "push",
+    "webSocket": "ws"
+  }
 }
