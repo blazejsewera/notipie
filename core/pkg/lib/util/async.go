@@ -7,7 +7,11 @@ import (
 	"time"
 )
 
-func AsyncAssert(t testing.TB, done chan struct{}) *assert.Assertions {
+type Signal struct{}
+
+var Ping = Signal{}
+
+func AsyncAssert(t testing.TB, done chan Signal) *assert.Assertions {
 	t.Helper()
 	a := assert.New(t)
 	select {
@@ -32,11 +36,11 @@ func AsyncRunAtMost(t testing.TB, f func(), timeout time.Duration) {
 	}
 }
 
-func AsyncRun(f func()) (done chan struct{}) {
-	done = make(chan struct{})
+func AsyncRun(f func()) (done chan Signal) {
+	done = make(chan Signal)
 	go func() {
 		f()
-		done <- struct{}{}
+		done <- Ping
 	}()
 	return
 }

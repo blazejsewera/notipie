@@ -13,22 +13,22 @@ const (
 	ws     = "ws"
 )
 
-func initCore(t testing.TB) infra.Config {
+var config = infra.Config{
+	Prod: false,
+	EndpointConfig: impl.EndpointConfig{
+		Address:   "localhost",
+		Port:      5150,
+		Prefix:    prefix,
+		Root:      root,
+		Push:      push,
+		WebSocket: ws,
+	},
+}
+
+func initCore(t testing.TB) {
 	t.Helper()
-	config := infra.Config{
-		Prod: false,
-		EndpointConfig: impl.EndpointConfig{
-			Address:   "localhost",
-			Port:      5150,
-			Prefix:    prefix,
-			Root:      root,
-			Push:      push,
-			WebSocket: ws,
-		},
-	}
 	appCtx := new(infra.AppContext)
 	appCtx.Init(config)
 	go appCtx.Start()
 	t.Log("initCore: started core")
-	return config
 }

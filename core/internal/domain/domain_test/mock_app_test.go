@@ -2,18 +2,19 @@ package domain_test
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"time"
 )
 
 type MockAsyncCommandHandler struct {
 	Command        domain.Command
-	CommandHandled chan struct{}
+	CommandHandled chan util.Signal
 }
 
 func (h *MockAsyncCommandHandler) HandleCommand(command domain.Command) {
 	h.Command = command
 	select {
-	case h.CommandHandled <- struct{}{}:
+	case h.CommandHandled <- util.Ping:
 		return
 	case <-time.After(200 * time.Millisecond):
 		panic("no receiver for h.CommandHandled for 200ms")
@@ -21,7 +22,7 @@ func (h *MockAsyncCommandHandler) HandleCommand(command domain.Command) {
 }
 
 func NewMockAsyncCommandHandler() *MockAsyncCommandHandler {
-	return &MockAsyncCommandHandler{CommandHandled: make(chan struct{})}
+	return &MockAsyncCommandHandler{CommandHandled: make(chan util.Signal)}
 }
 
 func NewTestApp() (*domain.App, *MockAsyncCommandHandler) {

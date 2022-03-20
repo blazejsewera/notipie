@@ -2,6 +2,7 @@ package domain_test
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"time"
 )
 
@@ -52,7 +53,7 @@ func GetAllNotificationsFor(u *domain.User) []domain.Notification {
 
 type MockAsyncNotificationRepository struct {
 	MockNotificationRepository
-	NotificationSaved chan struct{}
+	NotificationSaved chan util.Signal
 }
 
 func (r *MockAsyncNotificationRepository) SaveNotification(notification domain.Notification) {
@@ -66,5 +67,5 @@ func (r *MockAsyncNotificationRepository) SaveNotification(notification domain.N
 }
 
 func NewAsyncNotificationRepository() *MockAsyncNotificationRepository {
-	return &MockAsyncNotificationRepository{NotificationSaved: make(chan struct{})}
+	return &MockAsyncNotificationRepository{NotificationSaved: make(chan util.Signal)}
 }
