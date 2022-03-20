@@ -134,7 +134,13 @@ func (c *ClientImpl) readWholeMessage() {
 func (c *ClientImpl) readMessage() error {
 	n, notificationBytes, err := c.conn.ReadMessage()
 	if err != nil {
-		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure, websocket.CloseNoStatusReceived) {
+		if websocket.IsUnexpectedCloseError(
+			err,
+			websocket.CloseNormalClosure,
+			websocket.CloseGoingAway,
+			websocket.CloseAbnormalClosure,
+			websocket.CloseNoStatusReceived,
+		) {
 			c.l.Error("websocket unexpectedly closed")
 		}
 		return err

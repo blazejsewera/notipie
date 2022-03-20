@@ -49,7 +49,6 @@ func newAppRestClient(t testing.TB) *appRestClient {
 
 func (c *appRestClient) pushNotification(notification model.AppNotification) {
 	c.t.Helper()
-	logPrefix := "pushNotification: "
 
 	url := getURL(addr, push)
 	res, err := netutil.PostReq(c.cl, url, "application/json", notification.ToJSON())
@@ -62,7 +61,7 @@ func (c *appRestClient) pushNotification(notification model.AppNotification) {
 		c.t.Fatal(err)
 	}
 
-	c.log(logPrefix, "success: appID = "+c.appID)
+	c.t.Log("appRestClient: pushNotification: success\t" + res)
 }
 
 func appIdFromRes(appResJSON string) (string, error) {
@@ -72,10 +71,6 @@ func appIdFromRes(appResJSON string) (string, error) {
 		return "", fmt.Errorf("unmarshal app response: %s", err)
 	}
 	return a.AppID, nil
-}
-
-func (c *appRestClient) log(prefix string, message string) {
-	c.t.Log("appRestClient:", prefix, message)
 }
 
 type userClient struct {
@@ -109,7 +104,6 @@ func (c *wsClient) readWS() {
 		lastLine := c.wsc.LineBuffer[len(c.wsc.LineBuffer)-1]
 		notification, err := model.ClientNotificationFromJSON(lastLine)
 		if err != nil {
-			c.t.Error("ws client: unmarshal client notification:", err)
 			continue
 		}
 		c.notifications = append(c.notifications, notification)

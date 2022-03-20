@@ -68,7 +68,7 @@ func (c *WSReaderClient) readWS() {
 	for {
 		_, msg, err := c.conn.ReadMessage()
 		if err != nil {
-			c.writeErr("readWS", err)
+			return
 		}
 		c.Buffer = append(c.Buffer, msg...)
 		c.LineBuffer = append(c.LineBuffer, string(msg))
@@ -79,10 +79,10 @@ func (c *WSReaderClient) readWS() {
 func (c *WSReaderClient) writeErr(msg string, err error) {
 	if c.t != nil {
 		c.t.Helper()
-		c.t.Error("ws client:", msg+":", err)
+		c.t.Log("ws client:", msg+":", err)
 	}
 	if c.l != nil {
-		c.l.Error(msg, zap.Error(err))
+		c.l.Debug(msg, zap.Error(err))
 	}
 }
 
