@@ -6,31 +6,52 @@ import (
 	"testing"
 )
 
-func TestNotipieCore(t *testing.T) {
+func TestUserClient(t *testing.T) {
 	// given
-	initCore(t)
-	ac := newAppRestClient(t)
-	wsc := newWSClient(t)
-	wsc.connect()
-	defer wsc.close()
+	expectedCN := clientNotification
 
-	t.Run("push notification", func(t *testing.T) {
+	t.Run("push notification - notification is pushed to ws client", func(t *testing.T) {
+		// given
+		initCore(t)
+		ac := newAppRestClient(t)
+
+		uWSC := newUserWSClient(t)
+		uWSC.connect()
+		defer uWSC.close()
+
 		// when
 		ac.pushNotification(appNotification)
 
 		// then
-		<-wsc.saved
-		actualClientNotification := wsc.notifications[0]
-		assertClientNotification(t, clientNotification, actualClientNotification, ac.appID)
+		<-uWSC.saved
+		actualCN := uWSC.notifications[0]
+		assertClientNotification(t, expectedCN, actualCN, ac.appID)
 	})
 
-	t.Run("get notifications", func(t *testing.T) {
+	t.Run("get notifications - notification list is returned", func(t *testing.T) {
+		// given
+		initCore(t)
+		ac := newAppRestClient(t)
+
+		uRC := newUserRestClient(t)
+
 		// when
+		ac.pushNotification(appNotification)
+
+		// then
+		uRC.getNotifications()
+		actualCN := uRC.notifications[0]
+		assertClientNotification(t, expectedCN, actualCN, ac.appID)
 		// TODO: write test
 	})
 }
 
-func assertClientNotification(t testing.TB, expected model.ClientNotification, actual model.ClientNotification, actualAppID string) {
+func assertClientNotification(
+	t testing.TB,
+	expected model.ClientNotification,
+	actual model.ClientNotification,
+	actualAppID string,
+) {
 	t.Helper()
 	expected.AppID = actualAppID
 	assert.Equal(t, expected, actual)

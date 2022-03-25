@@ -17,12 +17,13 @@ type Endpoint struct {
 }
 
 type EndpointConfig struct {
-	Address   string `json:"address"`
-	Port      int    `json:"port"`
-	Prefix    string `json:"prefix"`
-	Root      string `json:"root"`
-	Push      string `json:"push"`
-	WebSocket string `json:"webSocket"`
+	Address       string `json:"address"`
+	Port          int    `json:"port"`
+	Prefix        string `json:"prefix"`
+	Root          string `json:"root"`
+	Push          string `json:"push"`
+	WebSocket     string `json:"webSocket"`
+	Notifications string `json:"notifications"`
 }
 
 func NewEndpoint(endpointConfig EndpointConfig, grid grid.Grid) *Endpoint {

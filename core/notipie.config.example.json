@@ -6,6 +6,7 @@
     "prefix": "/",
     "root": "",
     "push": "push",
-    "webSocket": "ws"
+    "webSocket": "ws",
+    "notifications": "notifications"
   }
 }

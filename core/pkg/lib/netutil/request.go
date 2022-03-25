@@ -8,33 +8,50 @@ import (
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 )
 
-func PostReq(c *http.Client, url string, contentType string, body string) (responseBody string, err error) {
+func PostReq(c *http.Client, url url.URL, contentType, body string) (
+	statusCode int,
+	responseBody []byte,
+	err error,
+) {
 	bodyReader := strings.NewReader(body)
-	res, err := c.Post(url, contentType, bodyReader)
+	res, err := c.Post(url.String(), contentType, bodyReader)
+	statusCode = res.StatusCode
+
 	if err != nil {
-		return "", fmt.Errorf("post: %s", err)
+		err = fmt.Errorf("post: %s", err)
+		return
 	}
-	resBytes, err := ioutil.ReadAll(res.Body)
+
+	responseBody, err = ioutil.ReadAll(res.Body)
 	if err != nil {
-		return "", fmt.Errorf("post: read all bytes from response body: %s", err)
+		err = fmt.Errorf("post: read all bytes from response body: %s", err)
+		return
 	}
-	return string(resBytes), nil
+
+	return
 }
 
-func GetReq(c *http.Client, url string) (responseBody string, err error) {
-	res, err := c.Get(url)
+func GetReq(c *http.Client, url url.URL) (statusCode int, responseBody []byte, err error) {
+	res, err := c.Get(url.String())
+	statusCode = res.StatusCode
+
 	if err != nil {
-		return "", fmt.Errorf("get: %s", err)
+		err = fmt.Errorf("get: %s", err)
+		return
 	}
-	resBytes, err := ioutil.ReadAll(res.Body)
+
+	responseBody, err = ioutil.ReadAll(res.Body)
 	if err != nil {
-		return "", fmt.Errorf("get: read all bytes from response body: %s", err)
+		err = fmt.Errorf("get: read all bytes from response body: %s", err)
+		return
 	}
-	return string(resBytes), nil
+
+	return
 }
 
 type WSReaderClient struct {
@@ -55,8 +72,8 @@ func NewWSReaderClient() *WSReaderClient {
 	return &WSReaderClient{Saved: make(chan util.Signal, 1), l: l}
 }
 
-func (c *WSReaderClient) Connect(url string) (err error) {
-	c.conn, _, err = websocket.DefaultDialer.Dial(url, nil)
+func (c *WSReaderClient) Connect(url url.URL) (err error) {
+	c.conn, _, err = websocket.DefaultDialer.Dial(url.String(), nil)
 	if err != nil {
 		return fmt.Errorf("ws client: connect: %s", err)
 	}
