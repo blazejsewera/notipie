@@ -1,8 +1,10 @@
 # Go in core
+
 Go is quickly gaining popularity among developers, with its great tooling,
 focus on microservices, and state-of-the-art standard library.
 
 ## Motivation
+
 When choosing the right language for the project, I focused on finding the
 right tool for the application and developer experience.
 
@@ -34,12 +36,14 @@ obvious.
 ## How did Go make the development easier
 
 ### Built-in language features
+
 The feature that helped the most during development was channels and
 _goroutines_, coroutines automatically managed by the Go runtime. The idea
 behind those was very simple to understand, and working with concurrent
 programming was a little bit easier.
 
 ### Standard library
+
 Standard `testing` package provides a unified, and simple tooling for testing.
 I didn't have to think anything about test setup. No custom scripts,
 third-party libraries, or IDE setup. All I needed to do was to name a file
@@ -53,6 +57,7 @@ simpler interface, I used status codes and HTTP client implementation from
 `net/http`.
 
 ### Third-party libraries
+
 Gin was great for writing REST endpoints, with `gin.Context` having easy
 access to standard-library-compatible fields, making it easily pluggable to
 other third-party libraries, like
