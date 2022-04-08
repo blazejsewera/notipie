@@ -1,4 +1,4 @@
-.PHONY: clean
+.PHONY: clean test
 
 all: clean sync tidy lint build test
 

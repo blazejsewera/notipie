@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-func initCore(t testing.TB) {
+func initCore(t testing.TB, port int) {
 	t.Helper()
 	appCtx := new(infra.AppContext)
-	appCtx.Init(config)
+	appCtx.Init(config(port))
 	go appCtx.Start()
 	t.Log("initCore: started core")
 }
