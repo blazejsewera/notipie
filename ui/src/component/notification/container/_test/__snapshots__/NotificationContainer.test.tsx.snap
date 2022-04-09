@@ -265,9 +265,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       <p
         className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
       >
-        <span>
-          
-        </span>
+        <span />
       </p>
       <div
         className="flex"

@@ -563,9 +563,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
   <p
     className="whitespace-pre-line text-sm leading-4 my-3 text-gray-800 dark:text-gray-300"
   >
-    <span>
-      
-    </span>
+    <span />
   </p>
   <div
     className="flex"

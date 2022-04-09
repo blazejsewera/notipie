@@ -1,10 +1,19 @@
 import * as React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { App } from './App'
+;(() => {
+  const containerId = 'root'
+  const container = document.getElementById(containerId)
+  if (container === null) {
+    console.error(`could not find ${containerId} element in DOM, check the HTML template`)
+    return
+  }
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-)
+  const root = createRoot(container)
+
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  )
+})()
