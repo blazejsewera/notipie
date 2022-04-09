@@ -41,6 +41,19 @@ func PushNotificationHandlerFor(grid grid.Grid) gin.HandlerFunc {
 	}
 }
 
+func GetNotificationsHandlerFor(grid grid.Grid) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		logRequest(l, c, "notifications")
+		username := c.DefaultQuery("user", "root") // TODO: add user auth
+		userProxy, err := grid.GetUserProxy(username)
+		if err != nil {
+			l.Error("could not get user proxy", zap.Error(err))
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"notifications": userProxy.GetAllNotifications()})
+	}
+}
+
 func WSHandlerFor(grid grid.Grid) gin.HandlerFunc {
 	upgrader := createUpgrader()
 

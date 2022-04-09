@@ -45,6 +45,9 @@ func (e *Endpoint) Setup() {
 	e.r.OPTIONS(push, net.PreflightHandler)
 	e.r.POST(push, net.PushNotificationHandlerFor(e.grid))
 
+	notifications := e.cfg.Prefix + e.cfg.Notifications
+	e.r.GET(notifications, net.GetNotificationsHandlerFor(e.grid))
+
 	ws := e.cfg.Prefix + e.cfg.WebSocket
 	e.r.GET(ws, net.WSHandlerFor(e.grid))
 	e.l.Debug("gin endpoint setup complete")

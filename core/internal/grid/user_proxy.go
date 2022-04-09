@@ -2,6 +2,8 @@ package grid
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
+	"github.com/blazejsewera/notipie/core/internal/model"
+	"github.com/blazejsewera/notipie/core/pkg/lib/fp"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
 	"go.uber.org/zap"
@@ -10,6 +12,10 @@ import (
 type UserProxy interface {
 	SubscribeUserToTag(tag *domain.Tag)
 	RegisterClient(interface{})
+	GetLastNotifications(n int) []model.ClientNotification
+	GetNotifications(from, to int) []model.ClientNotification
+	GetAllNotifications() []model.ClientNotification
+	GetNotificationCount() int
 }
 
 type UserProxyImpl struct {
@@ -43,4 +49,22 @@ func (p *UserProxyImpl) SubscribeUserToTag(tag *domain.Tag) {
 
 func (p *UserProxyImpl) RegisterClient(conn interface{}) {
 	p.broadcaster.RegisterClient(conn)
+}
+
+func (p *UserProxyImpl) GetLastNotifications(n int) []model.ClientNotification {
+	domainNotifications := p.user.GetLastNotifications(n)
+	return fp.Map(model.ClientNotificationFromDomain, domainNotifications)
+}
+
+func (p *UserProxyImpl) GetNotifications(from, to int) []model.ClientNotification {
+	domainNotifications := p.user.GetNotifications(from, to)
+	return fp.Map(model.ClientNotificationFromDomain, domainNotifications)
+}
+
+func (p *UserProxyImpl) GetAllNotifications() []model.ClientNotification {
+	return p.GetNotifications(0, p.GetNotificationCount())
+}
+
+func (p *UserProxyImpl) GetNotificationCount() int {
+	return p.user.GetNotificationCount()
 }
