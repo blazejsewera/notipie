@@ -18,7 +18,7 @@ export const full: Notification = {
   title: 'New Pull Request',
   subtitle: '— notipie',
   body,
-  timestamp: '2 hours ago',
+  timestamp: '2h ago',
   id: '0',
 }
 
