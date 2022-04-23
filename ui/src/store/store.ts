@@ -8,7 +8,7 @@ import { merge } from '../util/notification/merger'
 import { T_DARKMODE_OFF, T_DARKMODE_ON, T_DARKMODE_TOGGLE } from './action/darkmode/set'
 import { T_UPDATE_TIME } from './action/notification/time'
 import { updateTimeAll } from '../util/notification/time'
-import { config } from '../config/config'
+import { config } from '../config'
 
 export type State = {
   state: 'loading' | 'ok' | 'fail'
@@ -62,9 +62,8 @@ const reducer: Reducer = (previousState = defaultState, action) => {
   }
 }
 
-const isDev = config.mode === 'dev'
 /* eslint-disable */
-const composeEnhancers = isDev
+const composeEnhancers = !config.prod
   ? (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
   : undefined
 /* eslint-enable */
