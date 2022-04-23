@@ -1522,7 +1522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.17.9
   resolution: "@babel/runtime@npm:7.17.9"
   dependencies:
@@ -2527,7 +2527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-actions@npm:6.4.22, @storybook/addon-actions@npm:^6.4.21":
+"@storybook/addon-actions@npm:6.4.22, @storybook/addon-actions@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-actions@npm:6.4.22"
   dependencies:
@@ -2618,7 +2618,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-docs@npm:6.4.22, @storybook/addon-docs@npm:^6.4.21":
+"@storybook/addon-docs@npm:6.4.22, @storybook/addon-docs@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-docs@npm:6.4.22"
   dependencies:
@@ -2716,7 +2716,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-essentials@npm:^6.4.21":
+"@storybook/addon-essentials@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-essentials@npm:6.4.22"
   dependencies:
@@ -2760,7 +2760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-links@npm:^6.4.21":
+"@storybook/addon-links@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-links@npm:6.4.22"
   dependencies:
@@ -3488,7 +3488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@npm:^6.4.21":
+"@storybook/react@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/react@npm:6.4.22"
   dependencies:
@@ -3710,7 +3710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^13.0.0":
+"@testing-library/react@npm:^13.1.1":
   version: 13.1.1
   resolution: "@testing-library/react@npm:13.1.1"
   dependencies:
@@ -3946,7 +3946,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:^3.3.0":
+"@types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
   dependencies:
@@ -4180,24 +4180,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0":
+"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.0.2":
   version: 18.0.2
   resolution: "@types/react-dom@npm:18.0.2"
   dependencies:
     "@types/react": "*"
   checksum: 2b0b138d8634ccfd8a86b17cb5414b122ee0cb6f650377d772f6008761a27e4c2531c08e3cab71aaa19b6893af6a508c664aa314db3ebcff5b8179173c9c9307
-  languageName: node
-  linkType: hard
-
-"@types/react-redux@npm:^7.1.20":
-  version: 7.1.24
-  resolution: "@types/react-redux@npm:7.1.24"
-  dependencies:
-    "@types/hoist-non-react-statics": ^3.3.0
-    "@types/react": "*"
-    hoist-non-react-statics: ^3.3.0
-    redux: ^4.0.0
-  checksum: 6582246581331ac7fbbd44aa1f1c136c8a9c8febbcf462432ac81302263308c21e1a2e7868beb7f73bbcb52a8e67935d133cb37f5bdcb6564eaff3a811805101
   languageName: node
   linkType: hard
 
@@ -4210,16 +4198,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-test-renderer@npm:^17.0.1":
-  version: 17.0.2
-  resolution: "@types/react-test-renderer@npm:17.0.2"
+"@types/react-test-renderer@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "@types/react-test-renderer@npm:18.0.0"
   dependencies:
-    "@types/react": ^17
-  checksum: 0be325798b6b38cc31fbb11f2f1e1a5578cc3b23eddf1ddd1ab58ccf50966e8f779383084d8bc3a7db3108ad815af8fbae5c0f54329a88d52200e01547d85c33
+    "@types/react": "*"
+  checksum: 6afc938a1d7618d88ab8793e251f0bd5981bf3f08c1b600f74df3f8800b92589ea534dc6dcb7c8d683893fcc740bf8d7843a42bf2dae59785cfe88f004bd7b0b
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.0.0":
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.0.6":
   version: 18.0.6
   resolution: "@types/react@npm:18.0.6"
   dependencies:
@@ -4227,17 +4215,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 368b40176f0dab30a611c3263bf1d9878cebede9ce8015bc5661a396787dbe41f0b667b8d6d448dea7bc8c0557bf3cb329ab2b16ad2dacb18eaa764358bd16d4
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^17":
-  version: 17.0.44
-  resolution: "@types/react@npm:17.0.44"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: ebee02778ca08f954c316dc907802264e0121c87b8fa2e7e0156ab0ef2a1b0a09d968c016a3600ec4c9a17dc09b4274f292d9b15a1a5369bb7e4072def82808f
   languageName: node
   linkType: hard
 
@@ -4318,6 +4295,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/use-sync-external-store@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@types/use-sync-external-store@npm:0.0.3"
+  checksum: 161ddb8eec5dbe7279ac971531217e9af6b99f7783213566d2b502e2e2378ea19cf5e5ea4595039d730aa79d3d35c6567d48599f69773a02ffcff1776ec2a44e
+  languageName: node
+  linkType: hard
+
 "@types/webpack-env@npm:^1.16.0":
   version: 1.16.4
   resolution: "@types/webpack-env@npm:1.16.4"
@@ -4384,7 +4368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.18.0":
+"@typescript-eslint/eslint-plugin@npm:^5.20.0":
   version: 5.20.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.20.0"
   dependencies:
@@ -4407,7 +4391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.18.0":
+"@typescript-eslint/parser@npm:^5.20.0":
   version: 5.20.0
   resolution: "@typescript-eslint/parser@npm:5.20.0"
   dependencies:
@@ -4501,7 +4485,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^1.3.0":
+"@vitejs/plugin-react@npm:^1.3.1":
   version: 1.3.1
   resolution: "@vitejs/plugin-react@npm:1.3.1"
   dependencies:
@@ -5683,7 +5667,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^8.0.0, babel-loader@npm:^8.2.4":
+"babel-loader@npm:^8.0.0, babel-loader@npm:^8.2.5":
   version: 8.2.5
   resolution: "babel-loader@npm:8.2.5"
   dependencies:
@@ -8522,7 +8506,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:^26.1.4":
+"eslint-plugin-jest@npm:^26.1.5":
   version: 26.1.5
   resolution: "eslint-plugin-jest@npm:26.1.5"
   dependencies:
@@ -8655,7 +8639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.13.0":
+"eslint@npm:^8.14.0":
   version: 8.14.0
   resolution: "eslint@npm:8.14.0"
   dependencies:
@@ -12118,7 +12102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.7":
+"lint-staged@npm:^12.4.0":
   version: 12.4.0
   resolution: "lint-staged@npm:12.4.0"
   dependencies:
@@ -13291,47 +13275,47 @@ __metadata:
     "@babel/preset-react": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
     "@mdx-js/react": ^2.1.1
-    "@storybook/addon-actions": ^6.4.21
-    "@storybook/addon-docs": ^6.4.21
-    "@storybook/addon-essentials": ^6.4.21
-    "@storybook/addon-links": ^6.4.21
+    "@storybook/addon-actions": ^6.4.22
+    "@storybook/addon-docs": ^6.4.22
+    "@storybook/addon-essentials": ^6.4.22
+    "@storybook/addon-links": ^6.4.22
     "@storybook/addon-postcss": ^2.0.0
-    "@storybook/react": ^6.4.21
-    "@testing-library/react": ^13.0.0
+    "@storybook/react": ^6.4.22
+    "@testing-library/react": ^13.1.1
     "@types/jest": ^27.4.1
     "@types/node": ^16.11.9
-    "@types/react": ^18.0.0
-    "@types/react-dom": ^18.0.0
-    "@types/react-test-renderer": ^17.0.1
-    "@typescript-eslint/eslint-plugin": ^5.18.0
-    "@typescript-eslint/parser": ^5.18.0
-    "@vitejs/plugin-react": ^1.3.0
+    "@types/react": ^18.0.6
+    "@types/react-dom": ^18.0.2
+    "@types/react-test-renderer": ^18.0.0
+    "@typescript-eslint/eslint-plugin": ^5.20.0
+    "@typescript-eslint/parser": ^5.20.0
+    "@vitejs/plugin-react": ^1.3.1
     "@yarnpkg/plugin-compat": ^3.0.0
     "@yarnpkg/pnpify": ^3.0.1
     autoprefixer: ^10.4.4
     babel-jest: ^27.5.1
-    babel-loader: ^8.2.4
-    eslint: ^8.13.0
+    babel-loader: ^8.2.5
+    eslint: ^8.14.0
     eslint-config-prettier: ^8.5.0
-    eslint-plugin-jest: ^26.1.4
+    eslint-plugin-jest: ^26.1.5
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-react: ^7.29.4
     eslint-watch: ^8.0.0
     jest: ^27.5.1
-    lint-staged: ^12.3.7
+    lint-staged: ^12.4.0
     postcss: ^8.4.12
     prettier: ^2.6.2
     react: ^18.0.0
     react-dom: ^18.0.0
     react-feather: ^2.0.9
-    react-redux: ^7.2.8
+    react-redux: ^8.0.1
     react-test-renderer: ^18.0.0
-    redux: ^4.1.2
+    redux: ^4.2.0
     storybook-dark-mode: ^1.0.9
-    tailwindcss: ^3.0.23
+    tailwindcss: ^3.0.24
     ts-jest: ^27.1.4
     typescript: ^4.6.3
-    vite: ^2.9.1
+    vite: ^2.9.5
     webpack: ^5.72.0
   languageName: unknown
   linkType: soft
@@ -14861,24 +14845,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.2.8":
-  version: 7.2.8
-  resolution: "react-redux@npm:7.2.8"
+"react-redux@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "react-redux@npm:8.0.1"
   dependencies:
-    "@babel/runtime": ^7.15.4
-    "@types/react-redux": ^7.1.20
+    "@babel/runtime": ^7.12.1
+    "@types/hoist-non-react-statics": ^3.3.1
+    "@types/use-sync-external-store": ^0.0.3
     hoist-non-react-statics: ^3.3.2
-    loose-envify: ^1.4.0
-    prop-types: ^15.7.2
-    react-is: ^17.0.2
+    react-is: ^18.0.0
+    use-sync-external-store: ^1.0.0
   peerDependencies:
-    react: ^16.8.3 || ^17 || ^18
+    "@types/react": ^16.8 || ^17.0 || ^18.0
+    "@types/react-dom": ^16.8 || ^17.0 || ^18.0
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+    react-native: ">=0.59"
+    redux: ^4
   peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: ecf1933e91013f2d41bfc781515b536bf81eb1f70ff228607841094c8330fe77d522372b359687e51c0b52b9888dba73db9ac0486aace1896ab9eb9daec102d5
+    redux:
+      optional: true
+  checksum: d7c004b4bfb4e4cd9a5fc21fa30734cf2fc1c04b1483f0c0ea1446e00b7792e9d7ef16cf62d38254f68f6058bac34f759da6a204772a0982e029d2e83cc80512
   languageName: node
   linkType: hard
 
@@ -15073,7 +15068,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.0.0, redux@npm:^4.1.2":
+"redux@npm:^4.2.0":
   version: 4.2.0
   resolution: "redux@npm:4.2.0"
   dependencies:
@@ -16629,7 +16624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.0.23":
+"tailwindcss@npm:^3.0.24":
   version: 3.0.24
   resolution: "tailwindcss@npm:3.0.24"
   dependencies:
@@ -17634,6 +17629,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "use-sync-external-store@npm:1.0.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0-rc
+  checksum: f3df10af62625169d6a8cd8d4f38942dc6817aa27398fa7f474421fd574b0c4c83679b9d15f983f482c396ee1183416eb146814c81f44241e1480acd701ef018
+  languageName: node
+  linkType: hard
+
 "use@npm:^3.1.0":
   version: 3.1.1
   resolution: "use@npm:3.1.1"
@@ -17788,7 +17792,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.9.1":
+"vite@npm:^2.9.5":
   version: 2.9.5
   resolution: "vite@npm:2.9.5"
   dependencies:

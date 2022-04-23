@@ -4,6 +4,8 @@ dist
 node_modules
 .husky
 
+storybook-static
+
 # yarn v2
 .yarn/*
 !.yarn/patches
