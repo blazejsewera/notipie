@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "storybook": "start-storybook -p 6006 -s './public' --ci",
+    "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
     "checkTs": "tsc --noEmit",
     "lint": "eslint --max-warnings 0 '{src,story}/**/*.{tsx,ts,jsx,js}'",
