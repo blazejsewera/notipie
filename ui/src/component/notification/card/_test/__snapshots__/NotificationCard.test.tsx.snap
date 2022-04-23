@@ -78,7 +78,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       <p
         className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
-        2 hours ago
+        2h ago
       </p>
     </div>
     <div
@@ -232,7 +232,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       <p
         className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
-        2 hours ago
+        2h ago
       </p>
     </div>
     <div
@@ -413,7 +413,7 @@ exports[`NotificationCard component renders correctly with full with very long t
       <p
         className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
-        2 hours ago
+        2h ago
       </p>
     </div>
     <div
@@ -580,7 +580,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
       <p
         className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
-        2 hours ago
+        2h ago
       </p>
     </div>
     <div
@@ -751,7 +751,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       <p
         className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
-        2 hours ago
+        2h ago
       </p>
     </div>
     <div
@@ -924,7 +924,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
       <p
         className="text-xs font-bold text-gray-500 dark:text-gray-400"
       >
-        2 hours ago
+        2h ago
       </p>
     </div>
     <div
