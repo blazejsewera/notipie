@@ -22,5 +22,7 @@ automatically download.
 - `core` -- backend
 - `ui` -- frontend
 
+---------------------------------------------------------------------------------
+
 `{}` and `<>` with ❤️ by Blazej Sewera&emsp;┃ [www](https://www.blazejsewera.pl) ┆
 [gh](https://github.com/blazejsewera) ┆ [gh:pv](https://github.com/sewera) ┃
