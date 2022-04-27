@@ -1,8 +1,5 @@
 import { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { dispatch } from '../../store/store'
-import { actionDarkmodeOn, actionDarkmodeOff, actionDarkmodeToggle } from '../../store/action/action'
-import { State } from '../../store/store'
+import { useStore, State } from '../../store'
 import { FC } from '../../type/react'
 import { cx } from '../../util/classname/cx'
 import { AppControls } from './controls/AppControls'
@@ -50,23 +47,19 @@ export const AppCanvas: FC<AppCanvasProps> = ({
   )
 }
 
-const toggleDarkModeConnected = () => {
-  dispatch(actionDarkmodeToggle())
-}
-
-const checkForDarkModePreferenceConnected = () => {
+type SetPartialState = (partial: Partial<State>) => void
+const checkForDarkModePreferenceConnected = (setState: SetPartialState) => {
   window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? dispatch(actionDarkmodeOn())
-    : dispatch(actionDarkmodeOff())
+    ? setState({ darkMode: true })
+    : setState({ darkMode: false })
 }
 
-type StateMapper = (
-  state: State,
-) => Pick<AppCanvasProps, 'isDarkMode' | 'toggleDarkMode' | 'checkForDarkModePreference'>
-const mapState: StateMapper = state => ({
-  isDarkMode: state.isDarkMode,
-  toggleDarkMode: toggleDarkModeConnected,
-  checkForDarkModePreference: checkForDarkModePreferenceConnected,
-})
-
-export const AppCanvasConnected = connect(mapState)(AppCanvas)
+type AppCanvasConnectedProps = Pick<AppCanvasProps, 'verticallyScrollable' | 'children'>
+export const AppCanvasConnected: FC<AppCanvasConnectedProps> = ({ verticallyScrollable, children }) => {
+  const { isDarkMode, toggleDarkMode } = useStore(state => ({
+    isDarkMode: state.darkMode,
+    toggleDarkMode: state.darkModeToggle,
+  }))
+  const checkForDarkModePreference = () => checkForDarkModePreferenceConnected(useStore.setState)
+  return <AppCanvas {...{ isDarkMode, toggleDarkMode, verticallyScrollable, checkForDarkModePreference, children }} />
+}

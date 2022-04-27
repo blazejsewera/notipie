@@ -200,5 +200,5 @@ format-core:
 
 # pre-commit check
 
-pre-commit: format lint-ui-staged
+pre-commit: format-core lint-ui-staged
 	@echo "> pre-commit check done"

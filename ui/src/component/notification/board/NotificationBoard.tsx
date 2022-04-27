@@ -1,6 +1,5 @@
-import { connect } from 'react-redux'
 import { Intl } from '../../../i18l/intl'
-import { State } from '../../../store/store'
+import { useStore } from '../../../store'
 import { NotificationContainerHandlersFactory } from '../../../type/handler'
 import { NotificationWithHandlers } from '../../../type/notification'
 import { FC } from '../../../type/react'
@@ -35,9 +34,8 @@ export const NotificationBoard: FC<NotificationBoardProps> = ({
   return <div className={cx('inline-block space-x-4 whitespace-nowrap')}>{containers}</div>
 }
 
-type StateMapper = (state: State) => Pick<NotificationBoardProps, 'notificationsWithHandlers'>
-const mapState: StateMapper = state => ({
-  notificationsWithHandlers: state.notificationsWithHandlers,
-})
-
-export const NotificationBoardConnected = connect(mapState)(NotificationBoard)
+type NotificationBoardConnectedProps = Pick<NotificationBoardProps, 'intl' | 'containerHandlersFactory'>
+export const NotificationBoardConnected: FC<NotificationBoardConnectedProps> = ({ intl, containerHandlersFactory }) => {
+  const notificationsWithHandlers = useStore(state => state.notificationsWithHandlers)
+  return <NotificationBoard {...{ intl, containerHandlersFactory, notificationsWithHandlers }} />
+}

@@ -5,10 +5,7 @@ import { handlersFactory as mockContainerHandlersFactory } from './mock/notifica
 import './style/main.css'
 import './style/inter.css'
 import { AppCanvasConnected as AppCanvas } from './component/canvas/AppCanvas'
-import { Provider } from 'react-redux'
 import { NotificationBoardConnected as NotificationBoard } from './component/notification/board/NotificationBoard'
-import { dispatch, store } from './store/store'
-import { actionFetchSuccess } from './store/action/action'
 import {
   fullWithHandlers,
   fullWithImageWithHandlers,
@@ -17,8 +14,10 @@ import {
   partialWithHandlers,
   readWithHandlers,
 } from './mock/notification.mock'
+import { useStore } from './store'
 
 export const App: FC = () => {
+  const setNotifications = useStore(state => state.notificationFetchSuccess)
   useEffect(() => {
     const notificationsWithHandlers = [
       fullWithHandlers,
@@ -29,14 +28,12 @@ export const App: FC = () => {
       readWithHandlers,
     ]
 
-    dispatch(actionFetchSuccess(notificationsWithHandlers))
+    setNotifications(notificationsWithHandlers)
   }, [])
 
   return (
-    <Provider store={store}>
-      <AppCanvas verticallyScrollable>
-        <NotificationBoard intl={intl} containerHandlersFactory={mockContainerHandlersFactory} />
-      </AppCanvas>
-    </Provider>
+    <AppCanvas verticallyScrollable>
+      <NotificationBoard intl={intl} containerHandlersFactory={mockContainerHandlersFactory} />
+    </AppCanvas>
   )
 }
