@@ -70,3 +70,26 @@ const composeEnhancers = !config.prod
 
 export const store: Store<State, Action> = createStore(reducer, composeEnhancers)
 export const { dispatch, subscribe } = store
+
+//
+import create from 'zustand'
+
+export type BearState = {
+  state: 'loading' | 'ok' | 'fail'
+  notificationsWithHandlers: NotificationWithHandlers[]
+  darkMode: boolean
+  darkModeOn: () => void
+  darkModeOff: () => void
+  darkModeToggle: () => void
+}
+
+/* eslint-disable */
+const useStore = create<BearState>()(set => ({
+  state: 'ok',
+  notificationsWithHandlers: [],
+  darkMode: false,
+  darkModeOn: () => set({ darkMode: true }),
+  darkModeOff: () => set({ darkMode: false }),
+  darkModeToggle: () => set(prev => ({ darkMode: !prev.darkMode })),
+}))
+/* eslint-enable */

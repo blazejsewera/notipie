@@ -21,7 +21,8 @@
     "react-dom": "^18.0.0",
     "react-feather": "^2.0.9",
     "react-redux": "^8.0.1",
-    "redux": "^4.2.0"
+    "redux": "^4.2.0",
+    "zustand": "^4.0.0-rc.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

@@ -13317,6 +13317,7 @@ __metadata:
     typescript: ^4.6.3
     vite: ^2.9.5
     webpack: ^5.72.0
+    zustand: ^4.0.0-rc.0
   languageName: unknown
   linkType: soft
 
@@ -17629,7 +17630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.0.0":
+"use-sync-external-store@npm:1.0.0, use-sync-external-store@npm:^1.0.0":
   version: 1.0.0
   resolution: "use-sync-external-store@npm:1.0.0"
   peerDependencies:
@@ -18386,6 +18387,23 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.0.0-rc.0":
+  version: 4.0.0-rc.0
+  resolution: "zustand@npm:4.0.0-rc.0"
+  dependencies:
+    use-sync-external-store: 1.0.0
+  peerDependencies:
+    immer: ">=9.0"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: fe927bd6b64102ce26d38096a9369fbd1fc733b2a81dde0fc73f96ff57eb356073ae62fff595ac354febe0b304d6b37d9056b5887a28e41c40f3695816d9ab83
   languageName: node
   linkType: hard
 
