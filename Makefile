@@ -125,6 +125,8 @@ build-core:
 
 # dev
 
+dev: dev-ui dev-core  # run with -j2
+
 dev-ui:
 	@cd ${UI_DIR}; \
 	yarn dev

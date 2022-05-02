@@ -2,9 +2,10 @@ package test
 
 import (
 	"fmt"
+	"net/url"
+
 	"github.com/blazejsewera/notipie/core/internal/impl"
 	"github.com/blazejsewera/notipie/core/internal/infra"
-	"net/url"
 )
 
 const (

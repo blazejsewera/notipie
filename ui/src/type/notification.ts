@@ -8,8 +8,11 @@ export type Notification = {
   subtitle?: string
   body?: string
   id?: string
-  relativeTime?: string
   read?: boolean
+  extUri?: string
+  readUri?: string
+  archiveUri?: string
+  relativeTime?: string
 }
 
 export type NotificationWithHandlers = {

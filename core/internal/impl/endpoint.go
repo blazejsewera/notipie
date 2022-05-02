@@ -2,6 +2,7 @@ package impl
 
 import (
 	"fmt"
+
 	"github.com/blazejsewera/notipie/core/internal/grid"
 	"github.com/blazejsewera/notipie/core/internal/impl/net"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"

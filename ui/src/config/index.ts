@@ -1,7 +1,14 @@
-import c from '../../notipie.config.json'
+import * as c from '../../notipie.config.json'
 
-type Config = {
+export type Config = {
   prod: boolean
+  proxyConfig: {
+    httpScheme: 'http' | 'https'
+    wsScheme: 'ws' | 'wss'
+    address: string
+    port: number
+    prefix: string
+  }
   endpointConfig: {
     address: string
     port: number

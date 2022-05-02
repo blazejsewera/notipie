@@ -1,11 +1,10 @@
 import { config } from '../config'
 
-const { address, port, prefix, root, push, webSocket, notifications } = config.endpointConfig
+const { root, push, webSocket, notifications } = config.endpointConfig
+const { httpScheme, wsScheme, address, port, prefix } = config.proxyConfig
 const host = `${address}:${port}`
 
-const wsScheme = 'ws'
-const httpScheme = 'http'
-type Scheme = typeof wsScheme | typeof httpScheme
+type Scheme = typeof httpScheme | typeof wsScheme
 
 const getUrl = (scheme: Scheme, target: string): string => `${scheme}://${host}${prefix}${target}`
 

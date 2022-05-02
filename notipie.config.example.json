@@ -1,7 +1,14 @@
 {
   "prod": false,
+  "proxyConfig": {
+    "httpScheme": "http",
+    "wsScheme": "ws",
+    "address": "127.0.0.1",
+    "port": 3000,
+    "prefix": "/api/"
+  },
   "endpointConfig": {
-    "address": "localhost",
+    "address": "127.0.0.1",
     "port": 8080,
     "prefix": "/",
     "root": "",

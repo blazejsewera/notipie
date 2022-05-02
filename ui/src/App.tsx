@@ -15,6 +15,7 @@ import {
   readWithHandlers,
 } from './mock/notification.mock'
 import { useStore } from './store'
+import { getNotifications, ping } from './net/sync/api'
 
 export const App: FC = () => {
   const setNotifications = useStore(state => state.notificationFetchSuccess)
@@ -29,6 +30,9 @@ export const App: FC = () => {
     ]
 
     setNotifications(notificationsWithHandlers)
+
+    getNotifications().then(n => console.log(n))
+    ping().then(ok => console.log(ok))
   }, [])
 
   return (
