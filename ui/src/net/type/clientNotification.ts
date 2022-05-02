@@ -1,4 +1,4 @@
-export type Notification = {
+export type ClientNotification = {
   appName: string
   timestamp: string
   appImgUri?: string
