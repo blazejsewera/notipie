@@ -20,7 +20,14 @@ export const AppAvatar: FC<AppAvatarProps> = ({ appName, appImgUri, bgColor, siz
     medium: ['h-12', 'w-12'],
     large: ['h-14', 'w-14'],
   }[size]
-  const styleClasses = ['rounded-full', 'overflow-clip', 'overflow-hidden', 'inline-block', 'cursor-default']
+  const styleClasses = [
+    'rounded-full',
+    'shrink-0',
+    'overflow-clip',
+    'overflow-hidden',
+    'inline-block',
+    'cursor-default',
+  ]
 
   if (appImgUri) {
     return (

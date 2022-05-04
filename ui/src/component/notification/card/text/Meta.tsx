@@ -8,9 +8,9 @@ export interface MetaProps {
 }
 
 export const Meta: FC<MetaProps> = ({ appName, relativeTime, timestamp }) => {
-  const textClasses = ['text-xs', 'font-bold', 'text-gray-500', 'dark:text-gray-400']
+  const textClasses = ['text-xs', 'font-bold', 'truncate', 'text-gray-500', 'dark:text-gray-400']
   return (
-    <div className="inline-block">
+    <div className="inline-block w-1/2">
       <p className={cx(...textClasses)}>— by {appName}</p>
       <p className={cx(...textClasses)}>{relativeTime ? relativeTime : timestamp}</p>
     </div>

@@ -6,5 +6,5 @@ export interface SubtitleProps {
 }
 
 export const Subtitle: FC<SubtitleProps> = ({ children }) => (
-  <p className={cx('text-xs', 'font-bold', 'text-gray-500', 'dark:text-gray-400')}>{children}</p>
+  <p className={cx('text-xs', 'font-bold', 'truncate', 'text-gray-500', 'dark:text-gray-400')}>{children}</p>
 )

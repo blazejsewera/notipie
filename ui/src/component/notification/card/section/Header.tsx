@@ -19,7 +19,7 @@ export interface HeaderProps {
 export const Header: FC<HeaderProps> = ({ appName, appImgUri, bgColor, title, subtitle }) => (
   <div className={cx('flex')}>
     <AppAvatar size="medium" {...{ appName, appImgUri, bgColor }} />
-    <div className={cx('my-auto', 'inline-block', 'ml-5')}>
+    <div className={cx('my-auto', 'inline-block', 'ml-5', 'overflow-hidden')}>
       <Title>{title}</Title>
       {subtitle ? <Subtitle>{subtitle}</Subtitle> : null}
     </div>

@@ -8,12 +8,12 @@ exports[`NotificationContainer component renders correctly with multiple notific
     className="flex mb-4 mx-2"
   >
     <p
-      className="text-2xl font-bold text-gray-800 dark:text-gray-300"
+      className="w-64 truncate text-2xl font-bold text-gray-800 dark:text-gray-300"
     >
       TestTitle
     </p>
     <button
-      className="inline ml-auto my-auto"
+      className="inline ml-auto my-auto shrink-0"
       onClick={[MockFunction]}
       type="button"
     >
@@ -48,7 +48,7 @@ exports[`NotificationContainer component renders correctly with multiple notific
         className="flex"
       >
         <div
-          className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+          className="h-12 w-12 rounded-full shrink-0 overflow-clip overflow-hidden inline-block cursor-default"
         >
           <svg
             viewBox="0 0 1 1"
@@ -77,15 +77,15 @@ exports[`NotificationContainer component renders correctly with multiple notific
           </svg>
         </div>
         <div
-          className="my-auto inline-block ml-5"
+          className="my-auto inline-block ml-5 overflow-hidden"
         >
           <p
-            className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
+            className="text-lg font-bold mb-0 truncate leading-5 text-gray-800 dark:text-gray-300"
           >
             New Pull Request
           </p>
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             — notipie
           </p>
@@ -107,16 +107,16 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         className="flex"
       >
         <div
-          className="inline-block"
+          className="inline-block w-1/2"
         >
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             — by 
             Github
           </p>
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             2h ago
           </p>
@@ -221,7 +221,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         className="flex"
       >
         <div
-          className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+          className="h-12 w-12 rounded-full shrink-0 overflow-clip overflow-hidden inline-block cursor-default"
         >
           <svg
             viewBox="0 0 1 1"
@@ -250,10 +250,10 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
           </svg>
         </div>
         <div
-          className="my-auto inline-block ml-5"
+          className="my-auto inline-block ml-5 overflow-hidden"
         >
           <p
-            className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
+            className="text-lg font-bold mb-0 truncate leading-5 text-gray-800 dark:text-gray-300"
           >
             New Pull Request
           </p>
@@ -271,16 +271,16 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         className="flex"
       >
         <div
-          className="inline-block"
+          className="inline-block w-1/2"
         >
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             — by 
             Github
           </p>
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             2h ago
           </p>
@@ -390,12 +390,12 @@ exports[`NotificationContainer component renders correctly with no notifications
     className="flex mb-4 mx-2"
   >
     <p
-      className="text-2xl font-bold text-gray-800 dark:text-gray-300"
+      className="w-64 truncate text-2xl font-bold text-gray-800 dark:text-gray-300"
     >
       TestTitle
     </p>
     <button
-      className="inline ml-auto my-auto"
+      className="inline ml-auto my-auto shrink-0"
       onClick={[MockFunction]}
       type="button"
     >
@@ -434,12 +434,12 @@ exports[`NotificationContainer component renders correctly with one notification
     className="flex mb-4 mx-2"
   >
     <p
-      className="text-2xl font-bold text-gray-800 dark:text-gray-300"
+      className="w-64 truncate text-2xl font-bold text-gray-800 dark:text-gray-300"
     >
       TestTitle
     </p>
     <button
-      className="inline ml-auto my-auto"
+      className="inline ml-auto my-auto shrink-0"
       onClick={[MockFunction]}
       type="button"
     >
@@ -474,7 +474,7 @@ exports[`NotificationContainer component renders correctly with one notification
         className="flex"
       >
         <div
-          className="h-12 w-12 rounded-full overflow-clip overflow-hidden inline-block cursor-default"
+          className="h-12 w-12 rounded-full shrink-0 overflow-clip overflow-hidden inline-block cursor-default"
         >
           <svg
             viewBox="0 0 1 1"
@@ -503,15 +503,15 @@ exports[`NotificationContainer component renders correctly with one notification
           </svg>
         </div>
         <div
-          className="my-auto inline-block ml-5"
+          className="my-auto inline-block ml-5 overflow-hidden"
         >
           <p
-            className="text-lg font-bold mb-0 leading-5 text-gray-800 dark:text-gray-300"
+            className="text-lg font-bold mb-0 truncate leading-5 text-gray-800 dark:text-gray-300"
           >
             New Pull Request
           </p>
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             — notipie
           </p>
@@ -533,16 +533,16 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
         className="flex"
       >
         <div
-          className="inline-block"
+          className="inline-block w-1/2"
         >
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             — by 
             Github
           </p>
           <p
-            className="text-xs font-bold text-gray-500 dark:text-gray-400"
+            className="text-xs font-bold truncate text-gray-500 dark:text-gray-400"
           >
             2h ago
           </p>
