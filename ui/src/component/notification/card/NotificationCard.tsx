@@ -14,14 +14,14 @@ export interface NotificationCardProps {
 
 export const NotificationCard: FC<NotificationCardProps> = ({ notificationWithHandlers, intl }) => {
   const { notification, handlers } = notificationWithHandlers
-  const { appName, appImgUri, title, subtitle, body, timestamp } = notification
+  const { appName, appImgUri, title, subtitle, body, relativeTime, timestamp } = notification
 
   return (
     <div className={cx('rounded-3xl', 'bg-white', 'dark:bg-gray-800', 'w-80', 'p-5', 'shadow-lg', 'relative')}>
       <Header {...{ appName, appImgUri, title, subtitle }} />
       {notification.read || <Indicator />}
       <Body intl={intl}>{body ?? ''}</Body>
-      <Footer {...{ appName, timestamp, handlers }} />
+      <Footer {...{ appName, relativeTime, timestamp, handlers }} />
     </div>
   )
 }

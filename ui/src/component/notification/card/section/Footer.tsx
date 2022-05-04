@@ -7,12 +7,13 @@ import { Controls } from './Controls'
 export interface FooterProps {
   appName: string
   timestamp: string
+  relativeTime?: string
   handlers: NotificationCardHandlers
 }
 
-export const Footer: FC<FooterProps> = ({ appName, timestamp, handlers }) => (
+export const Footer: FC<FooterProps> = ({ appName, relativeTime, timestamp, handlers }) => (
   <div className={cx('flex')}>
-    <Meta {...{ appName, timestamp }} />
+    <Meta {...{ appName, relativeTime, timestamp }} />
     <Controls handlers={handlers} />
   </div>
 )

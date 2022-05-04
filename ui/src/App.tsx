@@ -13,7 +13,7 @@ import { addHandlersAndPostprocess } from './util/notification/postprocessor'
 export const App: FC = () => {
   const setNotifications = useStore(state => state.notificationFetchSuccess)
   useEffect(() => {
-    getNotifications().then(n => setNotifications(addHandlersAndPostprocess(n)))
+    getNotifications().then(addHandlersAndPostprocess).then(setNotifications)
   }, [])
 
   return (
