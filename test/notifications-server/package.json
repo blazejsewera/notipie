@@ -1,5 +1,5 @@
 {
-  "name": "notipie-test-manual",
+  "name": "notipie-test-notifications-server",
   "version": "0.0.1",
   "author": "Blazej Sewera",
   "license": "MPL-2.0",
@@ -9,6 +9,7 @@
     "start": "nodemon index.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^6.3.1",
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.9",
     "@types/ws": "^8.5.3",

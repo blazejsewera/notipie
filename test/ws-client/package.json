@@ -1,0 +1,18 @@
+{
+  "name": "notipie-test-ws-client",
+  "version": "0.0.1",
+  "author": "Blazej Sewera",
+  "license": "MPL-2.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.ts"
+  },
+  "dependencies": {
+    "@types/node": "^16.11.9",
+    "@types/ws": "^8.5.3",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}

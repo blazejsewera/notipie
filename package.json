@@ -8,7 +8,8 @@
   "private": true,
   "workspaces": [
     "ui",
-    "test/manual"
+    "test/ws-client",
+    "test/notifications-server"
   ],
   "scripts": {
     "postinstall": "husky install",
