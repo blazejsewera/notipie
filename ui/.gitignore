@@ -15,5 +15,6 @@ storybook-static
 !.yarn/versions
 .pnp.*
 
-notipie.config.ts
 notipie.config.json
+
+.jest-test-results.json

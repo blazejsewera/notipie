@@ -1,10 +1,9 @@
-const { defaults: tsjPreset } = require('ts-jest/presets')
+const { jsWithBabelESM: tsjPreset } = require('ts-jest/presets')
 
 /** @type {import('@jest/types').Config.InitialOptions} */
 const config = {
   testRegex: '(/_test/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
     ...tsjPreset.transform,
   },
   moduleNameMapper: {

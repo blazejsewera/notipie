@@ -1,5 +1,8 @@
 # const
 
+NVM:=$(shell nvm -v 2>/dev/null)
+GO:=$(shell go version 2>/dev/null)
+
 UI_DIR=ui
 CORE_DIR=core
 
@@ -15,7 +18,26 @@ EXAMPLE_CORE_CONFIG_FILENAME=${EXAMPLE_CONFIG_FILENAME}
 
 # install & no-params
 
-all: install copy-example-configs
+all: print-env-help install copy-example-configs
+
+print-env-help: print-env-help-ui print-env-help-core
+
+print-env-help-ui:
+ifneq (${NVM_DIR},"")
+	@echo "> nvm installed, run 'nvm install' and 'nvm use' in your shell"
+else ifneq ("$(wildcard $(HOME)/.nvm/nvm.sh)","")
+	@echo "> nvm installed, run 'nvm install' and 'nvm use' in your shell"
+else
+$(error nvm not installed, consider installing it or install latest LTS node.js manually)
+endif
+
+print-env-help-core:
+ifdef GO
+	@echo "> go installed"
+	@echo "> $(shell go version)"
+else
+$(error go not installed, install version specified in 'core/go.mod' or later)
+endif
 
 copy-example-configs: copy-example-config copy-configs
 	@echo "> configs copied"
