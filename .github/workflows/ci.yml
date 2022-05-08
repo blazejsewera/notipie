@@ -16,13 +16,13 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: "17.x"
-          cache: "yarn"
+          node-version: '17.x'
+          cache: 'yarn'
 
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.5
         with:
-          go-version: "^1.17.0"
+          go-version: '^1.17.0'
 
       - name: Install dependencies
         run: make
@@ -34,7 +34,7 @@ jobs:
         run: make -j2 lint
 
       - name: Build
-        run: make -j2 build
+        run: make -j2 build-ci
 
       - name: Test
         run: make -j2 test

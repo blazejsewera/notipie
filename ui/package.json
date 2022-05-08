@@ -10,6 +10,7 @@
     "test:watch": "jest --watch",
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
+    "build-ci": "tsc && vite build && build-storybook",
     "checkTs": "tsc --noEmit",
     "lint": "eslint --max-warnings 0 '{src,story}/**/*.{tsx,ts,jsx,js}'",
     "lint:fix": "eslint --fix --max-warnings 0 '{src,story}/**/*.{tsx,ts,jsx,js}'",

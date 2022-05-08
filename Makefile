@@ -131,7 +131,7 @@ clean-core:
 
 # build
 
-build: build-ui build-core build-storybook
+build: build-ui build-core
 	@echo "> built"
 
 build-ui:
@@ -144,9 +144,12 @@ build-core:
 	$(MAKE) build
 	@echo "> built binary in core"
 
-build-storybook:
+build-ci: build-ui-ci build-core
+
+build-ui-ci:
 	@cd ${UI_DIR}; \
-	yarn build-storybook
+	yarn build-ci
+	@echo "> built dist in ui"
 	@echo "> built storybook-static in ui"
 
 
