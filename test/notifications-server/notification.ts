@@ -25,9 +25,9 @@ namespace util {
 
 const exampleAppImgUri = 'https://fonts.gstatic.com/s/i/materialiconsround/star/v20/24px.svg'
 
-const mockNotification = (appName: string): Notification => ({
+const mockNotification = (appName: string, now?: boolean): Notification => ({
   appName,
-  timestamp: faker.date.recent().toISOString(),
+  timestamp: now ? new Date().toISOString() : faker.date.recent().toISOString(),
   title: util.alternative(
     `${faker.word.verb()} ${faker.word.noun()}`,
     `${faker.word.verb()} ${faker.word.adjective()} ${faker.word.noun()}`,
@@ -47,6 +47,8 @@ const mockAppName = (): string =>
     `${util.titleCase(faker.word.adjective())} ${util.titleCase(faker.word.noun())}`,
     util.titleCase(faker.word.noun()),
   )
+
+export const getMockNotification = (): Notification => mockNotification(mockAppName(), true)
 
 export const getMockNotifications = (length: number): Notification[] => {
   const mockAppNamesLength = length < 3 ? 1 : Math.floor(length / 3)
