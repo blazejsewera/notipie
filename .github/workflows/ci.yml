@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: 'lts/*'
+          node-version: 'lts/gallium'
           cache: 'yarn'
 
       - name: Setup Go environment

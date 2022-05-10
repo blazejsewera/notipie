@@ -131,7 +131,11 @@ clean-core:
 
 # build
 
-build: build-ui build-core build-storybook
+b: build  # run with -j2 or more for performance
+bui: build-ui
+bcore: build-core
+
+build: build-ui build-core build-storybook  # run with -j2 or more for performance
 	@echo "> built"
 
 build-ui:
@@ -151,7 +155,14 @@ build-storybook:
 
 # dev
 
-dev: dev-ui dev-core  # run with -j2
+d: dev  # run with -j2 or more
+dui: dev-ui
+dcore: dev-core
+
+dev: print-multithread-notice dev-ui dev-core  # run with -j2 or more
+
+print-multithread-notice:
+	@echo "> check if you are running make with -j2 or more"
 
 dev-ui:
 	@cd ${UI_DIR}; \
@@ -167,7 +178,11 @@ dev-manual-test:
 
 # test
 
-test: test-ui test-core
+t: test  # run with -j2 or more for performance
+tui: test-ui
+tcore: test-core
+
+test: test-ui test-core  # run with -j2 or more for performance
 	@echo "> tests completed"
 
 test-ui:
