@@ -1,13 +1,7 @@
 import { Meta, Story } from '@storybook/react'
 import { NotificationBoard, NotificationBoardProps } from '../../../src/component/notification/board/NotificationBoard'
 import { intlMock as intl } from '../../../src/mock/intl.mock'
-import {
-  fullWithHandlers,
-  fullWithLoremIpsumWithHandlers,
-  minimalWithHandlers,
-  otherAppWithHandlers,
-  partialWithHandlers,
-} from '../../../src/mock/notification.mock'
+import { full, fullWithLoremIpsum, minimal, otherApp, partial } from '../../../src/mock/notification.mock'
 
 export default {
   title: 'notification/board/NotificationBoard',
@@ -17,13 +11,7 @@ export default {
 export const ExampleNotificationBoard: Story<NotificationBoardProps> = args => <NotificationBoard {...args} />
 
 ExampleNotificationBoard.args = {
-  notificationsWithHandlers: [
-    fullWithHandlers,
-    fullWithLoremIpsumWithHandlers,
-    partialWithHandlers,
-    minimalWithHandlers,
-    otherAppWithHandlers,
-  ],
+  notifications: [full, fullWithLoremIpsum, partial, minimal, otherApp],
   intl,
   containerHandlersFactory: () => ({ onCheckAll: () => {} }),
 }

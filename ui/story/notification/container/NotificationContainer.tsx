@@ -2,12 +2,7 @@ import { Meta, Story } from '@storybook/react'
 import { NotificationContainerProps } from '../../../src/component/notification/container/NotificationContainer'
 import { NotificationContainer } from '../../../src/component/notification/container/NotificationContainer'
 import { intlMock } from '../../../src/mock/intl.mock'
-import {
-  fullWithHandlers,
-  fullWithLoremIpsumWithHandlers,
-  minimalWithHandlers,
-  partialWithHandlers,
-} from '../../../src/mock/notification.mock'
+import { full, fullWithLoremIpsum, minimal, partial } from '../../../src/mock/notification.mock'
 import { handlers as mockContainerHandlers } from '../../../src/mock/notificationContainer.mock'
 
 export default {
@@ -22,11 +17,6 @@ export const ExampleNotificationContainer: Story<NotificationContainerProps> = a
 ExampleNotificationContainer.args = {
   title: 'Tag title',
   intl: intlMock,
-  notificationsWithHandlers: [
-    fullWithHandlers,
-    fullWithLoremIpsumWithHandlers,
-    partialWithHandlers,
-    minimalWithHandlers,
-  ],
+  notifications: [full, fullWithLoremIpsum, partial, minimal],
   handlers: mockContainerHandlers,
 }
