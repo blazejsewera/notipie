@@ -4,7 +4,7 @@ A notification aggregator.
 [![Notipie CI](https://github.com/blazejsewera/notipie/actions/workflows/ci.yml/badge.svg)](https://github.com/blazejsewera/notipie/actions/workflows/ci.yml)
 
 ## Quick links
-- [board](https://github.com/blazejsewera/notipie/projects/1)
+- [board](https://github.com/orgs/blazejsewera/projects/1)
 - [issues](https://github.com/blazejsewera/notipie/issues)
   - [new issue](https://github.com/blazejsewera/notipie/issues/new)
 
