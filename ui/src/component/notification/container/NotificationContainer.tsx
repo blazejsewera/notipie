@@ -1,5 +1,5 @@
 import { FC } from '../../../type/react'
-import { NotificationWithHandlers } from '../../../type/notification'
+import { Notification } from '../../../type/notification'
 import { Intl } from '../../../i18l/intl'
 import { cx } from '../../../util/classname/cx'
 import { Header } from './section/Header'
@@ -8,7 +8,7 @@ import { NotificationContainerHandlers } from '../../../type/handler'
 
 export interface NotificationContainerProps {
   title: string
-  notificationsWithHandlers: NotificationWithHandlers[]
+  notifications: Notification[]
   handlers: NotificationContainerHandlers
   intl: Intl
   style?: string
@@ -16,7 +16,7 @@ export interface NotificationContainerProps {
 
 export const NotificationContainer: FC<NotificationContainerProps> = ({
   title,
-  notificationsWithHandlers,
+  notifications,
   handlers,
   intl,
   style,
@@ -36,7 +36,7 @@ export const NotificationContainer: FC<NotificationContainerProps> = ({
       )}
     >
       <Header title={title} onCheckAll={onCheckAll} />
-      <NotificationCardList {...{ notificationsWithHandlers, intl }} />
+      <NotificationCardList {...{ notifications, intl }} />
     </div>
   )
 }

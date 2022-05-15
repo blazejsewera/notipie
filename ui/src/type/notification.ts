@@ -13,9 +13,5 @@ export type Notification = {
   readUri?: string
   archiveUri?: string
   relativeTime?: string
-}
-
-export type NotificationWithHandlers = {
-  notification: Notification
-  handlers: NotificationCardHandlers
+  handlers?: NotificationCardHandlers
 }

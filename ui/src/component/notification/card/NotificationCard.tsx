@@ -1,5 +1,5 @@
 import { FC } from '../../../type/react'
-import { NotificationWithHandlers } from '../../../type/notification'
+import { Notification } from '../../../type/notification'
 import { Intl } from '../../../i18l/intl'
 import { cx } from '../../../util/classname/cx'
 import { Header } from './section/Header'
@@ -8,13 +8,12 @@ import { Footer } from './section/Footer'
 import { Indicator } from './sprite/icon/Indicator'
 
 export interface NotificationCardProps {
-  notificationWithHandlers: NotificationWithHandlers
+  notification: Notification
   intl: Intl
 }
 
-export const NotificationCard: FC<NotificationCardProps> = ({ notificationWithHandlers, intl }) => {
-  const { notification, handlers } = notificationWithHandlers
-  const { appName, appImgUri, title, subtitle, body, relativeTime, timestamp } = notification
+export const NotificationCard: FC<NotificationCardProps> = ({ notification, intl }) => {
+  const { appName, appImgUri, title, subtitle, body, relativeTime, timestamp, handlers } = notification
 
   return (
     <div className={cx('rounded-3xl', 'bg-white', 'dark:bg-gray-800', 'w-80', 'p-5', 'shadow-lg', 'relative')}>

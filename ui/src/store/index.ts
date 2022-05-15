@@ -1,23 +1,23 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { config } from '../config'
-import { NotificationWithHandlers } from '../type/notification'
+import { Notification } from '../type/notification'
 import { merge } from '../util/notification/merger'
 import { updateTimeAll } from '../util/notification/time'
 
+export type Status = 'ok' | 'error'
+export type NotificationWithStatus = { notification?: Notification; status: Status }
+
 export type State = {
-  state: 'loading' | 'ok' | 'fail'
+  status: Status
   errorMessage: string
-  notificationsWithHandlers: NotificationWithHandlers[]
+  notifications: Notification[]
   darkMode: boolean
+  statusSet: (status: Status) => void
   darkModeOn: () => void
   darkModeOff: () => void
   darkModeToggle: () => void
-  notificationFetchLoading: () => void
-  notificationFetchFail: (errorMessage: string) => void
-  notificationFetchSuccess: (fetched: NotificationWithHandlers[]) => void
-  notificationPush: (pushed: NotificationWithHandlers) => void
-  notificationPushFail: (errorMessage: string) => void
+  notificationReceived: (n: NotificationWithStatus) => void
   notificationUpdateTime: () => void
 }
 
@@ -26,30 +26,21 @@ export type SetState = (
   replace?: boolean | undefined,
 ) => void
 const store = (set: SetState): State => ({
-  state: 'ok',
+  status: 'ok',
   errorMessage: '',
-  notificationsWithHandlers: [],
+  notifications: [],
   darkMode: false,
+  statusSet: backendState => set({ status: backendState }),
   darkModeOn: () => set({ darkMode: true }),
   darkModeOff: () => set({ darkMode: false }),
   darkModeToggle: () => set(prev => ({ darkMode: !prev.darkMode })),
-  notificationFetchLoading: () => set({ state: 'loading', errorMessage: '' }),
-  notificationFetchFail: (errorMessage: string) => set({ state: 'fail', errorMessage }),
-  notificationFetchSuccess: (fetched: NotificationWithHandlers[]) =>
-    set(prev => ({
-      state: 'ok',
-      errorMessage: '',
-      notificationsWithHandlers: merge([...prev.notificationsWithHandlers, ...fetched]),
-    })),
-  notificationPush: (pushed: NotificationWithHandlers) =>
-    set(prev => ({
-      state: 'ok',
-      errorMessage: '',
-      notificationsWithHandlers: merge([...prev.notificationsWithHandlers, pushed]),
-    })),
-  notificationPushFail: (errorMessage: string) => set({ state: 'fail', errorMessage }),
-  notificationUpdateTime: () =>
-    set(prev => ({ notificationsWithHandlers: updateTimeAll(prev.notificationsWithHandlers) })),
+  notificationReceived: n =>
+    set(prev =>
+      n.notification
+        ? { status: n.status, notifications: merge([...prev.notifications, n.notification]) }
+        : { status: n.status },
+    ),
+  notificationUpdateTime: () => set(prev => ({ notifications: updateTimeAll(prev.notifications) })),
 })
 
 const storeWithMiddleware = config.prod ? store : devtools(store)

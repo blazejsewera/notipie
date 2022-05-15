@@ -1,27 +1,23 @@
 import { Notification } from '../../../type/notification'
-import { ping, getNotifications } from '../api'
+import { ping, getNotifications, Fetch, Response, NotificationsRes } from '../api'
 
 describe('api interfaces', () => {
-  afterEach(() => {
-    // prettier-ignore
-    (global.fetch as jest.Mock).mockClear()
-  })
-
   describe('ping', () => {
-    const mockPingFetch = (response: Promise<any>) => {
-      global.fetch = jest.fn().mockImplementationOnce(() => response)
-    }
+    const mockFetch =
+      (response: Promise<Response<void>>): Fetch =>
+      () =>
+        response
 
-    const statusOk = Promise.resolve({ status: 200 })
-    const statusInternalServerError = Promise.resolve({ status: 500 })
+    const statusOk = Promise.resolve({ status: 200, json: () => Promise.resolve() })
+    const statusInternalServerError = Promise.resolve({ status: 500, json: () => Promise.resolve() })
     const statusNetworkError = Promise.reject()
 
     it('pings the backend successfully', async () => {
       // given
-      mockPingFetch(statusOk)
+      const fetch = mockFetch(statusOk)
 
       // when
-      const ok = await ping()
+      const ok = await ping(fetch)
 
       // then
       expect(ok).toBe(true)
@@ -29,10 +25,10 @@ describe('api interfaces', () => {
 
     it('fails to ping the backend due to an invalid response code', async () => {
       // given
-      mockPingFetch(statusInternalServerError)
+      const fetch = mockFetch(statusInternalServerError)
 
       // when
-      const ok = await ping()
+      const ok = await ping(fetch)
 
       // then
       expect(ok).toBe(false)
@@ -40,10 +36,10 @@ describe('api interfaces', () => {
 
     it('fails to ping the backend due to network error', async () => {
       // given
-      mockPingFetch(statusNetworkError)
+      const fetch = mockFetch(statusNetworkError)
 
       // when
-      const ok = await ping()
+      const ok = await ping(fetch)
 
       // then
       expect(ok).toBe(false)
@@ -51,15 +47,6 @@ describe('api interfaces', () => {
   })
 
   describe('notifications', () => {
-    const mockNotificationsResponse = (notifications: Notification[]) => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
-          status: 200,
-          json: () => Promise.resolve({ notifications }),
-        }),
-      )
-    }
-
     const testNotifications: Notification[] = [
       {
         appName: 'TestAppName',
@@ -73,12 +60,17 @@ describe('api interfaces', () => {
       },
     ]
 
+    const mockFetch =
+      (notifications: Notification[]): Fetch<NotificationsRes> =>
+      () =>
+        Promise.resolve({ status: 200, json: () => Promise.resolve({ notifications }) })
+
     it('gets empty notification list', async () => {
       // given
-      mockNotificationsResponse([])
+      const fetch = mockFetch([])
 
       // when
-      const notifications = await getNotifications()
+      const notifications = await getNotifications(fetch)
 
       // then
       expect(notifications).toStrictEqual([])
@@ -86,10 +78,10 @@ describe('api interfaces', () => {
 
     it('gets non-empty notification list', async () => {
       // given
-      mockNotificationsResponse(testNotifications)
+      const fetch = mockFetch(testNotifications)
 
       // when
-      const notifications = await getNotifications()
+      const notifications = await getNotifications(fetch)
 
       // then
       expect(notifications).toStrictEqual(testNotifications)

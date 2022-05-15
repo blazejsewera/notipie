@@ -1,4 +1,4 @@
-import { Notification, NotificationWithHandlers } from '../../type/notification'
+import { Notification } from '../../type/notification'
 
 type Period = 's' | 'm' | 'h' | 'D' | 'W' | 'M' | 'Y'
 type Since = Record<Period, number>
@@ -41,13 +41,9 @@ const getRelativeTime = (notification: Notification): string | undefined => {
   return formatSince(s)
 }
 
-export const updateTime = (notificationWithHandlers: NotificationWithHandlers): NotificationWithHandlers => ({
-  ...notificationWithHandlers,
-  notification: {
-    ...notificationWithHandlers.notification,
-    relativeTime: getRelativeTime(notificationWithHandlers.notification),
-  },
+export const updateTime = (notification: Notification): Notification => ({
+  ...notification,
+  relativeTime: getRelativeTime(notification),
 })
 
-export const updateTimeAll = (notifications: NotificationWithHandlers[]): NotificationWithHandlers[] =>
-  notifications.map(updateTime)
+export const updateTimeAll = (notifications: Notification[]): Notification[] => notifications.map(updateTime)

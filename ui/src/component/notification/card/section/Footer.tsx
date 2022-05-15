@@ -8,7 +8,7 @@ export interface FooterProps {
   appName: string
   timestamp: string
   relativeTime?: string
-  handlers: NotificationCardHandlers
+  handlers?: NotificationCardHandlers
 }
 
 export const Footer: FC<FooterProps> = ({ appName, relativeTime, timestamp, handlers }) => (

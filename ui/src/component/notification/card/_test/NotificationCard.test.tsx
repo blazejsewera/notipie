@@ -1,15 +1,8 @@
 import { create as render } from 'react-test-renderer'
-import { NotificationWithHandlers } from '../../../../type/notification'
+import { Notification } from '../../../../type/notification'
 import { NotificationCard } from '../NotificationCard'
 import { intlMock } from '../../../../mock/intl.mock'
-import {
-  fullWithHandlers,
-  fullWithImageWithHandlers,
-  fullWithLoremIpsumWithHandlers,
-  minimalWithHandlers,
-  partialWithHandlers,
-  readWithHandlers,
-} from '../../../../mock/notification.mock'
+import { full, fullWithImage, fullWithLoremIpsum, minimal, partial, read } from '../../../../mock/notification.mock'
 import { NotificationCardHandlers } from '../../../../type/handler'
 
 describe('NotificationCard component', () => {
@@ -21,27 +14,27 @@ describe('NotificationCard component', () => {
     onExternal: jest.fn(),
   }
 
-  const testNotificationCard = (notificationWithHandlers: NotificationWithHandlers) => {
-    const tree = render(<NotificationCard {...{ notificationWithHandlers, intl, handlers }} />).toJSON()
+  const testNotificationCard = (notification: Notification) => {
+    const tree = render(<NotificationCard {...{ notification, intl, handlers }} />).toJSON()
     expect(tree).toMatchSnapshot()
   }
 
   it('renders correctly with full notification', () => {
-    testNotificationCard(fullWithHandlers)
+    testNotificationCard(full)
   })
   it('renders correctly with full with image notification', () => {
-    testNotificationCard(fullWithImageWithHandlers)
+    testNotificationCard(fullWithImage)
   })
   it('renders correctly with full with very long text notification', () => {
-    testNotificationCard(fullWithLoremIpsumWithHandlers)
+    testNotificationCard(fullWithLoremIpsum)
   })
   it('renders correctly with partial notification', () => {
-    testNotificationCard(partialWithHandlers)
+    testNotificationCard(partial)
   })
   it('renders correctly with minimal notification', () => {
-    testNotificationCard(minimalWithHandlers)
+    testNotificationCard(minimal)
   })
   it('renders correctly with read notification', () => {
-    testNotificationCard(readWithHandlers)
+    testNotificationCard(read)
   })
 })

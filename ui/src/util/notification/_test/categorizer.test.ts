@@ -1,32 +1,31 @@
-import { NotificationWithHandlers } from '../../../type/notification'
+import { Notification } from '../../../type/notification'
 import { byAppName } from '../categorizer'
-import { mockNotificationCardHandlers as mockHandlers } from '../../../mock/notification.mock'
 
 describe('notification categorizer', () => {
   // given
-  const notificationsWithHandlers: NotificationWithHandlers[] = [
-    { notification: { appName: 'a', timestamp: '2021-11-27T20:00:00.000Z', title: 'a' }, handlers: mockHandlers },
-    { notification: { appName: 'b', timestamp: '2021-11-27T20:01:00.000Z', title: 'b' }, handlers: mockHandlers },
-    { notification: { appName: 'a', timestamp: '2021-11-27T20:02:00.000Z', title: 'c' }, handlers: mockHandlers },
-    { notification: { appName: 'd', timestamp: '2021-11-27T20:03:00.000Z', title: 'd' }, handlers: mockHandlers },
-    { notification: { appName: 'd', timestamp: '2021-11-27T20:04:00.000Z', title: 'e' }, handlers: mockHandlers },
+  const notifications: Notification[] = [
+    { appName: 'a', timestamp: '2021-11-27T20:00:00.000Z', title: 'a' },
+    { appName: 'b', timestamp: '2021-11-27T20:01:00.000Z', title: 'b' },
+    { appName: 'a', timestamp: '2021-11-27T20:02:00.000Z', title: 'c' },
+    { appName: 'd', timestamp: '2021-11-27T20:03:00.000Z', title: 'd' },
+    { appName: 'd', timestamp: '2021-11-27T20:04:00.000Z', title: 'e' },
   ]
 
-  const categorizedByUsername: Record<string, NotificationWithHandlers[]> = {
+  const categorizedByUsername: Record<string, Notification[]> = {
     a: [
-      { notification: { appName: 'a', timestamp: '2021-11-27T20:00:00.000Z', title: 'a' }, handlers: mockHandlers },
-      { notification: { appName: 'a', timestamp: '2021-11-27T20:02:00.000Z', title: 'c' }, handlers: mockHandlers },
+      { appName: 'a', timestamp: '2021-11-27T20:00:00.000Z', title: 'a' },
+      { appName: 'a', timestamp: '2021-11-27T20:02:00.000Z', title: 'c' },
     ],
-    b: [{ notification: { appName: 'b', timestamp: '2021-11-27T20:01:00.000Z', title: 'b' }, handlers: mockHandlers }],
+    b: [{ appName: 'b', timestamp: '2021-11-27T20:01:00.000Z', title: 'b' }],
     d: [
-      { notification: { appName: 'd', timestamp: '2021-11-27T20:03:00.000Z', title: 'd' }, handlers: mockHandlers },
-      { notification: { appName: 'd', timestamp: '2021-11-27T20:04:00.000Z', title: 'e' }, handlers: mockHandlers },
+      { appName: 'd', timestamp: '2021-11-27T20:03:00.000Z', title: 'd' },
+      { appName: 'd', timestamp: '2021-11-27T20:04:00.000Z', title: 'e' },
     ],
   }
 
   it('correctly categorizes by appName', () => {
     // when
-    const categorized = byAppName(notificationsWithHandlers)
+    const categorized = byAppName(notifications)
 
     // then
     expect(categorized).toEqual(categorizedByUsername)
