@@ -2,7 +2,7 @@ package grid_test
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/grid"
-	"github.com/blazejsewera/notipie/core/internal/model"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

@@ -1,15 +1,15 @@
 package model_test
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/model"
+	model2 "github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestAppNotification(t *testing.T) {
 	// given
-	appNotification := model.AppNotification{
-		HashableNetNotification: model.HashableNetNotification{
+	appNotification := model2.AppNotification{
+		HashableNetNotification: model2.HashableNetNotification{
 			AppName: "1",
 			AppID:   "2",
 			Title:   "3",
@@ -31,7 +31,7 @@ func TestAppNotification(t *testing.T) {
 	t.Run("unmarshal json", func(t *testing.T) {
 		t.Run("valid", func(t *testing.T) {
 			// when
-			unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSON)
+			unmarshaled, err := model2.AppNotificationFromJSON(appNotificationJSON)
 
 			// then
 			if assert.NoError(t, err) {
@@ -44,11 +44,11 @@ func TestAppNotification(t *testing.T) {
 			invalidJSON := `{"title":"1"}`
 
 			// when
-			_, err := model.AppNotificationFromJSON(invalidJSON)
+			_, err := model2.AppNotificationFromJSON(invalidJSON)
 
 			// then
 			if assert.Error(t, err) {
-				assert.Equal(t, model.NotEnoughInfoInNotificationErrorMessage, err.Error())
+				assert.Equal(t, model2.NotEnoughInfoInNotificationErrorMessage, err.Error())
 			}
 		})
 	})
@@ -58,7 +58,7 @@ func TestAppNotification(t *testing.T) {
 		expectedHash := "8Mkt7MhqpOfj27kg8m6Ss+KWcwsA2IIL+Et9UBMCJUs="
 
 		// when
-		anWithID := model.AddIDTo(appNotification)
+		anWithID := model2.AddIDTo(appNotification)
 
 		// then
 		assert.Equal(t, expectedHash, anWithID.ID)

@@ -2,9 +2,9 @@ package test
 
 import (
 	"encoding/json"
-	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"

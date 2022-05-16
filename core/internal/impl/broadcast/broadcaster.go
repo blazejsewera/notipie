@@ -3,8 +3,8 @@ package broadcast
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
 	"github.com/blazejsewera/notipie/core/internal/impl/net/ws"
-	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )

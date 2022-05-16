@@ -1,8 +1,8 @@
 package ws
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )

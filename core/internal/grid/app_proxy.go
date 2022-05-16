@@ -2,9 +2,9 @@ package grid
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
-	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"go.uber.org/zap"
 	"time"
 )

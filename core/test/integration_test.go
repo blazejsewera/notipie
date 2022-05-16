@@ -1,8 +1,8 @@
 package test
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

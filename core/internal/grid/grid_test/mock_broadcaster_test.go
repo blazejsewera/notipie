@@ -2,7 +2,7 @@ package grid_test
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/domain"
-	"github.com/blazejsewera/notipie/core/internal/model"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 )
 
 type mockBroadcaster struct {

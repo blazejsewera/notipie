@@ -2,8 +2,8 @@ package net
 
 import (
 	"github.com/blazejsewera/notipie/core/internal/grid"
-	"github.com/blazejsewera/notipie/core/internal/model"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"go.uber.org/zap"
 	"net/http"
 
