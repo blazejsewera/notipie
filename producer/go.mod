@@ -4,6 +4,11 @@ go 1.18
 
 require (
 	github.com/stretchr/testify v1.7.1
+	github.com/blazejsewera/notipie/core v0.0.0-unpublished
+)
+
+replace (
+	github.com/blazejsewera/notipie/core v0.0.0-unpublished => ../core // link local notipie core
 )
 
 require (
