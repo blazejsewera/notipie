@@ -1,10 +1,10 @@
 package nnp_test
 
 import (
+	"encoding/json"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/blazejsewera/notipie/producer/pkg/lib/nnp"
 	"github.com/stretchr/testify/assert"
-	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -14,46 +14,61 @@ func TestProducer(t *testing.T) {
 	t.Run("pushes notification", func(t *testing.T) {
 		// given
 		expected := testNotification
-		mockSrv := httptest.NewServer(pushNotificationHandlerFor(t, expected))
-		defer mockSrv.Close()
+		ms := newMockServer(t)
+		defer ms.close()
 
-		producer := nnp.New(mockSrv.URL)
+		producer := nnp.NewProducer(ms.URL)
 
 		// when
-		appID := producer.Push(testNotification)
+		appID, err := producer.Push(testNotification)
 
 		// then
-		assert.Equal(t, expected.AppID, appID)
+		if assert.NoError(t, err) {
+			ms.validateRequest(expected)
+			assert.Equal(t, expected.AppID, appID)
+		}
 	})
 }
 
-func pushNotificationHandlerFor(t testing.TB, expected model.AppNotification) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		// when
-		an := deserializeAppNotification(t, r)
+type mockServer struct {
+	URL      string
+	received model.AppNotification
+	s        *httptest.Server
+	t        testing.TB
+}
 
-		// then
-		assert.Equal(t, expected, an)
+func newMockServer(t testing.TB) *mockServer {
+	m := &mockServer{t: t}
+	m.s = httptest.NewServer(http.HandlerFunc(m.pushNotificationHandler))
+	m.URL = m.s.URL
+	return m
+}
 
-		_, err := w.Write([]byte(an.AppID))
-		if err != nil {
-			t.Fatal("write response: ", err)
-		}
+func (m *mockServer) validateRequest(expected model.AppNotification) {
+	assert.Equal(m.t, expected, m.received, "server did not get the expected request")
+}
+
+func (m *mockServer) pushNotificationHandler(w http.ResponseWriter, r *http.Request) {
+	m.received = m.deserializeAppNotification(r)
+
+	w.WriteHeader(http.StatusCreated)
+	appID, _ := json.Marshal(nnp.AppIDRes{AppID: m.received.AppID})
+	_, err := w.Write(appID)
+	if err != nil {
+		m.t.Fatal("write response: ", err)
 	}
 }
 
-func deserializeAppNotification(t testing.TB, r *http.Request) model.AppNotification {
-	body, err := io.ReadAll(r.Body)
+func (m *mockServer) deserializeAppNotification(r *http.Request) model.AppNotification {
+	an, err := model.AppNotificationFromReader(r.Body)
 	if err != nil {
-		t.Fatal("read body: ", err)
+		m.t.Fatal("deserialize app notification json: ", err)
 	}
-	anj := string(body)
-	an, err := model.AppNotificationFromJSON(anj)
-	if err != nil {
-		t.Fatal("deserialize app notification json: ", err)
-	}
-
 	return an
+}
+
+func (m *mockServer) close() {
+	m.s.Close()
 }
 
 var testNotification = model.AppNotification{

@@ -6,6 +6,7 @@ import (
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
+	"io"
 	"net/http"
 	"net/url"
 	"testing"
@@ -46,16 +47,17 @@ func (c *appRestClient) pushNotification(notification model.AppNotification) {
 		c.t.Fatal(err)
 	}
 
-	c.t.Log("appRestClient: pushNotification: success\t" + string(res))
+	c.t.Log("appRestClient: pushNotification: success\tappID:", c.appID)
 }
 
 func assertStatusCreated(t testing.TB, statusCode int) {
 	assert.Equal(t, http.StatusCreated, statusCode)
 }
 
-func appIdFromRes(appResJSON []byte) (string, error) {
+func appIdFromRes(r io.Reader) (string, error) {
 	a := appIDRes{}
-	err := json.Unmarshal(appResJSON, &a)
+	d := json.NewDecoder(r)
+	err := d.Decode(&a)
 	if err != nil {
 		return "", fmt.Errorf("unmarshal app response: %s", err)
 	}

@@ -1,15 +1,16 @@
 package model_test
 
 import (
-	model2 "github.com/blazejsewera/notipie/core/pkg/model"
+	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
 func TestAppNotification(t *testing.T) {
 	// given
-	appNotification := model2.AppNotification{
-		HashableNetNotification: model2.HashableNetNotification{
+	appNotification := model.AppNotification{
+		HashableNetNotification: model.HashableNetNotification{
 			AppName: "1",
 			AppID:   "2",
 			Title:   "3",
@@ -19,6 +20,9 @@ func TestAppNotification(t *testing.T) {
 		ApiKey:    "5",
 	}
 	appNotificationJSON := `{"appName":"1","appId":"2","title":"3","timestamp":"4","read":true,"apiKey":"5"}`
+	appNotificationJSONReader := strings.NewReader(appNotificationJSON)
+	invalidJSON := `{"title":"1"}`
+	invalidJSONReader := strings.NewReader(invalidJSON)
 
 	t.Run("marshal json", func(t *testing.T) {
 		// when
@@ -29,9 +33,9 @@ func TestAppNotification(t *testing.T) {
 	})
 
 	t.Run("unmarshal json", func(t *testing.T) {
-		t.Run("valid", func(t *testing.T) {
+		t.Run("valid from string", func(t *testing.T) {
 			// when
-			unmarshaled, err := model2.AppNotificationFromJSON(appNotificationJSON)
+			unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSON)
 
 			// then
 			if assert.NoError(t, err) {
@@ -39,16 +43,33 @@ func TestAppNotification(t *testing.T) {
 			}
 		})
 
-		t.Run("invalid", func(t *testing.T) {
-			// given
-			invalidJSON := `{"title":"1"}`
-
+		t.Run("valid from reader", func(t *testing.T) {
 			// when
-			_, err := model2.AppNotificationFromJSON(invalidJSON)
+			unmarshaled, err := model.AppNotificationFromReader(appNotificationJSONReader)
+
+			// then
+			if assert.NoError(t, err) {
+				assert.Equal(t, appNotification, unmarshaled)
+			}
+		})
+
+		t.Run("invalid from string", func(t *testing.T) {
+			// when
+			_, err := model.AppNotificationFromJSON(invalidJSON)
 
 			// then
 			if assert.Error(t, err) {
-				assert.Equal(t, model2.NotEnoughInfoInNotificationErrorMessage, err.Error())
+				assert.Equal(t, model.NotEnoughInfoInNotificationErrorMessage, err.Error())
+			}
+		})
+
+		t.Run("invalid from reader", func(t *testing.T) {
+			// when
+			_, err := model.AppNotificationFromReader(invalidJSONReader)
+
+			// then
+			if assert.Error(t, err) {
+				assert.Equal(t, model.NotEnoughInfoInNotificationErrorMessage, err.Error())
 			}
 		})
 	})
@@ -58,7 +79,7 @@ func TestAppNotification(t *testing.T) {
 		expectedHash := "8Mkt7MhqpOfj27kg8m6Ss+KWcwsA2IIL+Et9UBMCJUs="
 
 		// when
-		anWithID := model2.AddIDTo(appNotification)
+		anWithID := model.AddIDTo(appNotification)
 
 		// then
 		assert.Equal(t, expectedHash, anWithID.ID)

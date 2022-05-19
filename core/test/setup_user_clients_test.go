@@ -6,6 +6,7 @@ import (
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
+	"io"
 	"net/http"
 	"net/url"
 	"testing"
@@ -71,13 +72,14 @@ type notificationsRes struct {
 	Notifications []model.ClientNotification `json:"notifications"`
 }
 
-func notificationsFromRes(res []byte) ([]model.ClientNotification, error) {
-	nRes := notificationsRes{}
-	err := json.Unmarshal(res, &nRes)
+func notificationsFromRes(r io.Reader) ([]model.ClientNotification, error) {
+	n := notificationsRes{}
+	d := json.NewDecoder(r)
+	err := d.Decode(&n)
 	if err != nil {
 		return nil, err
 	}
-	return nRes.Notifications, err
+	return n.Notifications, err
 }
 
 func newUserRestClient(t testing.TB, port int) *userRestClient {

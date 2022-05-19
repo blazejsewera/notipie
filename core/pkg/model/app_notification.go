@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
+	"io"
 )
 
 type AppNotification struct {
@@ -44,6 +45,19 @@ func hashAppNotification(n AppNotification) string {
 func AppNotificationFromJSON(jsonStr string) (AppNotification, error) {
 	appNotification := AppNotification{}
 	err := json.Unmarshal([]byte(jsonStr), &appNotification)
+	if err != nil {
+		return AppNotification{}, err
+	}
+	if !appNotification.validate() {
+		return AppNotification{}, fmt.Errorf(NotEnoughInfoInNotificationErrorMessage)
+	}
+	return appNotification, nil
+}
+
+func AppNotificationFromReader(r io.Reader) (AppNotification, error) {
+	appNotification := AppNotification{}
+	decoder := json.NewDecoder(r)
+	err := decoder.Decode(&appNotification)
 	if err != nil {
 		return AppNotification{}, err
 	}

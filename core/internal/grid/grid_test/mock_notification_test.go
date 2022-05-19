@@ -1,12 +1,12 @@
 package grid_test
 
 import (
-	model2 "github.com/blazejsewera/notipie/core/pkg/model"
+	model "github.com/blazejsewera/notipie/core/pkg/model"
 )
 
-func newTestAppNotification() model2.AppNotification {
-	return model2.AppNotification{
-		HashableNetNotification: model2.HashableNetNotification{
+func newTestAppNotification() model.AppNotification {
+	return model.AppNotification{
+		HashableNetNotification: model.HashableNetNotification{
 			AppName:    "TestApp",
 			Title:      "Test AppNotification",
 			Subtitle:   "Test Subtitle",
@@ -21,9 +21,9 @@ func newTestAppNotification() model2.AppNotification {
 	}
 }
 
-func newTestClientNotification() model2.ClientNotification {
+func newTestClientNotification() model.ClientNotification {
 	an := newTestAppNotification()
-	return model2.ClientNotification{
+	return model.ClientNotification{
 		HashableNetNotification: an.HashableNetNotification,
 		ID:                      an.ID,
 		Timestamp:               an.Timestamp,

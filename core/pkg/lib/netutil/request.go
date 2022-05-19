@@ -6,7 +6,7 @@ import (
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -15,7 +15,7 @@ import (
 
 func PostReq(c *http.Client, url url.URL, contentType, body string) (
 	statusCode int,
-	responseBody []byte,
+	responseBody io.Reader,
 	err error,
 ) {
 	bodyReader := strings.NewReader(body)
@@ -27,16 +27,11 @@ func PostReq(c *http.Client, url url.URL, contentType, body string) (
 		return
 	}
 
-	responseBody, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		err = fmt.Errorf("post: read all bytes from response body: %s", err)
-		return
-	}
-
+	responseBody = res.Body
 	return
 }
 
-func GetReq(c *http.Client, url url.URL) (statusCode int, responseBody []byte, err error) {
+func GetReq(c *http.Client, url url.URL) (statusCode int, responseBody io.Reader, err error) {
 	res, err := c.Get(url.String())
 	statusCode = res.StatusCode
 
@@ -45,12 +40,7 @@ func GetReq(c *http.Client, url url.URL) (statusCode int, responseBody []byte, e
 		return
 	}
 
-	responseBody, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		err = fmt.Errorf("get: read all bytes from response body: %s", err)
-		return
-	}
-
+	responseBody = res.Body
 	return
 }
 
