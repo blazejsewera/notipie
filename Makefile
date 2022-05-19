@@ -5,6 +5,7 @@ GO:=$(shell go version 2>/dev/null)
 
 UI_DIR=ui
 CORE_DIR=core
+PRODUCER_DIR=producer
 
 CONFIG_FILENAME=notipie.config.json
 EXAMPLE_CONFIG_FILENAME=notipie.config.example.json
@@ -78,7 +79,7 @@ update-config-core:
 	@cp ${CONFIG_FILENAME} ${CORE_DIR}/${CORE_CONFIG_FILENAME}
 	@echo "> config updated (${CONFIG_FILENAME} => ${CORE_DIR}/${CORE_CONFIG_FILENAME})"
 
-install: install-workspace install-core
+install: install-workspace install-core install-producer
 	@echo "> workspace ready"
 
 install-workspace:
@@ -91,6 +92,12 @@ install-core:
 	$(MAKE) sync; \
 	$(MAKE) tidy
 	@echo "> workspace for core synced"
+
+install-producer:
+	@cd ${PRODUCER_DIR}; \
+	$(MAKE) sync; \
+	$(MAKE) tidy
+	@echo "> workspace for producer synced"
 
 
 # clean
@@ -133,9 +140,11 @@ clean-core:
 
 b: build  # run with -j2 or more for performance
 bui: build-ui
+bstorybook: build-storybook
 bcore: build-core
+bproducer: build-producer
 
-build: build-ui build-core build-storybook  # run with -j2 or more for performance
+build: build-ui build-storybook build-core build-producer  # run with -j2 or more for performance
 	@echo "> built"
 
 build-ui:
@@ -143,14 +152,19 @@ build-ui:
 	yarn build
 	@echo "> built dist in ui"
 
+build-storybook:
+	@cd ${UI_DIR}; \
+	yarn build-storybook
+
 build-core:
 	@cd ${CORE_DIR}; \
 	$(MAKE) build
 	@echo "> built binary in core"
 
-build-storybook:
-	@cd ${UI_DIR}; \
-	yarn build-storybook
+build-producer:
+	@cd ${PRODUCER_DIR}; \
+	$(MAKE) build
+	@echo "> built binary in producer"
 
 
 # dev
@@ -181,8 +195,10 @@ dev-manual-test:
 t: test  # run with -j2 or more for performance
 tui: test-ui
 tcore: test-core
+tproducer: test-producer
+tr: test-race
 
-test: test-ui test-core  # run with -j2 or more for performance
+test: test-ui test-core test-producer  # run with -j2 or more for performance
 	@echo "> tests completed"
 
 test-ui:
@@ -195,10 +211,28 @@ test-core:
 	$(MAKE) test
 	@echo "> completed tests in core"
 
+test-producer:
+	@cd ${PRODUCER_DIR}; \
+	$(MAKE) test
+	@echo "> completed tests in producer"
+
+test-race: test-core-race test-producer-race
+	@echo "> tests with race detection completed"
+
+test-core-race:
+	@cd ${CORE_DIR}; \
+	$(MAKE) test-race
+	@echo "> completed tests in core with race detection"
+
+test-producer-race:
+	@cd ${PRODUCER_DIR}; \
+	$(MAKE) test-race
+	@echo "> completed tests in producer with race detection"
+
 
 # lint
 
-lint-fix: lint-ui-fix lint-core
+lint-fix: lint-ui-fix lint-core lint-producer
 	@echo "> linted and fixed"
 
 lint-ui-fix:
@@ -206,7 +240,7 @@ lint-ui-fix:
 	yarn lint:fix
 	@echo "> linted and fixed ui"
 
-lint: lint-ui lint-core
+lint: lint-ui lint-core lint-producer
 	@echo "> linted"
 
 lint-ui:
@@ -223,6 +257,11 @@ lint-core:
 	@cd ${CORE_DIR}; \
 	$(MAKE) lint
 	@echo "> linted core"
+
+lint-producer:
+	@cd ${PRODUCER_DIR}; \
+	$(MAKE) lint
+	@echo "> linted producer"
 
 
 # format

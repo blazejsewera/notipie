@@ -1,7 +1,6 @@
 package nnp_test
 
 import (
-	"encoding/json"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/blazejsewera/notipie/producer/pkg/lib/nnp"
 	"github.com/stretchr/testify/assert"
@@ -52,10 +51,13 @@ func (m *mockServer) pushNotificationHandler(w http.ResponseWriter, r *http.Requ
 	m.received = m.deserializeAppNotification(r)
 
 	w.WriteHeader(http.StatusCreated)
-	appID, _ := json.Marshal(nnp.AppIDRes{AppID: m.received.AppID})
-	_, err := w.Write(appID)
+	appID, err := model.AppIDResponseOf(m.received.AppID).ToJSON()
 	if err != nil {
-		m.t.Fatal("write response: ", err)
+		m.t.Fatal("marshal app id response:", err)
+	}
+	_, err = w.Write(appID)
+	if err != nil {
+		m.t.Fatal("write response:", err)
 	}
 }
 

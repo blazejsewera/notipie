@@ -87,6 +87,9 @@ func TestUser_ReceiveNotification(t *testing.T) {
 }
 
 func TestUser_Listen(t *testing.T) {
+	// TODO: fix data race in this test
+	// go test -race -run '^\QTestUser_Listen\E$' ./...
+
 	// given
 	user, _ := NewTestUser()
 

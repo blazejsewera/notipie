@@ -10,6 +10,10 @@ type AppIDResponse struct {
 	AppID string `json:"appId"`
 }
 
+func AppIDResponseOf(appID string) AppIDResponse {
+	return AppIDResponse{AppID: appID}
+}
+
 func (a AppIDResponse) ToJSON() ([]byte, error) {
 	jsonBytes, err := json.Marshal(a)
 	if err != nil {

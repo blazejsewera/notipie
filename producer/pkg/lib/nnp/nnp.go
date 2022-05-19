@@ -1,11 +1,9 @@
 package nnp
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
 	"github.com/blazejsewera/notipie/core/pkg/model"
-	"io"
 	"net/http"
 	"net/url"
 )
@@ -44,25 +42,10 @@ func (p *ProducerImpl) Push(notification model.AppNotification) (appID string, e
 		return "", fmt.Errorf("push notification: server did not respond with correct status, status: %d", status)
 	}
 
-	p.appID, err = appIDFromRes(resBody)
-
+	appIDRes, err := model.AppIDResponseFromReader(resBody)
 	if err != nil {
 		return "", fmt.Errorf("push notification: %s", err)
 	}
-
+	p.appID = appIDRes.AppID
 	return p.appID, nil
 }
-
-func appIDFromRes(r io.Reader) (string, error) {
-	a := AppIDRes{}
-	d := json.NewDecoder(r)
-	err := d.Decode(&a)
-	if err != nil {
-		return "", fmt.Errorf("unmarshaling appID: %s", err)
-	}
-	return a.AppID, nil
-}
-
-type AppIDRes struct {
-	AppID string `json:"appId"`
-} // TODO: refactor it so that it is in core/model
