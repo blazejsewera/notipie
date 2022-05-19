@@ -10,21 +10,53 @@ import (
 )
 
 func TestProducer(t *testing.T) {
-	t.Run("pushes notification", func(t *testing.T) {
+	// given
+	testNotification := model.AppNotification{
+		HashableNetNotification: model.HashableNetNotification{
+			AppName:    "AppName",
+			AppImgURI:  "AppImgURI",
+			Title:      "Title",
+			Subtitle:   "Subtitle",
+			Body:       "Body",
+			ExtURI:     "ExtURI",
+			ReadURI:    "ReadURI",
+			ArchiveURI: "ArchiveURI",
+		},
+		ID:        "ID",
+		Timestamp: "Timestamp",
+		Read:      true,
+		ApiKey:    "ApiKey",
+	}
+
+	t.Run("pushes notification the first time", func(t *testing.T) {
 		// given
-		expected := testNotification
 		ms := newMockServer(t)
 		defer ms.close()
 
-		producer := nnp.NewProducer(ms.URL)
+		producer := nnp.NewProducer(ms.URL, "")
 
 		// when
-		appID, err := producer.Push(testNotification)
+		err := producer.Push(testNotification)
 
 		// then
 		if assert.NoError(t, err) {
-			ms.validateRequest(expected)
-			assert.Equal(t, expected.AppID, appID)
+			ms.validateRequest(testNotification)
+		}
+	})
+
+	t.Run("pushes notification twice", func(t *testing.T) {
+		// given
+		ms := newMockServer(t)
+		defer ms.close()
+
+		producer := nnp.NewProducer(ms.URL, "")
+
+		// when
+		err := producer.Push(testNotification)
+		assert.NoError(t, err)
+		err = producer.Push(testNotification)
+		if assert.NoError(t, err) {
+			ms.validateSecondRequest(testNotification)
 		}
 	})
 }
@@ -32,6 +64,7 @@ func TestProducer(t *testing.T) {
 type mockServer struct {
 	URL      string
 	received model.AppNotification
+	appID    string
 	s        *httptest.Server
 	t        testing.TB
 }
@@ -47,11 +80,17 @@ func (m *mockServer) validateRequest(expected model.AppNotification) {
 	assert.Equal(m.t, expected, m.received, "server did not get the expected request")
 }
 
+func (m *mockServer) validateSecondRequest(expected model.AppNotification) {
+	expected.AppID = m.appID
+	assert.Equal(m.t, expected, m.received, "server did not get the expected request, check appID")
+}
+
 func (m *mockServer) pushNotificationHandler(w http.ResponseWriter, r *http.Request) {
 	m.received = m.deserializeAppNotification(r)
+	m.generateNewAppIDIfDoesNotExist()
 
 	w.WriteHeader(http.StatusCreated)
-	appID, err := model.AppIDResponseOf(m.received.AppID).ToJSON()
+	appID, err := model.AppIDResponseOf(m.appID).ToJSON()
 	if err != nil {
 		m.t.Fatal("marshal app id response:", err)
 	}
@@ -69,24 +108,13 @@ func (m *mockServer) deserializeAppNotification(r *http.Request) model.AppNotifi
 	return an
 }
 
-func (m *mockServer) close() {
-	m.s.Close()
+func (m *mockServer) generateNewAppIDIfDoesNotExist() {
+	if m.received.AppID != "" {
+		return
+	}
+	m.appID = "AppID"
 }
 
-var testNotification = model.AppNotification{
-	HashableNetNotification: model.HashableNetNotification{
-		AppName:    "AppName",
-		AppID:      "AppID",
-		AppImgURI:  "AppImgURI",
-		Title:      "Title",
-		Subtitle:   "Subtitle",
-		Body:       "Body",
-		ExtURI:     "ExtURI",
-		ReadURI:    "ReadURI",
-		ArchiveURI: "ArchiveURI",
-	},
-	ID:        "ID",
-	Timestamp: "Timestamp",
-	Read:      true,
-	ApiKey:    "ApiKey",
+func (m *mockServer) close() {
+	m.s.Close()
 }

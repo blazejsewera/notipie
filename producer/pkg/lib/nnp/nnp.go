@@ -9,7 +9,7 @@ import (
 )
 
 type Producer interface {
-	Push(notification model.AppNotification) (appID string, err error)
+	Push(notification model.AppNotification) error
 }
 
 type ProducerImpl struct {
@@ -18,34 +18,39 @@ type ProducerImpl struct {
 	appID string
 }
 
-func NewProducer(rawURL string) *ProducerImpl {
+func NewProducer(rawURL, appID string) Producer {
 	parsedUrl, err := url.Parse(rawURL)
 	if err != nil {
 		panic(fmt.Sprint("parse url:", err))
 	}
 	return &ProducerImpl{
-		URL: *parsedUrl,
-		c:   http.DefaultClient,
+		URL:   *parsedUrl,
+		c:     http.DefaultClient,
+		appID: appID,
 	}
 }
 
-func (p *ProducerImpl) Push(notification model.AppNotification) (appID string, err error) {
+func (p *ProducerImpl) Push(notification model.AppNotification) error {
+	notification.AppID = p.appID
 	notificationJSON, err := notification.ToJSON()
 	if err != nil {
-		return "", err
+		return err
 	}
+
 	status, resBody, err := netutil.PostReq(p.c, p.URL, "application/json", notificationJSON)
 	if err != nil {
-		return "", err
+		return err
 	}
+
 	if status != http.StatusCreated {
-		return "", fmt.Errorf("push notification: server did not respond with correct status, status: %d", status)
+		return fmt.Errorf("push notification: server did not respond with correct status, status: %d", status)
 	}
 
 	appIDRes, err := model.AppIDResponseFromReader(resBody)
 	if err != nil {
-		return "", fmt.Errorf("push notification: %s", err)
+		return fmt.Errorf("push notification: %s", err)
 	}
+
 	p.appID = appIDRes.AppID
-	return p.appID, nil
+	return nil
 }
