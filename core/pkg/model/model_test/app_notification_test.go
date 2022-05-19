@@ -1,9 +1,9 @@
 package model_test
 
 import (
+	"bytes"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
-	"strings"
 	"testing"
 )
 
@@ -19,17 +19,19 @@ func TestAppNotification(t *testing.T) {
 		Read:      true,
 		ApiKey:    "5",
 	}
-	appNotificationJSON := `{"appName":"1","appId":"2","title":"3","timestamp":"4","read":true,"apiKey":"5"}`
-	appNotificationJSONReader := strings.NewReader(appNotificationJSON)
-	invalidJSON := `{"title":"1"}`
-	invalidJSONReader := strings.NewReader(invalidJSON)
+	appNotificationJSON := []byte(`{"appName":"1","appId":"2","title":"3","timestamp":"4","read":true,"apiKey":"5"}`)
+	appNotificationJSONReader := bytes.NewReader(appNotificationJSON)
+	invalidJSON := []byte(`{"title":"1"}`)
+	invalidJSONReader := bytes.NewReader(invalidJSON)
 
 	t.Run("marshal json", func(t *testing.T) {
 		// when
-		marshaled := appNotification.ToJSON()
+		marshaled, err := appNotification.ToJSON()
 
 		// then
-		assert.Equal(t, appNotificationJSON, marshaled)
+		if assert.NoError(t, err) {
+			assert.Equal(t, appNotificationJSON, marshaled)
+		}
 	})
 
 	t.Run("unmarshal json", func(t *testing.T) {

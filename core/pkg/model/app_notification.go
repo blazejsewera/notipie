@@ -15,12 +15,12 @@ type AppNotification struct {
 	ApiKey    string `json:"apiKey,omitempty"`
 }
 
-func (n AppNotification) ToJSON() string {
+func (n AppNotification) ToJSON() ([]byte, error) {
 	jsonBytes, err := json.Marshal(n)
 	if err != nil {
-		return ""
+		return nil, fmt.Errorf("marshal AppNotification: %s", err)
 	}
-	return string(jsonBytes)
+	return jsonBytes, nil
 }
 
 func AddIDTo(n AppNotification) AppNotification {
@@ -42,9 +42,9 @@ func hashAppNotification(n AppNotification) string {
 	return uuid.GenerateBasedOnContent(jsonBytes)
 }
 
-func AppNotificationFromJSON(jsonStr string) (AppNotification, error) {
+func AppNotificationFromJSON(jsonBytes []byte) (AppNotification, error) {
 	appNotification := AppNotification{}
-	err := json.Unmarshal([]byte(jsonStr), &appNotification)
+	err := json.Unmarshal(jsonBytes, &appNotification)
 	if err != nil {
 		return AppNotification{}, err
 	}

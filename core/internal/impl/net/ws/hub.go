@@ -84,7 +84,11 @@ func (h *HubImpl) unregisterClient(clientUUID string) {
 }
 
 func (h *HubImpl) broadcastNotification(notification model.ClientNotification) {
-	notificationBytes := toJSONBytes(notification)
+	notificationBytes, err := notification.ToJSON()
+	if err != nil {
+		h.l.Error("broadcast notification", zap.Error(err))
+		return
+	}
 	for _, client := range h.clients {
 		client.Broadcast(notificationBytes)
 	}
@@ -92,9 +96,4 @@ func (h *HubImpl) broadcastNotification(notification model.ClientNotification) {
 
 func logClientUUID(uuid string) zap.Field {
 	return zap.String("clientUUID", uuid)
-}
-
-func toJSONBytes(notification model.ClientNotification) []byte {
-	notificationJSON := notification.ToJSON()
-	return []byte(notificationJSON)
 }

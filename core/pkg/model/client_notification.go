@@ -14,17 +14,17 @@ type ClientNotification struct {
 	Read      bool   `json:"read,omitempty"`
 }
 
-func (n ClientNotification) ToJSON() string {
-	jsonBytes, err := json.Marshal(n)
+func (c ClientNotification) ToJSON() ([]byte, error) {
+	jsonBytes, err := json.Marshal(c)
 	if err != nil {
-		return ""
+		return nil, fmt.Errorf("marshal ClientNotification: %s", err)
 	}
-	return string(jsonBytes)
+	return jsonBytes, nil
 }
 
-func ClientNotificationFromJSON(jsonStr string) (ClientNotification, error) {
+func ClientNotificationFromJSON(jsonBytes []byte) (ClientNotification, error) {
 	clientNotification := ClientNotification{}
-	err := json.Unmarshal([]byte(jsonStr), &clientNotification)
+	err := json.Unmarshal(jsonBytes, &clientNotification)
 	if err != nil {
 		return ClientNotification{}, err
 	}
@@ -54,8 +54,8 @@ func ClientNotificationFromDomain(n domain.Notification) ClientNotification {
 	} // TODO: implement urgency
 }
 
-func (n ClientNotification) validate() bool {
-	if n.AppName == "" || n.Title == "" || n.Timestamp == "" {
+func (c ClientNotification) validate() bool {
+	if c.AppName == "" || c.Title == "" || c.Timestamp == "" {
 		return false
 	}
 	return true

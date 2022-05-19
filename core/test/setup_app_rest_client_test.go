@@ -35,7 +35,11 @@ func newAppRestClient(t testing.TB, port int) *appRestClient {
 func (c *appRestClient) pushNotification(notification model.AppNotification) {
 	c.t.Helper()
 
-	status, res, err := netutil.PostReq(c.cl, c.pushURL, "application/json", notification.ToJSON())
+	notificationJSON, err := notification.ToJSON()
+	if err != nil {
+		c.t.Fatal(err)
+	}
+	status, res, err := netutil.PostReq(c.cl, c.pushURL, "application/json", notificationJSON)
 	if err != nil {
 		c.t.Fatal(err)
 	}

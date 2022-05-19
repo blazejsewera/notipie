@@ -32,7 +32,11 @@ func NewProducer(rawURL string) *ProducerImpl {
 }
 
 func (p *ProducerImpl) Push(notification model.AppNotification) (appID string, err error) {
-	status, resBody, err := netutil.PostReq(p.c, p.URL, "application/json", notification.ToJSON())
+	notificationJSON, err := notification.ToJSON()
+	if err != nil {
+		return "", err
+	}
+	status, resBody, err := netutil.PostReq(p.c, p.URL, "application/json", notificationJSON)
 	if err != nil {
 		return "", err
 	}

@@ -1,6 +1,7 @@
 package netutil
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
@@ -9,16 +10,15 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 	"testing"
 )
 
-func PostReq(c *http.Client, url url.URL, contentType, body string) (
+func PostReq(c *http.Client, url url.URL, contentType string, body []byte) (
 	statusCode int,
 	responseBody io.Reader,
 	err error,
 ) {
-	bodyReader := strings.NewReader(body)
+	bodyReader := bytes.NewReader(body)
 	res, err := c.Post(url.String(), contentType, bodyReader)
 	statusCode = res.StatusCode
 
@@ -46,7 +46,7 @@ func GetReq(c *http.Client, url url.URL) (statusCode int, responseBody io.Reader
 
 type WSReaderClient struct {
 	Buffer     []byte
-	LineBuffer []string
+	LineBuffer [][]byte
 	Saved      chan util.Signal
 	conn       *websocket.Conn
 	t          testing.TB
@@ -78,7 +78,7 @@ func (c *WSReaderClient) readWS() {
 			return
 		}
 		c.Buffer = append(c.Buffer, msg...)
-		c.LineBuffer = append(c.LineBuffer, string(msg))
+		c.LineBuffer = append(c.LineBuffer, msg)
 		c.Saved <- util.Ping
 	}
 }
