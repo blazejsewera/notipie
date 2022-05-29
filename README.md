@@ -15,7 +15,6 @@ You will need:
 - `yarn` with `node.js` version `lts/gallium = v16`.
 
 ### Recommended environment setup
-
 #### Go
 For Linux, use a package manager to download Go `1.18` or higher, e.g.,
 `sudo apt install golang-go`, or `sudo pacman -S go`, depending on your distro.
