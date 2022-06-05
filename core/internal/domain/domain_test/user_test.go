@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	"time"
 )
 
 func TestUser_GetNotifications(t *testing.T) {
@@ -67,7 +66,10 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		})
 
 		// then
-		util.AsyncAssert(t, done).ElementsMatch([]domain.Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
+		util.AsyncAssert(t, done).ElementsMatch(
+			[]domain.Notification{notification},
+			user.GetNotifications(0, user.GetNotificationCount()),
+		)
 	})
 
 	t.Run("multiple receive - same notification", func(t *testing.T) {
@@ -82,30 +84,27 @@ func TestUser_ReceiveNotification(t *testing.T) {
 		})
 
 		// then
-		util.AsyncAssert(t, done).ElementsMatch([]domain.Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
+		util.AsyncAssert(t, done).ElementsMatch(
+			[]domain.Notification{notification},
+			user.GetNotifications(0, user.GetNotificationCount()),
+		)
 	})
 }
 
 func TestUser_Listen(t *testing.T) {
-	// TODO: fix data race in this test
-	// go test -race -run '^\QTestUser_Listen\E$' ./...
-
 	// given
-	user, _ := NewTestUser()
-
+	user, repo := NewTestUserWithAsyncRepo()
 	app, _ := NewTestApp()
 	notification := NewTestNotification(app)
 
-	timeout := time.After(200 * time.Millisecond)
-
 	// when
-	select {
-	case user.NotificationChan <- notification:
-		// then
-		assert.Equal(t, []domain.Notification{notification}, user.GetNotifications(0, user.GetNotificationCount()))
-	case <-timeout:
-		assert.Fail(t, "user.NotificationChan blocked for over 200ms")
-	}
+	user.NotificationChan <- notification
+
+	// then
+	util.AsyncAssert(t, repo.NotificationSaved).Equal(
+		[]domain.Notification{notification},
+		user.GetNotifications(0, user.GetNotificationCount()),
+	)
 }
 
 func TestUser_SubscribeToTag(t *testing.T) {
