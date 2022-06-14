@@ -13,3 +13,15 @@ type HashableNetNotification struct {
 }
 
 const NotEnoughInfoInNotificationErrorMessage = "not enough information in net notification"
+
+var ExampleHashableNetNotification = HashableNetNotification{
+	AppName:    "AppName",
+	AppID:      "AppID",
+	AppImgURI:  "AppImgURI",
+	Title:      "Title",
+	Subtitle:   "Subtitle",
+	Body:       "Body",
+	ExtURI:     "ExtURI",
+	ReadURI:    "ReadURI",
+	ArchiveURI: "ArchiveURI",
+}

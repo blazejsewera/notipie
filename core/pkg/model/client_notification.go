@@ -60,3 +60,10 @@ func (c ClientNotification) validate() bool {
 	}
 	return true
 }
+
+var ExampleClientNotification = ClientNotification{
+	HashableNetNotification: ExampleHashableNetNotification,
+	ID:                      ExampleAppNotification.ID,
+	Timestamp:               ExampleAppNotification.Timestamp,
+	Read:                    false,
+}

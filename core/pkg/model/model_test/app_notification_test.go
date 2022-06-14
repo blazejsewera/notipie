@@ -4,22 +4,14 @@ import (
 	"bytes"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
 func TestAppNotification(t *testing.T) {
 	// given
-	appNotification := model.AppNotification{
-		HashableNetNotification: model.HashableNetNotification{
-			AppName: "1",
-			AppID:   "2",
-			Title:   "3",
-		},
-		Timestamp: "4",
-		Read:      true,
-		ApiKey:    "5",
-	}
-	appNotificationJSON := []byte(`{"appName":"1","appId":"2","title":"3","timestamp":"4","read":true,"apiKey":"5"}`)
+	appNotification := model.ExampleAppNotification
+	appNotificationJSON := appNotificationJSONWithoutWhitespace()
 	appNotificationJSONReader := bytes.NewReader(appNotificationJSON)
 	invalidJSON := []byte(`{"title":"1"}`)
 	invalidJSONReader := bytes.NewReader(invalidJSON)
@@ -78,12 +70,22 @@ func TestAppNotification(t *testing.T) {
 
 	t.Run("add id to net notification", func(t *testing.T) {
 		// given
-		expectedHash := "8Mkt7MhqpOfj27kg8m6Ss+KWcwsA2IIL+Et9UBMCJUs="
+		expectedHash := "frGOwBO6bNL/kbixYn3eJ6xS8WAewHK7qzt8q1cLVLs="
+		anWithoutID := appNotification
+		anWithoutID.ID = ""
 
 		// when
-		anWithID := model.AddIDTo(appNotification)
+		anWithID := model.AddIDTo(anWithoutID)
 
 		// then
 		assert.Equal(t, expectedHash, anWithID.ID)
 	})
+}
+
+func appNotificationJSONWithoutWhitespace() []byte {
+	appNotificationJSON := model.ExampleAppNotificationJSON
+	appNotificationJSON = strings.ReplaceAll(appNotificationJSON, " ", "")
+	appNotificationJSON = strings.ReplaceAll(appNotificationJSON, "\t", "")
+	appNotificationJSON = strings.ReplaceAll(appNotificationJSON, "\n", "")
+	return []byte(appNotificationJSON)
 }

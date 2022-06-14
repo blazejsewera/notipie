@@ -11,7 +11,6 @@ type AppNotification struct {
 	HashableNetNotification
 	ID        string `json:"id,omitempty"`
 	Timestamp string `json:"timestamp"`
-	Read      bool   `json:"read,omitempty"`
 	ApiKey    string `json:"apiKey,omitempty"`
 }
 
@@ -73,3 +72,25 @@ func (n AppNotification) validate() bool {
 	}
 	return true
 }
+
+var ExampleAppNotification = AppNotification{
+	HashableNetNotification: ExampleHashableNetNotification,
+	ID:                      "frGOwBO6bNL/kbixYn3eJ6xS8WAewHK7qzt8q1cLVLs=",
+	Timestamp:               "2022-06-14T22:22:22.000Z",
+	ApiKey:                  "ApiKey",
+}
+
+const ExampleAppNotificationJSON = `{
+	"appName": "AppName",
+	"appId": "AppID",
+	"appImgUri": "AppImgURI",
+	"title": "Title",
+	"subtitle": "Subtitle",
+	"body": "Body",
+	"extUri": "ExtURI",
+	"readUri": "ReadURI",
+	"archiveUri": "ArchiveURI",
+	"id": "frGOwBO6bNL/kbixYn3eJ6xS8WAewHK7qzt8q1cLVLs=",
+	"timestamp": "2022-06-14T22:22:22.000Z",
+	"apiKey": "ApiKey"
+}`

@@ -40,3 +40,5 @@ func AppIDResponseFromReader(r io.Reader) (AppIDResponse, error) {
 	}
 	return appIdResponse, nil
 }
+
+var ExampleAppIDResponse = AppIDResponse{AppID: ExampleAppNotification.AppID}

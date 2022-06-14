@@ -3,9 +3,11 @@ package nnp
 import (
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
+	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 type Producer interface {
@@ -32,6 +34,10 @@ func NewProducer(rawURL, appID string) Producer {
 
 func (p *ProducerImpl) Push(notification model.AppNotification) error {
 	notification.AppID = p.appID
+	if notification.Timestamp == "" {
+		notification.Timestamp = time.Now().Format(timeformat.RFC3339Milli)
+	}
+
 	notificationJSON, err := notification.ToJSON()
 	if err != nil {
 		return err

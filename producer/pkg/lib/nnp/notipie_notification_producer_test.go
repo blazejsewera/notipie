@@ -11,22 +11,8 @@ import (
 
 func TestProducer(t *testing.T) {
 	// given
-	testNotification := model.AppNotification{
-		HashableNetNotification: model.HashableNetNotification{
-			AppName:    "AppName",
-			AppImgURI:  "AppImgURI",
-			Title:      "Title",
-			Subtitle:   "Subtitle",
-			Body:       "Body",
-			ExtURI:     "ExtURI",
-			ReadURI:    "ReadURI",
-			ArchiveURI: "ArchiveURI",
-		},
-		ID:        "ID",
-		Timestamp: "Timestamp",
-		Read:      true,
-		ApiKey:    "ApiKey",
-	}
+	testNotification := model.ExampleAppNotification
+	testNotification.AppID = ""
 	testNotificationWithoutTimestamp := testNotification
 	testNotificationWithoutTimestamp.Timestamp = ""
 
