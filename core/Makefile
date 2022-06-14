@@ -29,3 +29,5 @@ tidy:
 clean:
 	rm -f ./notipie
 	go clean
+	go clean -cache
+	go clean -testcache

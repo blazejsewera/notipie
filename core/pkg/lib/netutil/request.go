@@ -20,26 +20,26 @@ func PostReq(c *http.Client, url url.URL, contentType string, body []byte) (
 ) {
 	bodyReader := bytes.NewReader(body)
 	res, err := c.Post(url.String(), contentType, bodyReader)
-	statusCode = res.StatusCode
 
 	if err != nil {
 		err = fmt.Errorf("post: %s", err)
 		return
 	}
 
+	statusCode = res.StatusCode
 	responseBody = res.Body
 	return
 }
 
 func GetReq(c *http.Client, url url.URL) (statusCode int, responseBody io.Reader, err error) {
 	res, err := c.Get(url.String())
-	statusCode = res.StatusCode
 
 	if err != nil {
 		err = fmt.Errorf("get: %s", err)
 		return
 	}
 
+	statusCode = res.StatusCode
 	responseBody = res.Body
 	return
 }

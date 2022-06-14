@@ -29,3 +29,5 @@ tidy:
 clean:
 	rm -f ./nnp
 	go clean
+	go clean -cache
+	go clean -testcache

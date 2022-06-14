@@ -27,6 +27,8 @@ func TestProducer(t *testing.T) {
 		Read:      true,
 		ApiKey:    "ApiKey",
 	}
+	testNotificationWithoutTimestamp := testNotification
+	testNotificationWithoutTimestamp.Timestamp = ""
 
 	t.Run("pushes notification the first time", func(t *testing.T) {
 		// given
@@ -53,10 +55,28 @@ func TestProducer(t *testing.T) {
 
 		// when
 		err := producer.Push(testNotification)
+
+		// then
 		assert.NoError(t, err)
 		err = producer.Push(testNotification)
 		if assert.NoError(t, err) {
 			ms.validateSecondRequest(testNotification)
+		}
+	})
+
+	t.Run("adds timestamp on push", func(t *testing.T) {
+		// given
+		ms := newMockServer(t)
+		defer ms.close()
+
+		producer := nnp.NewProducer(ms.URL, "")
+
+		// when
+		err := producer.Push(testNotificationWithoutTimestamp)
+
+		// then
+		if assert.NoError(t, err) {
+			ms.validateRequestHasTimestamp()
 		}
 	})
 }
@@ -85,6 +105,10 @@ func (m *mockServer) validateSecondRequest(expected model.AppNotification) {
 	assert.Equal(m.t, expected, m.received, "server did not get the expected request, check appID")
 }
 
+func (m *mockServer) validateRequestHasTimestamp() {
+	assert.NotEqual(m.t, "", m.received.Timestamp, "timestamp was not appended for app notification")
+}
+
 func (m *mockServer) pushNotificationHandler(w http.ResponseWriter, r *http.Request) {
 	m.received = m.deserializeAppNotification(r)
 	m.generateNewAppIDIfDoesNotExist()
@@ -103,7 +127,7 @@ func (m *mockServer) pushNotificationHandler(w http.ResponseWriter, r *http.Requ
 func (m *mockServer) deserializeAppNotification(r *http.Request) model.AppNotification {
 	an, err := model.AppNotificationFromReader(r.Body)
 	if err != nil {
-		m.t.Fatal("deserialize app notification json: ", err)
+		m.t.Fatal("deserialize app notification json:", err)
 	}
 	return an
 }
