@@ -1,7 +1,6 @@
 package model_test
 
 import (
-	"bytes"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
 	"strings"
@@ -12,24 +11,32 @@ func TestAppNotification(t *testing.T) {
 	// given
 	appNotification := model.ExampleAppNotification
 	appNotificationJSON := appNotificationJSONWithoutWhitespace()
-	appNotificationJSONReader := bytes.NewReader(appNotificationJSON)
-	invalidJSON := []byte(`{"title":"1"}`)
-	invalidJSONReader := bytes.NewReader(invalidJSON)
+	appNotificationJSONReader := strings.NewReader(appNotificationJSON)
+	invalidJSON := `{"title":"1"}`
+	invalidJSONReader := strings.NewReader(invalidJSON)
+
+	appNotificationYAML := model.ExampleAppNotificationYAML
+	appNotificationYAMLReader := strings.NewReader(appNotificationYAML)
+	invalidYAML := `
+title: '1'
+`
+	invalidYAMLReader := strings.NewReader(invalidYAML)
 
 	t.Run("marshal json", func(t *testing.T) {
 		// when
 		marshaled, err := appNotification.ToJSON()
+		actual := string(marshaled)
 
 		// then
 		if assert.NoError(t, err) {
-			assert.Equal(t, appNotificationJSON, marshaled)
+			assert.Equal(t, appNotificationJSON, actual)
 		}
 	})
 
 	t.Run("unmarshal json", func(t *testing.T) {
-		t.Run("valid from string", func(t *testing.T) {
+		t.Run("valid", func(t *testing.T) {
 			// when
-			unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSON)
+			unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSONReader)
 
 			// then
 			if assert.NoError(t, err) {
@@ -37,29 +44,42 @@ func TestAppNotification(t *testing.T) {
 			}
 		})
 
-		t.Run("valid from reader", func(t *testing.T) {
+		t.Run("invalid", func(t *testing.T) {
 			// when
-			unmarshaled, err := model.AppNotificationFromReader(appNotificationJSONReader)
-
-			// then
-			if assert.NoError(t, err) {
-				assert.Equal(t, appNotification, unmarshaled)
-			}
-		})
-
-		t.Run("invalid from string", func(t *testing.T) {
-			// when
-			_, err := model.AppNotificationFromJSON(invalidJSON)
+			_, err := model.AppNotificationFromJSON(invalidJSONReader)
 
 			// then
 			if assert.Error(t, err) {
 				assert.Equal(t, model.NotEnoughInfoInNotificationErrorMessage, err.Error())
 			}
 		})
+	})
 
-		t.Run("invalid from reader", func(t *testing.T) {
+	t.Run("marshal yaml", func(t *testing.T) {
+		// when
+		marshaled, err := appNotification.ToYAML()
+		actual := string(marshaled)
+
+		// then
+		if assert.NoError(t, err) {
+			assert.Equal(t, appNotificationYAML, actual)
+		}
+	})
+
+	t.Run("unmarshal yaml", func(t *testing.T) {
+		t.Run("valid", func(t *testing.T) {
 			// when
-			_, err := model.AppNotificationFromReader(invalidJSONReader)
+			unmarshaled, err := model.AppNotificationFromYAML(appNotificationYAMLReader)
+
+			// then
+			if assert.NoError(t, err) {
+				assert.Equal(t, appNotification, unmarshaled)
+			}
+		})
+
+		t.Run("invalid", func(t *testing.T) {
+			// when
+			_, err := model.AppNotificationFromYAML(invalidYAMLReader)
 
 			// then
 			if assert.Error(t, err) {
@@ -82,10 +102,10 @@ func TestAppNotification(t *testing.T) {
 	})
 }
 
-func appNotificationJSONWithoutWhitespace() []byte {
+func appNotificationJSONWithoutWhitespace() string {
 	appNotificationJSON := model.ExampleAppNotificationJSON
 	appNotificationJSON = strings.ReplaceAll(appNotificationJSON, " ", "")
 	appNotificationJSON = strings.ReplaceAll(appNotificationJSON, "\t", "")
 	appNotificationJSON = strings.ReplaceAll(appNotificationJSON, "\n", "")
-	return []byte(appNotificationJSON)
+	return appNotificationJSON
 }

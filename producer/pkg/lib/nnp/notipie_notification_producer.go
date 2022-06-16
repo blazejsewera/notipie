@@ -6,7 +6,6 @@ import (
 	"github.com/blazejsewera/notipie/core/pkg/lib/timeformat"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"net/http"
-	"net/url"
 	"time"
 )
 
@@ -15,25 +14,21 @@ type Producer interface {
 }
 
 type ProducerImpl struct {
-	URL   url.URL
-	c     *http.Client
-	appID string
+	c          *http.Client
+	cfg        ProducerConfig
+	appIDSaver AppIDSaver
 }
 
-func NewProducer(rawURL, appID string) Producer {
-	parsedUrl, err := url.Parse(rawURL)
-	if err != nil {
-		panic(fmt.Sprint("parse url:", err))
-	}
+func NewProducer(cfg ProducerConfig, appIDSaver AppIDSaver) Producer {
 	return &ProducerImpl{
-		URL:   *parsedUrl,
-		c:     http.DefaultClient,
-		appID: appID,
+		c:          &http.Client{},
+		cfg:        cfg,
+		appIDSaver: appIDSaver,
 	}
 }
 
 func (p *ProducerImpl) Push(notification model.AppNotification) error {
-	notification.AppID = p.appID
+	notification.AppID = p.cfg.AppID
 	if notification.Timestamp == "" {
 		notification.Timestamp = time.Now().Format(timeformat.RFC3339Milli)
 	}
@@ -43,7 +38,7 @@ func (p *ProducerImpl) Push(notification model.AppNotification) error {
 		return err
 	}
 
-	status, resBody, err := netutil.PostReq(p.c, p.URL, "application/json", notificationJSON)
+	status, resBody, err := netutil.PostReq(p.c, p.cfg.Endpoint.PushURL, "application/json", notificationJSON)
 	if err != nil {
 		return err
 	}
@@ -57,6 +52,11 @@ func (p *ProducerImpl) Push(notification model.AppNotification) error {
 		return fmt.Errorf("push notification: %s", err)
 	}
 
-	p.appID = appIDRes.AppID
+	p.cfg.AppID = appIDRes.AppID
+	err = p.appIDSaver.SaveAppID(appIDRes.AppID)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

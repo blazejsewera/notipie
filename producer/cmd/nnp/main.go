@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/blazejsewera/notipie/producer/cmd/nnp/cli"
 
 func main() {
-	fmt.Println("Hello world")
+	cli.Setup()
+	cli.Execute()
 }

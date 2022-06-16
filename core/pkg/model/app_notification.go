@@ -4,22 +4,31 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/uuid"
+	"gopkg.in/yaml.v3"
 	"io"
 )
 
 type AppNotification struct {
-	HashableNetNotification
-	ID        string `json:"id,omitempty"`
-	Timestamp string `json:"timestamp"`
-	ApiKey    string `json:"apiKey,omitempty"`
+	HashableNetNotification `yaml:",inline"`
+	ID                      string `json:"id,omitempty" yaml:"id,omitempty"`
+	Timestamp               string `json:"timestamp" yaml:"timestamp"`
+	ApiKey                  string `json:"apiKey,omitempty" yaml:"apiKey,omitempty"`
 }
 
 func (n AppNotification) ToJSON() ([]byte, error) {
 	jsonBytes, err := json.Marshal(n)
 	if err != nil {
-		return nil, fmt.Errorf("marshal AppNotification: %s", err)
+		return nil, fmt.Errorf("marshal AppNotification to JSON: %s", err)
 	}
 	return jsonBytes, nil
+}
+
+func (n AppNotification) ToYAML() ([]byte, error) {
+	yamlBytes, err := yaml.Marshal(n)
+	if err != nil {
+		return nil, fmt.Errorf("marshal AppNotification to YAML: %s", err)
+	}
+	return yamlBytes, nil
 }
 
 func AddIDTo(n AppNotification) AppNotification {
@@ -41,9 +50,19 @@ func hashAppNotification(n AppNotification) string {
 	return uuid.GenerateBasedOnContent(jsonBytes)
 }
 
-func AppNotificationFromJSON(jsonBytes []byte) (AppNotification, error) {
+func AppNotificationFromJSON(r io.Reader) (AppNotification, error) {
+	d := json.NewDecoder(r)
+	return appNotificationFromSerialized(d)
+}
+
+func AppNotificationFromYAML(r io.Reader) (AppNotification, error) {
+	d := yaml.NewDecoder(r)
+	return appNotificationFromSerialized(d)
+}
+
+func appNotificationFromSerialized(d Decoder) (AppNotification, error) {
 	appNotification := AppNotification{}
-	err := json.Unmarshal(jsonBytes, &appNotification)
+	err := d.Decode(&appNotification)
 	if err != nil {
 		return AppNotification{}, err
 	}
@@ -53,17 +72,8 @@ func AppNotificationFromJSON(jsonBytes []byte) (AppNotification, error) {
 	return appNotification, nil
 }
 
-func AppNotificationFromReader(r io.Reader) (AppNotification, error) {
-	appNotification := AppNotification{}
-	decoder := json.NewDecoder(r)
-	err := decoder.Decode(&appNotification)
-	if err != nil {
-		return AppNotification{}, err
-	}
-	if !appNotification.validate() {
-		return AppNotification{}, fmt.Errorf(NotEnoughInfoInNotificationErrorMessage)
-	}
-	return appNotification, nil
+type Decoder interface {
+	Decode(v any) error
 }
 
 func (n AppNotification) validate() bool {
@@ -94,3 +104,17 @@ const ExampleAppNotificationJSON = `{
 	"timestamp": "2022-06-14T22:22:22.000Z",
 	"apiKey": "ApiKey"
 }`
+
+const ExampleAppNotificationYAML = `appName: AppName
+appId: AppID
+appImgUri: AppImgURI
+title: Title
+subtitle: Subtitle
+body: Body
+extUri: ExtURI
+readUri: ReadURI
+archiveUri: ArchiveURI
+id: frGOwBO6bNL/kbixYn3eJ6xS8WAewHK7qzt8q1cLVLs=
+timestamp: "2022-06-14T22:22:22.000Z"
+apiKey: ApiKey
+`

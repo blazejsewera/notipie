@@ -8,10 +8,10 @@ import (
 )
 
 type ClientNotification struct {
-	HashableNetNotification
-	ID        string `json:"id"`
-	Timestamp string `json:"timestamp"`
-	Read      bool   `json:"read,omitempty"`
+	HashableNetNotification `yaml:",inline"`
+	ID                      string `json:"id" yaml:"id"`
+	Timestamp               string `json:"timestamp" yaml:"timestamp"`
+	Read                    bool   `json:"read,omitempty" yaml:"read,omitempty"`
 }
 
 func (c ClientNotification) ToJSON() ([]byte, error) {

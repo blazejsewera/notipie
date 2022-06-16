@@ -6,9 +6,17 @@ import (
 )
 
 func FromJSON(r io.Reader) (model.AppNotification, error) {
-	appNotification, err := model.AppNotificationFromReader(r)
+	an, err := model.AppNotificationFromJSON(r)
 	if err != nil {
 		return model.AppNotification{}, err
 	}
-	return appNotification, nil
+	return an, nil
+}
+
+func FromYAML(r io.Reader) (model.AppNotification, error) {
+	an, err := model.AppNotificationFromYAML(r)
+	if err != nil {
+		return model.AppNotification{}, err
+	}
+	return an, nil
 }

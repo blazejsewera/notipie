@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 )
 
@@ -19,9 +20,10 @@ func TestProducer(t *testing.T) {
 	t.Run("pushes notification the first time", func(t *testing.T) {
 		// given
 		ms := newMockServer(t)
+		mais := newMockAppIDSaver(t)
 		defer ms.close()
 
-		producer := nnp.NewProducer(ms.URL, "")
+		producer := nnp.NewProducer(producerConfigFrom(t, ms.URL), mais)
 
 		// when
 		err := producer.Push(testNotification)
@@ -29,15 +31,17 @@ func TestProducer(t *testing.T) {
 		// then
 		if assert.NoError(t, err) {
 			ms.validateRequest(testNotification)
+			mais.validateAppID()
 		}
 	})
 
 	t.Run("pushes notification twice", func(t *testing.T) {
 		// given
 		ms := newMockServer(t)
+		mais := newMockAppIDSaver(t)
 		defer ms.close()
 
-		producer := nnp.NewProducer(ms.URL, "")
+		producer := nnp.NewProducer(producerConfigFrom(t, ms.URL), mais)
 
 		// when
 		err := producer.Push(testNotification)
@@ -47,15 +51,17 @@ func TestProducer(t *testing.T) {
 		err = producer.Push(testNotification)
 		if assert.NoError(t, err) {
 			ms.validateSecondRequest(testNotification)
+			mais.validateAppID()
 		}
 	})
 
 	t.Run("adds timestamp on push", func(t *testing.T) {
 		// given
 		ms := newMockServer(t)
+		mais := newMockAppIDSaver(t)
 		defer ms.close()
 
-		producer := nnp.NewProducer(ms.URL, "")
+		producer := nnp.NewProducer(producerConfigFrom(t, ms.URL), mais)
 
 		// when
 		err := producer.Push(testNotificationWithoutTimestamp)
@@ -65,6 +71,47 @@ func TestProducer(t *testing.T) {
 			ms.validateRequestHasTimestamp()
 		}
 	})
+}
+
+func producerConfigFrom(t testing.TB, rawURL string) nnp.ProducerConfig {
+	t.Helper()
+	parsedURL, err := url.Parse(rawURL)
+	if err != nil {
+		t.Fatal("parsing producer config:", err)
+	}
+
+	return nnp.ProducerConfig{
+		Endpoint: nnp.ProducerEndpointConfig{
+			RootURL: *parsedURL,
+			PushURL: *parsedURL,
+		},
+	}
+}
+
+const ExampleAppID = "ExampleAppID"
+
+type mockAppIDSaver struct {
+	AppID string
+	t     testing.TB
+}
+
+//@impl
+var _ nnp.AppIDSaver = (*mockAppIDSaver)(nil)
+
+func newMockAppIDSaver(t testing.TB) *mockAppIDSaver {
+	return &mockAppIDSaver{
+		AppID: "",
+		t:     t,
+	}
+}
+
+func (m *mockAppIDSaver) SaveAppID(appID string) error {
+	m.AppID = appID
+	return nil
+}
+
+func (m *mockAppIDSaver) validateAppID() {
+	assert.Equal(m.t, ExampleAppID, m.AppID, "app id was not saved")
 }
 
 type mockServer struct {
@@ -111,7 +158,7 @@ func (m *mockServer) pushNotificationHandler(w http.ResponseWriter, r *http.Requ
 }
 
 func (m *mockServer) deserializeAppNotification(r *http.Request) model.AppNotification {
-	an, err := model.AppNotificationFromReader(r.Body)
+	an, err := model.AppNotificationFromJSON(r.Body)
 	if err != nil {
 		m.t.Fatal("deserialize app notification json:", err)
 	}
@@ -122,7 +169,7 @@ func (m *mockServer) generateNewAppIDIfDoesNotExist() {
 	if m.received.AppID != "" {
 		return
 	}
-	m.appID = "AppID"
+	m.appID = ExampleAppID
 }
 
 func (m *mockServer) close() {

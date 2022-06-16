@@ -14,11 +14,11 @@ func TestConvert(t *testing.T) {
 
 	t.Run("from JSON", func(t *testing.T) {
 		// given
-		appNotificationJson := model.ExampleAppNotificationJSON
-		appNotificationJsonReader := strings.NewReader(appNotificationJson)
+		appNotificationJSON := model.ExampleAppNotificationJSON
+		appNotificationJSONReader := strings.NewReader(appNotificationJSON)
 
 		// when
-		actual, err := converter.FromJSON(appNotificationJsonReader)
+		actual, err := converter.FromJSON(appNotificationJSONReader)
 
 		// then
 		if assert.NoError(t, err) {
@@ -26,7 +26,17 @@ func TestConvert(t *testing.T) {
 		}
 	})
 
-	t.Run("from args", func(t *testing.T) {
-		// TODO: write test and impl
+	t.Run("from YAML", func(t *testing.T) {
+		// given
+		appNotificationYAML := model.ExampleAppNotificationYAML
+		appNotificationYAMLReader := strings.NewReader(appNotificationYAML)
+
+		// when
+		actual, err := converter.FromYAML(appNotificationYAMLReader)
+
+		// then
+		if assert.NoError(t, err) {
+			assert.Equal(t, expected, actual)
+		}
 	})
 }
