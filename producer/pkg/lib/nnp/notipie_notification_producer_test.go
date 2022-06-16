@@ -71,6 +71,38 @@ func TestProducer(t *testing.T) {
 			ms.validateRequestHasTimestamp()
 		}
 	})
+
+	t.Run("pings server successfully", func(t *testing.T) {
+		// given
+		ms := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+		}))
+		defer ms.Close()
+
+		producer := nnp.NewProducer(producerConfigFrom(t, ms.URL), newMockAppIDSaver(t))
+
+		// when
+		err := producer.Ping()
+
+		// then
+		assert.NoError(t, err)
+	})
+
+	t.Run("pings server with error", func(t *testing.T) {
+		// given
+		ms := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusInternalServerError)
+		}))
+		defer ms.Close()
+
+		producer := nnp.NewProducer(producerConfigFrom(t, ms.URL), newMockAppIDSaver(t))
+
+		// when
+		err := producer.Ping()
+
+		// then
+		assert.Error(t, err)
+	})
 }
 
 func producerConfigFrom(t testing.TB, rawURL string) nnp.ProducerConfig {

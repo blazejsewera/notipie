@@ -11,6 +11,7 @@ import (
 
 type Producer interface {
 	Push(notification model.AppNotification) error
+	Ping() error
 }
 
 type ProducerImpl struct {
@@ -56,6 +57,19 @@ func (p *ProducerImpl) Push(notification model.AppNotification) error {
 	err = p.appIDSaver.SaveAppID(appIDRes.AppID)
 	if err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (p *ProducerImpl) Ping() error {
+	status, _, err := netutil.GetReq(p.c, p.cfg.Endpoint.RootURL)
+	if err != nil {
+		return err
+	}
+
+	if status != http.StatusOK {
+		return fmt.Errorf("ping: server did not respond with correct status, status: %d", status)
 	}
 
 	return nil
