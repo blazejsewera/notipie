@@ -16,6 +16,7 @@ notifications specified in JSON, YAML, or through CLI arguments.`,
 func Setup() {
 	rootCmd.AddCommand(pingCmd)
 	rootCmd.AddCommand(pushCmd)
+	SetupPush()
 }
 
 func Execute() {
