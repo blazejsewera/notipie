@@ -25,7 +25,12 @@ func GetAppNotification(c GetAppNotificationConfig) (model.AppNotification, erro
 }
 
 func getBaseNotification(c GetAppNotificationConfig) (base model.AppNotification, err error) {
-	base = model.ExampleAppNotification
+	base = model.AppNotification{
+		HashableNetNotification: model.HashableNetNotification{
+			AppName: "Example App",
+			Title:   "Example Title",
+		},
+	}
 
 	if c.UseDefaultNotificationFile {
 		base, err = notificationFromFile(DefaultNotificationFilePath)
