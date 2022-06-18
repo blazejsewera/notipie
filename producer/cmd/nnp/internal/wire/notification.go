@@ -82,6 +82,3 @@ func notificationFromFile(path string) (model.AppNotification, error) {
 func mergeNotifications(base, patch model.AppNotification) model.AppNotification {
 	return util.Merge(base, patch)
 }
-
-var UserHomeDir, _ = os.UserConfigDir()
-var DefaultNotificationFilePath = filepath.Join(UserHomeDir, "notipie", "producer", "notification.yaml")
