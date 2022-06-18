@@ -12,7 +12,7 @@ var pushCmd = &cobra.Command{
 	Short: "Push a notification to the Notipie backend",
 	Run: func(cmd *cobra.Command, args []string) {
 		producer := wire.GetProducer()
-		notification, err := wire.GetAppNotification()
+		notification, err := wire.GetAppNotification(wire.GetAppNotificationConfig{})
 		if err != nil {
 			_, _ = fmt.Fprintln(os.Stderr, "retrieve notification:", err)
 			os.Exit(2)

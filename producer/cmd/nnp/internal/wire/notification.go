@@ -1,20 +1,82 @@
 package wire
 
-import "github.com/blazejsewera/notipie/core/pkg/model"
+import (
+	"fmt"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
+	"github.com/blazejsewera/notipie/core/pkg/model"
+	"github.com/blazejsewera/notipie/producer/pkg/lib/converter"
+	"os"
+	"path/filepath"
+)
 
-var exampleAppNotification = model.AppNotification{
-	HashableNetNotification: model.HashableNetNotification{
-		AppName:    "Example App Name",
-		AppImgURI:  "https://www.sewera.dev/magpie_dark.svg",
-		Title:      "Example Notification",
-		Subtitle:   "Subtitle",
-		Body:       "Body",
-		ExtURI:     "https://www.sewera.dev/",
-		ReadURI:    "https://www.sewera.dev/",
-		ArchiveURI: "https://www.sewera.dev/",
-	},
+type GetAppNotificationConfig struct {
+	UseDefaultNotificationFile bool
+	NotificationFilePath       string
+	PartialNotification        model.AppNotification
 }
 
-func GetAppNotification() (model.AppNotification, error) {
-	return exampleAppNotification, nil
+func GetAppNotification(c GetAppNotificationConfig) (model.AppNotification, error) {
+	base, err := getBaseNotification(c)
+	if err != nil {
+		return model.AppNotification{}, err
+	}
+
+	return mergeNotifications(base, c.PartialNotification), nil
 }
+
+func getBaseNotification(c GetAppNotificationConfig) (base model.AppNotification, err error) {
+	base = model.ExampleAppNotification
+
+	if c.UseDefaultNotificationFile {
+		base, err = notificationFromFile(DefaultNotificationFilePath)
+		if err != nil {
+			return model.AppNotification{}, err
+		}
+	} else if c.NotificationFilePath != "" {
+		base, err = notificationFromFile(c.NotificationFilePath)
+		if err != nil {
+			return model.AppNotification{}, err
+		}
+	}
+	return base, nil
+}
+
+func notificationFromFile(path string) (model.AppNotification, error) {
+	file, err := os.Open(path)
+	defer func(file *os.File) {
+		_ = file.Close()
+	}(file)
+
+	if err != nil {
+		return model.AppNotification{}, err
+	}
+
+	extension := filepath.Ext(path)
+
+	var appNotification model.AppNotification
+
+	switch extension {
+	case ".yaml":
+	case ".yml":
+		appNotification, err = converter.FromYAML(file)
+		break
+	case ".json":
+		appNotification, err = converter.FromJSON(file)
+		break
+	default:
+		return model.AppNotification{}, fmt.Errorf("parse notification: provided file is not supported, supported files are .yml, .yaml, and .json; file path: %s", path)
+	}
+
+	if err != nil {
+		return model.AppNotification{}, err
+	}
+
+	return appNotification, nil
+}
+
+func mergeNotifications(base, patch model.AppNotification) model.AppNotification {
+	return util.Merge(base, patch)
+}
+
+var UserHomeDir, _ = os.UserConfigDir()
+var DefaultNotificationFilePath = filepath.Join(UserHomeDir, "notipie", "producer", "notification.yaml")
