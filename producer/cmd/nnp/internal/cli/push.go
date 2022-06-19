@@ -14,31 +14,31 @@ var (
 )
 
 var (
-	appNameArg    *string
-	appIdArg      *string
-	appImgURIArg  *string
-	titleArg      *string
-	subtitleArg   *string
-	bodyArg       *string
-	extURIArg     *string
-	readURIArg    *string
-	archiveURIArg *string
-	timestampArg  *string
-	apiKeyArg     *string
+	appNameArg        *string
+	appIdDebugArg     *string
+	appImgURIArg      *string
+	titleArg          *string
+	subtitleArg       *string
+	bodyArg           *string
+	extURIArg         *string
+	readURIArg        *string
+	archiveURIArg     *string
+	timestampDebugArg *string
+	apiKeyArg         *string
 )
 
 var pushCmd = &cobra.Command{
 	Use:   "push",
 	Short: "Push a notification to the Notipie backend",
 	Run: func(cmd *cobra.Command, args []string) {
-		producer := wire.GetProducer()
-		notification, err := wire.GetAppNotification(wire.GetAppNotificationConfig{
+		producer := wire.GetProducer(*configPathArg, wire.PatchConfigOf(*addressArg, *portArg, *appIdArg))
+		notification, err := wire.AppNotificationFrom(wire.AppNotificationConfig{
 			UseDefaultNotificationFile: *defaultFileFlag,
 			NotificationFilePath:       *notificationFilePathArg,
 			PartialNotification: model.AppNotification{
 				HashableNetNotification: model.HashableNetNotification{
 					AppName:    *appNameArg,
-					AppID:      *appIdArg,
+					AppID:      *appIdDebugArg,
 					AppImgURI:  *appImgURIArg,
 					Title:      *titleArg,
 					Subtitle:   *subtitleArg,
@@ -47,7 +47,7 @@ var pushCmd = &cobra.Command{
 					ReadURI:    *readURIArg,
 					ArchiveURI: *archiveURIArg,
 				},
-				Timestamp: *timestampArg,
+				Timestamp: *timestampDebugArg,
 				ApiKey:    *apiKeyArg,
 			},
 		})
@@ -68,7 +68,7 @@ func SetupPush() {
 	defaultFileFlag = pushCmd.Flags().BoolP("default-file", "d", false, "use a default file for notification (<config_dir>/notipie/producer/notification.yaml)")
 	notificationFilePathArg = pushCmd.Flags().StringP("file", "f", "", "set a custom file path for notification")
 	appNameArg = pushCmd.Flags().String("app-name", "", "set a custom app name")
-	appIdArg = pushCmd.Flags().String("app-id-debug-flag", "", "set a custom app id (for debugging)")
+	appIdDebugArg = pushCmd.Flags().String("app-id-debug-flag", "", "set a custom app id (for debugging)")
 	appImgURIArg = pushCmd.Flags().String("app-img-uri", "", "set a custom icon")
 	titleArg = pushCmd.Flags().StringP("title", "t", "", "set a custom title for the notification")
 	subtitleArg = pushCmd.Flags().StringP("subtitle", "s", "", "set a custom subtitle for the notification")
@@ -76,6 +76,6 @@ func SetupPush() {
 	extURIArg = pushCmd.Flags().String("ext-uri", "", "set a custom external link uri")
 	readURIArg = pushCmd.Flags().String("read-uri", "", "set a custom read link uri (to mark a notification as read in an external service)")
 	archiveURIArg = pushCmd.Flags().String("archive-uri", "", "set a custom archive link uri (to mark a notification as archived in an external service)")
-	timestampArg = pushCmd.Flags().String("timestamp-debug-flag", "", "set a custom timestamp (for debugging)")
+	timestampDebugArg = pushCmd.Flags().String("timestamp-debug-flag", "", "set a custom timestamp (for debugging)")
 	apiKeyArg = pushCmd.Flags().String("api-key", "", "set a custom API key")
 }

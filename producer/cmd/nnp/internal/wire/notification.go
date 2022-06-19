@@ -4,18 +4,17 @@ import (
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 	"github.com/blazejsewera/notipie/core/pkg/model"
-	"github.com/blazejsewera/notipie/producer/pkg/lib/converter"
 	"os"
 	"path/filepath"
 )
 
-type GetAppNotificationConfig struct {
+type AppNotificationConfig struct {
 	UseDefaultNotificationFile bool
 	NotificationFilePath       string
 	PartialNotification        model.AppNotification
 }
 
-func GetAppNotification(c GetAppNotificationConfig) (model.AppNotification, error) {
+func AppNotificationFrom(c AppNotificationConfig) (model.AppNotification, error) {
 	base, err := getBaseNotification(c)
 	if err != nil {
 		return model.AppNotification{}, err
@@ -24,7 +23,7 @@ func GetAppNotification(c GetAppNotificationConfig) (model.AppNotification, erro
 	return mergeNotifications(base, c.PartialNotification), nil
 }
 
-func getBaseNotification(c GetAppNotificationConfig) (base model.AppNotification, err error) {
+func getBaseNotification(c AppNotificationConfig) (base model.AppNotification, err error) {
 	base = model.AppNotification{
 		HashableNetNotification: model.HashableNetNotification{
 			AppName: "Example App",
@@ -63,10 +62,10 @@ func notificationFromFile(path string) (model.AppNotification, error) {
 	switch extension {
 	case ".yaml":
 	case ".yml":
-		appNotification, err = converter.FromYAML(file)
+		appNotification, err = model.AppNotificationFromYAML(file)
 		break
 	case ".json":
-		appNotification, err = converter.FromJSON(file)
+		appNotification, err = model.AppNotificationFromJSON(file)
 		break
 	default:
 		return model.AppNotification{}, fmt.Errorf("parse notification: provided file is not supported, supported files are .yml, .yaml, and .json; file path: %s", path)

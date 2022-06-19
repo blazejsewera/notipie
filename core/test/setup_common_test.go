@@ -1,7 +1,7 @@
 package test
 
 import (
-	"fmt"
+	"github.com/blazejsewera/notipie/core/pkg/lib/api"
 	"net/url"
 
 	"github.com/blazejsewera/notipie/core/internal/impl"
@@ -9,50 +9,30 @@ import (
 )
 
 const (
-	isProd        = false
-	address       = "localhost"
-	prefix        = "/"
-	root          = ""
-	push          = "push"
-	ws            = "ws"
-	notifications = "notifications"
-
-	httpScheme = "http"
-	wsScheme   = "ws"
+	isProd  = false
+	address = "localhost"
 )
-
-func host(port int) string {
-	return fmt.Sprintf("%s:%d", address, port)
-}
 
 func config(port int) infra.Config {
 	return infra.Config{
 		Prod: isProd,
 		EndpointConfig: impl.EndpointConfig{
-			Address:       address,
-			Port:          port,
-			Prefix:        prefix,
-			Root:          root,
-			Push:          push,
-			WebSocket:     ws,
-			Notifications: notifications,
+			Address: address,
+			Port:    port,
 		},
 	}
 }
 
-func rootURL(port int) url.URL {
-	return url.URL{Scheme: httpScheme, Host: host(port), Path: getPath(root)}
-}
 func pushURL(port int) url.URL {
-	return url.URL{Scheme: httpScheme, Host: host(port), Path: getPath(push)}
+	return getURL(port, api.Push)
 }
 func wsURL(port int) url.URL {
-	return url.URL{Scheme: wsScheme, Host: host(port), Path: getPath(ws)}
+	return getURL(port, api.WebSocket)
 }
 func notificationsURL(port int) url.URL {
-	return url.URL{Scheme: httpScheme, Host: host(port), Path: getPath(notifications)}
+	return getURL(port, api.Notifications)
 }
 
-func getPath(target string) string {
-	return prefix + target
+func getURL(port int, path api.Path) url.URL {
+	return api.GetURL(api.GetHost(address, port), path)
 }

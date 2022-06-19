@@ -8,7 +8,4 @@ type Config struct {
 type EndpointConfig struct {
 	Address string `json:"address" yaml:"address"`
 	Port    int    `json:"port" yaml:"port"`
-	Prefix  string `json:"prefix" yaml:"prefix"`
-	Root    string `json:"root" yaml:"root"`
-	Push    string `json:"push" yaml:"push"`
 }

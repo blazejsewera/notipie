@@ -11,7 +11,7 @@ var pingCmd = &cobra.Command{
 	Use:   "ping",
 	Short: "Ping the Notipie backend",
 	Run: func(cmd *cobra.Command, args []string) {
-		producer := wire.GetProducer()
+		producer := wire.GetProducer(*configPathArg, wire.PatchConfigOf(*addressArg, *portArg, *appIdArg))
 
 		err := producer.Ping()
 		if err != nil {

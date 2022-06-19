@@ -2,6 +2,7 @@ package impl
 
 import (
 	"fmt"
+	"github.com/blazejsewera/notipie/core/pkg/lib/api"
 
 	"github.com/blazejsewera/notipie/core/internal/grid"
 	"github.com/blazejsewera/notipie/core/internal/impl/net"
@@ -18,13 +19,8 @@ type Endpoint struct {
 }
 
 type EndpointConfig struct {
-	Address       string `json:"address"`
-	Port          int    `json:"port"`
-	Prefix        string `json:"prefix"`
-	Root          string `json:"root"`
-	Push          string `json:"push"`
-	WebSocket     string `json:"webSocket"`
-	Notifications string `json:"notifications"`
+	Address string `json:"address"`
+	Port    int    `json:"port"`
 }
 
 func NewEndpoint(endpointConfig EndpointConfig, grid grid.Grid) *Endpoint {
@@ -39,17 +35,17 @@ func NewEndpoint(endpointConfig EndpointConfig, grid grid.Grid) *Endpoint {
 func (e *Endpoint) Setup() {
 	e.r.Use(gin.Recovery())
 
-	root := e.cfg.Prefix + e.cfg.Root
+	root := api.GetPath(api.Root)
 	e.r.GET(root, net.PingHandler)
 
-	push := e.cfg.Prefix + e.cfg.Push
+	push := api.GetPath(api.Push)
 	e.r.OPTIONS(push, net.PreflightHandler)
 	e.r.POST(push, net.PushNotificationHandlerFor(e.grid))
 
-	notifications := e.cfg.Prefix + e.cfg.Notifications
+	notifications := api.GetPath(api.Notifications)
 	e.r.GET(notifications, net.GetNotificationsHandlerFor(e.grid))
 
-	ws := e.cfg.Prefix + e.cfg.WebSocket
+	ws := api.GetPath(api.WebSocket)
 	e.r.GET(ws, net.WSHandlerFor(e.grid))
 	e.l.Debug("gin endpoint setup complete")
 }

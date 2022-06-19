@@ -12,9 +12,6 @@ var exampleConfig = config.Config{
 	EndpointConfig: config.EndpointConfig{
 		Address: "localhost",
 		Port:    1234,
-		Prefix:  "/",
-		Root:    "",
-		Push:    "push",
 	},
 	AppID: "AppID",
 }

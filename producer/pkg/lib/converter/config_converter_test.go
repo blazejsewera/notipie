@@ -16,9 +16,6 @@ func TestConfigConverter(t *testing.T) {
 			EndpointConfig: config.EndpointConfig{
 				Address: "localhost",
 				Port:    1234,
-				Prefix:  "/",
-				Root:    "",
-				Push:    "push",
 			},
 			AppID: "AppID",
 		}

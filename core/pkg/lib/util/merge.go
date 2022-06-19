@@ -26,15 +26,12 @@ func patchIfNonZero(patchField reflect.Value, mergedField reflect.Value) {
 		switch patchField.Kind() {
 		case reflect.String:
 			mergedField.SetString(patchField.String())
-			break
 		case reflect.Int:
 			mergedField.SetInt(patchField.Int())
-			break
 		case reflect.Bool:
 			mergedField.SetBool(patchField.Bool())
-			break
 		default:
-			break
+			return
 		}
 	}
 }
