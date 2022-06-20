@@ -16,11 +16,9 @@ var hnn = model.HashableNetNotification{
 var appNotification = model.AppNotification{
 	HashableNetNotification: hnn,
 	Timestamp:               timestamp,
-	ID:                      "1",
 }
 
 var clientNotification = model.ClientNotification{
 	HashableNetNotification: hnn,
 	Timestamp:               timestamp,
-	ID:                      "1",
 }
