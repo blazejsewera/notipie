@@ -1,6 +1,7 @@
 package test
 
 import (
+	"github.com/blazejsewera/notipie/core/pkg/lib/fp"
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
@@ -18,11 +19,14 @@ func TestUserClient(t *testing.T) {
 	}
 
 	// given
-	expectedCN := clientNotification
+	port := init()
 
 	t.Run("push notification - notification is pushed to ws client", func(t *testing.T) {
 		// given
-		port := init()
+		an := appNotification
+		pushNotificationTitle := "push notification"
+		an.Title = pushNotificationTitle
+
 		ac := newAppRestClient(t, port)
 
 		uwsc := newUserWSClient(t, port)
@@ -30,39 +34,52 @@ func TestUserClient(t *testing.T) {
 		defer uwsc.close()
 
 		// when
-		ac.pushNotification(appNotification)
+		ac.pushNotification(an)
 
 		// then
 		<-uwsc.saved
 		actualCN := uwsc.notifications[0]
-		assertClientNotification(t, expectedCN, actualCN, ac.appID)
+		assertClientNotification(t, pushNotificationTitle, actualCN)
 	})
 
 	t.Run("get notifications - notification list is returned", func(t *testing.T) {
 		// given
-		port := init()
+		an := appNotification
+		getNotificationsTitle := "get notifications"
+		an.Title = getNotificationsTitle
+
 		ac := newAppRestClient(t, port)
 
 		urc := newUserRestClient(t, port)
 
 		// when
-		ac.pushNotification(appNotification)
+		ac.pushNotification(an)
+		urc.getNotifications()
 
 		// then
-		urc.getNotifications()
-		actualCN := urc.notifications[0]
-		assertClientNotification(t, expectedCN, actualCN, ac.appID)
-		// TODO: write test
+		assertContainsCN(t, urc.notifications, getNotificationsTitle)
 	})
 }
 
 func assertClientNotification(
 	t testing.TB,
-	expected model.ClientNotification,
+	expectedTitle string,
 	actual model.ClientNotification,
-	actualAppID string,
 ) {
 	t.Helper()
-	expected.AppID = actualAppID
-	assert.Equal(t, expected, actual)
+	assert.Equal(t, expectedTitle, actual.Title)
+}
+
+func assertContainsCN(
+	t testing.TB,
+	notifications []model.ClientNotification,
+	expectedTitle string,
+) {
+	t.Helper()
+
+	notificationTitles := fp.Map(func(n model.ClientNotification) string {
+		return n.Title
+	}, notifications)
+
+	assert.Contains(t, notificationTitles, expectedTitle)
 }
