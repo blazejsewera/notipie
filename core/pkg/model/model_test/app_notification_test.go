@@ -90,7 +90,7 @@ title: '1'
 
 	t.Run("add id to net notification", func(t *testing.T) {
 		// given
-		expectedHash := "frGOwBO6bNL/kbixYn3eJ6xS8WAewHK7qzt8q1cLVLs="
+		expectedHash := "j/M0l0NIdJHGvAFTKY2uc7EW4+FiN3jDytCoPJL84ZM="
 		anWithoutID := appNotification
 		anWithoutID.ID = ""
 

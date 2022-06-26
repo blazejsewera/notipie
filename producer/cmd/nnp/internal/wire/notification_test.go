@@ -10,20 +10,20 @@ func TestMergeNotifications(t *testing.T) {
 	// given
 	base := model.AppNotification{
 		HashableNetNotification: model.HashableNetNotification{
-			AppName: "AppName",
-			Title:   "Old Title",
+			Timestamp: "Timestamp",
+			AppName:   "AppName",
+			Title:     "Old Title",
 		},
-		Timestamp: "Timestamp",
 	}
 
 	patch := model.AppNotification{HashableNetNotification: model.HashableNetNotification{Title: "New Title"}}
 
 	expected := model.AppNotification{
 		HashableNetNotification: model.HashableNetNotification{
-			AppName: "AppName",
-			Title:   "New Title",
+			Timestamp: "Timestamp",
+			AppName:   "AppName",
+			Title:     "New Title",
 		},
-		Timestamp: "Timestamp",
 	}
 
 	// when

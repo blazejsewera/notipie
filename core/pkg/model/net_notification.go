@@ -1,6 +1,7 @@
 package model
 
 type HashableNetNotification struct {
+	Timestamp  string `json:"timestamp" yaml:"timestamp"`
 	AppName    string `json:"appName" yaml:"appName"`
 	AppID      string `json:"appId,omitempty" yaml:"appId,omitempty"`
 	AppImgURI  string `json:"appImgUri,omitempty" yaml:"appImgUri,omitempty"`
@@ -15,6 +16,7 @@ type HashableNetNotification struct {
 const NotEnoughInfoInNotificationErrorMessage = "not enough information in net notification: missing appName, title, and/or timestamp"
 
 var ExampleHashableNetNotification = HashableNetNotification{
+	Timestamp:  "2022-06-14T22:22:22.000Z",
 	AppName:    "AppName",
 	AppID:      "AppID",
 	AppImgURI:  "AppImgURI",

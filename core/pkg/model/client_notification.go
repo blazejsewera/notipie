@@ -10,7 +10,6 @@ import (
 type ClientNotification struct {
 	HashableNetNotification `yaml:",inline"`
 	ID                      string `json:"id" yaml:"id"`
-	Timestamp               string `json:"timestamp" yaml:"timestamp"`
 	Read                    bool   `json:"read,omitempty" yaml:"read,omitempty"`
 }
 
@@ -38,6 +37,7 @@ func ClientNotificationFromDomain(n domain.Notification) ClientNotification {
 	timestamp := n.Timestamp.Format(timeformat.RFC3339Milli)
 	return ClientNotification{
 		HashableNetNotification: HashableNetNotification{
+			Timestamp:  timestamp,
 			AppName:    n.App.Name,
 			AppID:      n.App.ID,
 			AppImgURI:  n.App.IconURI,
@@ -48,9 +48,8 @@ func ClientNotificationFromDomain(n domain.Notification) ClientNotification {
 			ReadURI:    n.ReadURI,
 			ArchiveURI: n.ArchiveURI,
 		},
-		ID:        n.ID,
-		Timestamp: timestamp,
-		Read:      false,
+		ID:   n.ID,
+		Read: false,
 	} // TODO: implement urgency
 }
 
@@ -64,6 +63,5 @@ func (c ClientNotification) validate() bool {
 var ExampleClientNotification = ClientNotification{
 	HashableNetNotification: ExampleHashableNetNotification,
 	ID:                      ExampleAppNotification.ID,
-	Timestamp:               ExampleAppNotification.Timestamp,
 	Read:                    false,
 }

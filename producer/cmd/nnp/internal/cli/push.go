@@ -37,6 +37,7 @@ var pushCmd = &cobra.Command{
 			NotificationFilePath:       *notificationFilePathArg,
 			PartialNotification: model.AppNotification{
 				HashableNetNotification: model.HashableNetNotification{
+					Timestamp:  *timestampDebugArg,
 					AppName:    *appNameArg,
 					AppID:      *appIdDebugArg,
 					AppImgURI:  *appImgURIArg,
@@ -47,8 +48,7 @@ var pushCmd = &cobra.Command{
 					ReadURI:    *readURIArg,
 					ArchiveURI: *archiveURIArg,
 				},
-				Timestamp: *timestampDebugArg,
-				ApiKey:    *apiKeyArg,
+				ApiKey: *apiKeyArg,
 			},
 		})
 		if err != nil {
