@@ -11,12 +11,12 @@ var pingCmd = &cobra.Command{
 	Use:   "ping",
 	Short: "Ping the Notipie backend",
 	Run: func(cmd *cobra.Command, args []string) {
-		producer := wire.GetProducer(*configPathArg, wire.PatchConfigOf(*addressArg, *portArg, *appIdArg))
+		producer := wire.GetProducer(*configPathArg, wire.ConfigOf(*addressArg, *portArg, *appIdArg))
 
 		err := producer.Ping()
 		if err != nil {
-			_, _ = fmt.Fprintln(os.Stderr, "ping:", err)
-			os.Exit(3)
+			fmt.Fprintln(os.Stderr, "ping:", err)
+			os.Exit(1)
 		}
 	},
 }

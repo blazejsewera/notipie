@@ -14,15 +14,13 @@ func GetProducer(baseConfigPath string, patch config.Config) nnp.Producer {
 		return producerInstance
 	}
 
-	cfg, err := GetProducerConfig(baseConfigPath, patch)
+	SetConfigPath(baseConfigPath)
+	cfg, err := GetProducerConfig(patch)
 	if err != nil {
-		_, _ = fmt.Fprintln(os.Stderr, "read config:", err)
+		fmt.Fprintln(os.Stderr, "read config:", err)
 		os.Exit(2)
 	}
 
-	producerInstance = nnp.NewProducer(cfg, nnp.AppIDSaverFunc(func(appID string) error {
-		fmt.Println("appID:", appID)
-		return nil
-	}))
+	producerInstance = nnp.NewProducer(cfg, AppIDSaver)
 	return producerInstance
 }

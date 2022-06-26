@@ -7,38 +7,6 @@ import (
 	"testing"
 )
 
-// given
-var exampleConfig = config.Config{
-	EndpointConfig: config.EndpointConfig{
-		Address: "localhost",
-		Port:    1234,
-	},
-	AppID: "AppID",
-}
-
-const exampleConfigJSON = `
-{
-	"endpointConfig": {
-		"address": "localhost",
-		"port": 1234,
-		"prefix": "/",
-		"root": "",
-		"push": "push"
-	},
-	"appId": "AppID"
-}
-`
-
-const exampleConfigYAML = `
-endpointConfig:
-  address: localhost
-  port: 1234
-  prefix: "/"
-  root: ""
-  push: push
-appId: AppID
-`
-
 func TestParser(t *testing.T) {
 	t.Run("from JSON", func(t *testing.T) {
 		// given

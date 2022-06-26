@@ -31,7 +31,7 @@ var pushCmd = &cobra.Command{
 	Use:   "push",
 	Short: "Push a notification to the Notipie backend",
 	Run: func(cmd *cobra.Command, args []string) {
-		producer := wire.GetProducer(*configPathArg, wire.PatchConfigOf(*addressArg, *portArg, *appIdArg))
+		producer := wire.GetProducer(*configPathArg, wire.ConfigOf(*addressArg, *portArg, *appIdArg))
 		notification, err := wire.AppNotificationFrom(wire.AppNotificationConfig{
 			UseDefaultNotificationFile: *defaultFileFlag,
 			NotificationFilePath:       *notificationFilePathArg,
@@ -52,14 +52,14 @@ var pushCmd = &cobra.Command{
 			},
 		})
 		if err != nil {
-			_, _ = fmt.Fprintln(os.Stderr, "retrieve notification:", err)
-			os.Exit(2)
+			fmt.Fprintln(os.Stderr, "retrieve notification:", err)
+			os.Exit(1)
 		}
 
 		err = producer.Push(notification)
 		if err != nil {
-			_, _ = fmt.Fprintln(os.Stderr, "ping:", err)
-			os.Exit(2)
+			fmt.Fprintln(os.Stderr, "ping:", err)
+			os.Exit(1)
 		}
 	},
 }

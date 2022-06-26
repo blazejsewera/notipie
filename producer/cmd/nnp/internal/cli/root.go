@@ -23,6 +23,7 @@ notifications specified in JSON, YAML, or through CLI arguments.`,
 func Setup() {
 	setupRootFlags()
 
+	rootCmd.AddCommand(mkconfigCmd)
 	rootCmd.AddCommand(pingCmd)
 	rootCmd.AddCommand(pushCmd)
 	SetupPush()

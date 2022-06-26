@@ -19,7 +19,7 @@ var DefaultProducerConfigFilePath = filepath.Join(NotipieProducerConfigDir, Defa
 var DefaultNotificationFilePath = filepath.Join(NotipieProducerConfigDir, DefaultNotificationFile)
 
 func MkConfigDirIfDoesNotExist() error {
-	if fileExists(NotipieProducerConfigDir) {
+	if !fileExists(NotipieProducerConfigDir) {
 		return os.MkdirAll(NotipieProducerConfigDir, 0755)
 	}
 	return nil
