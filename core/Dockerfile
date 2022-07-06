@@ -1,11 +1,7 @@
-FROM golang:1.17
-
-RUN mkdir /notipie
-ADD . /notipie/
-WORKDIR /notipie
-
-ENV PORT=5000
-EXPOSE 5000
-
-RUN make build
-CMD ["./notipie"]
+# make build-docker before building docker image
+FROM scratch
+COPY ./notipie /
+COPY ./notipie.config.json /
+EXPOSE 8080
+STOPSIGNAL SIGINT
+ENTRYPOINT ["/notipie"]

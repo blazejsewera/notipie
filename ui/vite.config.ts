@@ -2,9 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import notipieConfig from './notipie.config.json'
 
-const { address: endpointAddress, port: endpointPort, prefix: endpointPrefix, webSocket } = notipieConfig.endpointConfig
+const { address: endpointAddress, port: endpointPort } = notipieConfig.endpointConfig
 const { httpScheme, wsScheme, address, port, prefix } = notipieConfig.proxyConfig
-const rewrite = (path: string) => path.replace(new RegExp(`^${prefix}`), endpointPrefix)
+const rewrite = (path: string) => path.replace(new RegExp(`^${prefix}`), '/')
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
     port,
     host: address,
     proxy: {
-      [`${prefix}${webSocket}`]: {
+      [`${prefix}ws`]: {
         target: `${wsScheme}://${endpointAddress}:${endpointPort}`,
         changeOrigin: true,
         secure: false,

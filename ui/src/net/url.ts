@@ -1,6 +1,13 @@
 import { config } from '../config'
 
-const { root, push, webSocket, notifications } = config.endpointConfig
+const api = {
+  root: '',
+  push: 'push',
+  webSocket: 'ws',
+  notifications: 'notifications',
+}
+
+const { root, push, webSocket, notifications } = api
 const { httpScheme, wsScheme, address, port, prefix } = config.proxyConfig
 const host = `${address}:${port}`
 

@@ -6,6 +6,7 @@ GO:=$(shell go version 2>/dev/null)
 UI_DIR=ui
 CORE_DIR=core
 PRODUCER_DIR=producer
+STACK_DIR=stack
 
 CONFIG_FILENAME=notipie.config.json
 EXAMPLE_CONFIG_FILENAME=notipie.config.example.json
@@ -103,10 +104,11 @@ install-producer:
 # clean
 
 nuke: clean remove-configs
+	@rm -rf .yarn/cache
 	@rm -rf node_modules
 	@cd ${UI_DIR}; \
 	rm -rf node_modules
-	@echo "> nuked all node_modules"
+	@echo "> nuked all node_modules and yarn cache"
 
 rmc: remove-configs
 
@@ -127,13 +129,14 @@ clean: clean-ui clean-core
 
 clean-ui:
 	@cd ${UI_DIR}; \
-	rm -rf dist
-	@echo "> removed dist from ui"
+	rm -rf dist; \
+	rm -rf storybook-static
+	@echo "> removed dist and storybook-static from ui"
 
 clean-core:
 	@cd ${CORE_DIR}; \
-	rm -rf notipie
-	@echo "> removed binary from core"
+	$(MAKE) clean
+	@echo "> cleaned core"
 
 
 # build
@@ -165,6 +168,27 @@ build-producer:
 	@cd ${PRODUCER_DIR}; \
 	$(MAKE) build
 	@echo "> built binary in producer"
+
+
+# docker
+
+docker-ui: build-ui
+	@cd ${UI_DIR}; \
+	yarn docker
+	@echo "> docker image notipie-ui built"
+
+docker-core:
+	@cd ${CORE_DIR}; \
+	$(MAKE) docker
+	@echo "> docker image notipie-core built"
+
+docker-up: docker-ui docker-core
+	@cd ${STACK_DIR}; \
+	docker compose up
+
+docker-down:
+	@cd ${STACK_DIR}; \
+	docker compose down
 
 
 # dev

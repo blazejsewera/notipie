@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "docker": "docker build -f ./Dockerfile -t notipie-ui .",
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "start-storybook -p 6006 --ci",

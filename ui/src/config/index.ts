@@ -12,11 +12,6 @@ export type Config = {
   endpointConfig: {
     address: string
     port: number
-    prefix: string
-    root: string
-    push: string
-    webSocket: string
-    notifications: string
   }
 }
 
