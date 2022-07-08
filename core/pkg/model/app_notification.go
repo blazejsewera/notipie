@@ -76,7 +76,7 @@ type Decoder interface {
 }
 
 func (n AppNotification) validate() bool {
-	if n.AppName == "" || n.Title == "" || n.Timestamp == "" {
+	if n.AppName == "" || n.Title == "" {
 		return false
 	}
 	return true
