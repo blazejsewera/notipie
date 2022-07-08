@@ -60,8 +60,7 @@ func notificationFromFile(path string) (model.AppNotification, error) {
 	var appNotification model.AppNotification
 
 	switch extension {
-	case ".yaml":
-	case ".yml":
+	case ".yaml", ".yml":
 		appNotification, err = model.AppNotificationFromYAML(file)
 		break
 	case ".json":
