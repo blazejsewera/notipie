@@ -17,13 +17,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/gallium'
-          cache: 'yarn'
-          cache-dependency-path: ui/yarn.lock
 
       - name: Setup Go environment
         uses: actions/setup-go@v3
         with:
-          go-version: '^1.18.0'
+          go-version: '>=1.18.0'
 
       - name: Install dependencies
         run: make
