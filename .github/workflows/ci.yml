@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: 'lts/gallium'
           cache: 'yarn'
+          cache-dependency-path: ui/yarn.lock
 
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.5
