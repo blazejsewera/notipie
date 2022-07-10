@@ -30,10 +30,14 @@ check_second_line()
     echo 1>&2
     echo "  Learn more on: https://www.conventionalcommits.org/en/v1.0.0/" 1>&2
     echo 1>&2
+    exit 1
   fi
 }
 
 MSG=$(head -n 1 "$1")
 check_msg "$MSG"
-SECOND_LINE=$(head -n 2 "$1" | tail -n 1)
-check_second_line "$SECOND_LINE"
+
+if [ $(wc -l $1 | awk '{print $1}') -gt 1 ]; then
+  SECOND_LINE=$(head -n 2 "$1" | tail -n 1)
+  check_second_line "$SECOND_LINE"
+fi
