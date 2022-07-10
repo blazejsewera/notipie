@@ -26,6 +26,19 @@ jobs:
       - name: Install dependencies
         run: make
 
+      # Add caching
+      # https://github.com/actions/cache/blob/main/examples.md
+      # - name: Install ui dependencies
+      #   if: steps.yarn-cache.outputs.cache-hit != 'true'
+      #   run: make install-ui
+
+      # - name: Install core dependencies
+      #   if: steps.go-cache.outputs.cache-hit != 'true'
+      #   run: make install-core
+
+      # - name: Additional steps
+      #   run: make copy-example-configs
+
       - name: Format
         run: make -j4 format
 
