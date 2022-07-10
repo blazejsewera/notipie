@@ -1,24 +1,30 @@
 NOTIPIE=github.com/blazejsewera/notipie/core/cmd/notipie
 
+PREFIX=> core >
+
+NOTIPIE_CONFIG_FILENAME=notipie.config.json
+NOTIPIE_CONFIG_EXAMPLE_FILENAME=notipie.config.example.json
+
+DIST_DIR=dist
+
 .PHONY: clean test
 
 all: clean sync lint build test
 
 build:
 	@go build $(NOTIPIE)
-	@echo "> dev binary ./notipie built for current platform"
+	@echo "$(PREFIX) binary ./notipie built"
 
-build-dist:
-	@mkdir -p dist
-	@cp ./notipie.config.json ./dist/notipie.config.json
-	@CGO_ENABLED=0 go build -o ./dist/notipie $(NOTIPIE)
-	@echo "> dist statically-linked binary built"
-	@echo "> can be used with docker `FROM scratch`"
-	@echo "> binary and notipie.config.json copied to dist dir"
+copy-example-configs:
+	@echo "$(PREFIX) additional configs for core copied"
 
-docker: build-dist
-	@docker build -f ./Dockerfile -t notipie-core ./dist
-	@echo "> docker image built"
+docker-build:
+	@docker build -f ./Dockerfile -t notipie-core .
+	@echo "$(PREFIX) docker image built"
+
+_build-binary-in-docker:
+	@go build -o /notipie $(NOTIPIE)
+	@echo "$(PREFIX) binary /notipie built for docker"
 
 run:
 	@go run $(NOTIPIE)
@@ -37,14 +43,14 @@ format:
 
 sync:
 	@go mod download
+	@go mod verify
 
 tidy:
 	@go mod tidy
 
 clean:
 	@rm -f ./notipie
-	@rm -rf ./dist
 	@go clean
 	@go clean -cache
 	@go clean -testcache
-	@echo "> binaries removed, go cache cleaned"
+	@echo "$(PREFIX) binaries removed, go cache cleaned"

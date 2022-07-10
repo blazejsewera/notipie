@@ -1,0 +1,11 @@
+.snowpack
+build
+node_modules
+.husky
+
+.yarn/cache
+.yarn/install-state.gz
+
+storybook-static
+
+.jest-test-results.json

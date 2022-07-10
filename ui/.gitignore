@@ -6,13 +6,8 @@ node_modules
 
 storybook-static
 
-# yarn v2
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
+.yarnrc.yml
+.yarn/
 .pnp.*
 
 notipie.config.json
