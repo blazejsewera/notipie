@@ -147,9 +147,9 @@ install-test:
 	@cd $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR); \
 	yarn
 	@echo "> workspace for $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR)"
-	@cd $(TEST_DIR)/$(WS_CLIENT); \
+	@cd $(TEST_DIR)/$(TEST_WS_CLIENT_DIR); \
 	yarn
-	@echo "> workspace for $(TEST_DIR)/$(WS_CLIENT)"
+	@echo "> workspace for $(TEST_DIR)/$(TEST_WS_CLIENT_DIR)"
 
 
 # clean

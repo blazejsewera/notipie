@@ -1,33 +1,40 @@
+NNP=github.com/blazejsewera/notipie/producer/cmd/nnp
+
+PREFIX=> producer >
+
 .PHONY: clean test
 
-all: clean sync tidy lint build test
+all: clean sync lint build test
 
 build:
-	go build github.com/blazejsewera/notipie/producer/cmd/nnp
+	@go build $(NNP)
+	@echo "$(PREFIX) binary ./nnp built"
 
 run:
-	go run github.com/blazejsewera/notipie/producer/cmd/nnp
+	@go run $(NNP)
 
 test:
-	go test ./...
+	@go test ./...
 
 test-race:
-	go test -race ./...
+	@go test -race ./...
 
 lint:
-	go vet ./...
+	@go vet ./...
 
 format:
-	go fmt ./...
+	@go fmt ./...
 
 sync:
-	go mod download
+	@go mod download
+	@go mod verify
 
 tidy:
-	go mod tidy
+	@go mod tidy
 
 clean:
-	rm -f ./nnp
-	go clean
-	go clean -cache
-	go clean -testcache
+	@rm -f ./nnp
+	@go clean
+	@go clean -cache
+	@go clean -testcache
+	@echo "$(PREFIX) binaries removed, go cache cleaned"
