@@ -1,3 +1,39 @@
 #!/bin/sh
+HELP='
+  Commit message has to follow Conventional Commits specification,
+  or be a standard merge commit message.
+  Example:
 
-exit 0
+    feat(core): add user authentication
+
+  Learn more on: https://www.conventionalcommits.org/en/v1.0.0/
+
+  Available types:
+  [ feat, fix, build, chore, ci, docs, style, refactor, perf, test, revert ]
+'
+
+check_msg()
+{
+  if ! echo "$1" | grep -q -E '^(feat|fix|build|chore|ci|docs|style|refactor|perf|test|revert)(\(.+\))?!?: .*$|^Merge .*$'; then
+    echo 1>&2
+    echo "  Wrong message: $1" 1>&2
+    echo "$HELP" 1>&2
+    exit 1
+  fi
+}
+
+check_second_line()
+{
+  if ! echo "$1" | grep -q -E '^#.*$|^$'; then
+    echo 1>&2
+    echo "  Empty line after commit message is required" 1>&2
+    echo 1>&2
+    echo "  Learn more on: https://www.conventionalcommits.org/en/v1.0.0/" 1>&2
+    echo 1>&2
+  fi
+}
+
+MSG=$(head -n 1 "$1")
+check_msg "$MSG"
+SECOND_LINE=$(head -n 2 "$1" | tail -n 1)
+check_second_line "$SECOND_LINE"
