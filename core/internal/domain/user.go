@@ -45,14 +45,14 @@ func (u *User) start() {
 
 func (u *User) Receive(notification Notification) {
 	u.logReceivedNotification(notification)
-	if notification.ID != u.lastNotificationID {
-		u.repo.SaveNotification(notification)
-		u.broadcaster.Broadcast(notification)
-		u.lastNotificationID = notification.ID
-		u.logNotificationSaved(notification)
-	} else {
+	if notification.ID == u.lastNotificationID {
 		u.l.Debug("notificationID same as lastNotificationID", zap.String("notificationID", notification.ID))
+		return
 	}
+	u.repo.SaveNotification(notification)
+	u.broadcaster.Broadcast(notification)
+	u.lastNotificationID = notification.ID
+	u.logNotificationSaved(notification)
 }
 
 func (u *User) logReceivedNotification(notification Notification) {
