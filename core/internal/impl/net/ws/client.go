@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/blazejsewera/notipie/core/pkg/lib/log"
 	"github.com/blazejsewera/notipie/core/pkg/lib/util"
@@ -14,7 +13,7 @@ import (
 )
 
 type Client interface {
-	util.StartStopper
+	util.Starter
 	Broadcast(data []byte)
 	UUID() string
 }
@@ -23,6 +22,7 @@ type ClientImpl struct {
 	uuid           string
 	hub            Hub
 	conn           *websocket.Conn
+	stopSignal     chan util.Signal
 	send           chan []byte
 	l              *zap.Logger
 	writeWait      time.Duration
@@ -31,6 +31,7 @@ type ClientImpl struct {
 	maxMessageSize int64
 	newline        []byte
 	space          []byte
+	ticker         *time.Ticker
 }
 
 var _ Client = (*ClientImpl)(nil)
@@ -49,6 +50,7 @@ func NewClient(hub Hub, conn *websocket.Conn) *ClientImpl {
 		uuid:           clientUUID,
 		hub:            hub,
 		conn:           conn,
+		stopSignal:     make(chan util.Signal),
 		send:           make(chan []byte, 256),
 		l:              log.For("impl").Named("net").Named("ws").With(zap.String("clientUUID", clientUUID)),
 		writeWait:      writeWait,
@@ -63,10 +65,6 @@ func NewClient(hub Hub, conn *websocket.Conn) *ClientImpl {
 func (c *ClientImpl) Start() {
 	go c.readPump()
 	go c.writePump()
-}
-
-func (c *ClientImpl) Stop() {
-	close(c.send)
 }
 
 func (c *ClientImpl) Broadcast(data []byte) {
@@ -84,23 +82,23 @@ func (c *ClientImpl) UUID() string {
 }
 
 func (c *ClientImpl) readPump() {
-	defer closeConnFor(c)
+	defer c.closeConn()
 
 	err := c.setWSParams()
 	if err != nil {
 		return
 	}
-	c.readWholeMessage()
+	c.readLoop()
 }
 
-func closeConnFor(c *ClientImpl) {
+func (c *ClientImpl) closeConn() {
 	c.l.Debug("closing conn")
-	c.hub.Unregister(c.uuid)
 	err := c.conn.Close()
 	if err != nil {
 		c.l.Error("could not close websocket", zap.Error(err))
-		return
 	}
+	c.stopSignal <- util.Signal{}
+	c.hub.Unregister(c.uuid)
 }
 
 func (c *ClientImpl) setWSParams() error {
@@ -121,9 +119,9 @@ func (c *ClientImpl) setReadDeadline() error {
 	return nil
 }
 
-func (c *ClientImpl) readWholeMessage() {
+func (c *ClientImpl) readLoop() {
 	for {
-		err := c.readMessage()
+		err := c.checkForCloseMessage()
 		if err != nil {
 			c.l.Debug("websocket closed on the other end")
 			return
@@ -131,47 +129,26 @@ func (c *ClientImpl) readWholeMessage() {
 	}
 }
 
-func (c *ClientImpl) readMessage() error {
-	n, notificationBytes, err := c.conn.ReadMessage()
-	if err != nil {
-		if websocket.IsUnexpectedCloseError(
-			err,
-			websocket.CloseNormalClosure,
-			websocket.CloseGoingAway,
-			websocket.CloseAbnormalClosure,
-			websocket.CloseNoStatusReceived,
-		) {
-			c.l.Error("websocket unexpectedly closed")
-		}
-		return err
+func (c *ClientImpl) checkForCloseMessage() error {
+	_, _, err := c.conn.ReadMessage()
+	if err != nil && websocket.IsUnexpectedCloseError(
+		err,
+		websocket.CloseNormalClosure,
+		websocket.CloseGoingAway,
+		websocket.CloseAbnormalClosure,
+		websocket.CloseNoStatusReceived,
+	) {
+		c.l.Error("websocket unexpectedly closed")
 	}
-	c.l.Debug(
-		"read message from websocket",
-		zap.Int("bytesRead", n),
-		zap.ByteString("notificationBytes", notificationBytes),
-	)
-	notificationBytes = bytes.TrimSpace(bytes.Replace(notificationBytes, c.newline, c.space, -1))
-	c.l.Debug("trimmed whitespace", zap.ByteString("notificationBytes", notificationBytes))
-	return nil
+	return err
 }
 
 func (c *ClientImpl) writePump() {
-	ticker := c.getTicker()
-	defer c.stopTickerAndCloseConn(ticker)
-	c.broadcastWholeMessageOrPingWS(ticker)
+	c.ticker = time.NewTicker(c.pingPeriod)
+	c.writeLoop()
 }
 
-func (c *ClientImpl) getTicker() *time.Ticker {
-	return time.NewTicker(c.pingPeriod)
-}
-
-func (c *ClientImpl) stopTickerAndCloseConn(ticker *time.Ticker) {
-	ticker.Stop()
-	_ = c.conn.Close()
-	c.l.Debug("closed websocket connection")
-}
-
-func (c *ClientImpl) broadcastWholeMessageOrPingWS(ticker *time.Ticker) {
+func (c *ClientImpl) writeLoop() {
 	for {
 		select {
 		case message, ok := <-c.send:
@@ -179,8 +156,10 @@ func (c *ClientImpl) broadcastWholeMessageOrPingWS(ticker *time.Ticker) {
 			if err != nil {
 				return
 			}
-		case <-ticker.C:
+		case <-c.ticker.C:
 			c.ping()
+		case <-c.stopSignal:
+			return
 		}
 	}
 }
