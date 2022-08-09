@@ -14,6 +14,15 @@ You will need:
 - `make`,
 - `yarn` with `node.js` version `lts/gallium = v16`.
 
+## Quick start
+Just run `make` from the project root. All dependencies for all modules should
+automatically download, and example configs should be copied to `core` and `ui`.
+
+Read the output of this command, it will inform you about your nvm and Go
+installation.
+
+To quickly run the application for development, execute `make -j2 dev`.
+
 ### Recommended environment setup
 #### Go
 For Linux, use a package manager to download Go `1.18` or higher, e.g.,
@@ -38,13 +47,6 @@ automatically install the latest `lts/gallium`.
 
 You can also install the latest `v16` manually, downloading it from
 [this repository](https://nodejs.org/dist/latest-gallium/).
-
-## Quick start
-Just run `make` from the project root. All dependencies for all modules should
-automatically download, and example configs should be copied to `core` and `ui`.
-
-Read the output of this command, it will inform you about your nvm and Go
-installation.
 
 ## Project components
 - `core` -- backend
