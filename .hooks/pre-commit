@@ -1,5 +1,5 @@
 #!/bin/sh
 
 PWD=$(git rev-parse --show-toplevel)
-cd "${PWD}" && \
+cd "${PWD}"
 make pre-commit
