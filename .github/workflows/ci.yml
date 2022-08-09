@@ -23,21 +23,41 @@ jobs:
         with:
           go-version: '>=1.18.0'
 
-      - name: Install dependencies
-        run: make
-
-      # Add caching
       # https://github.com/actions/cache/blob/main/examples.md
-      # - name: Install ui dependencies
-      #   if: steps.yarn-cache.outputs.cache-hit != 'true'
-      #   run: make install-ui
+      - name: Get yarn cache directory path for ui
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(cd ui; yarn config get cacheFolder)"
 
-      # - name: Install core dependencies
-      #   if: steps.go-cache.outputs.cache-hit != 'true'
-      #   run: make install-core
+      - name: Cache yarn dependencies
+        id: yarn-cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-      # - name: Additional steps
-      #   run: make copy-example-configs
+      - name: Cache go dependencies
+        id: go-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Install ui dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: make install-ui
+
+      - name: Install core and producer dependencies
+        if: steps.go-cache.outputs.cache-hit != 'true'
+        run: make install-core install-producer
+
+      - name: Additional steps
+        run: make copy-example-configs
 
       - name: Format
         run: make -j4 format

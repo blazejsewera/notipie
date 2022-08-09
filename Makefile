@@ -128,7 +128,7 @@ install-ui: pre-install-ui
 	@echo "> workspace for ui synced"
 
 pre-install-ui:
-	@cp -r .yarnrc.yml .yarn ui/
+	@cp -r .yarnrc.yml .yarn $(UI_DIR)
 	@echo "> configured yarn for ui"
 
 install-core:
@@ -143,23 +143,43 @@ install-producer:
 	$(MAKE) tidy
 	@echo "> workspace for producer synced"
 
-install-test:
+install-test: install-test-notifications-server install-test-ws-client
+
+install-test-notifications-server: pre-install-test-notifications-server
 	@cd $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR); \
 	yarn
-	@echo "> workspace for $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR)"
+	@echo "> workspace for $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR) synced"
+
+pre-install-test-notifications-server:
+	@cp -r .yarnrc.yml .yarn $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR)
+	@echo "> configured yarn for notifications-server"
+
+install-test-ws-client: pre-install-test-ws-client
 	@cd $(TEST_DIR)/$(TEST_WS_CLIENT_DIR); \
 	yarn
-	@echo "> workspace for $(TEST_DIR)/$(TEST_WS_CLIENT_DIR)"
+	@echo "> workspace for $(TEST_DIR)/$(TEST_WS_CLIENT_DIR) synced"
+
+pre-install-test-ws-client:
+	@cp -r .yarnrc.yml .yarn $(TEST_DIR)/$(TEST_WS_CLIENT_DIR)
+	@echo "> configured yarn for ws-client"
 
 
 # clean
 
 nuke: clean remove-configs
-	@rm -rf .yarn/cache
-	@rm -rf node_modules
 	@cd $(UI_DIR); \
-	rm -rf node_modules
-	@echo "> nuked all node_modules and yarn cache"
+	rm -rf node_modules; \
+	rm -rf .yarn; \
+	rm -f .yarnrc.yml
+	@cd $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR); \
+	rm -rf node_modules; \
+	rm -rf .yarn; \
+	rm -f .yarnrc.yml
+	@cd $(TEST_DIR)/$(TEST_WS_CLIENT_DIR); \
+	rm -rf node_modules; \
+	rm -rf .yarn; \
+	rm -f .yarnrc.yml
+	@echo "> nuked all node_modules and yarn configs"
 
 rmc: remove-configs
 
@@ -175,7 +195,7 @@ remove-configs-core:
 	@rm -f $(CORE_DIR)/$(CORE_CONFIG_FILENAME)
 	@echo "> config for core removed"
 
-clean: clean-ui clean-core
+clean: clean-ui clean-core clean-test
 	@echo "> cleaned"
 
 clean-ui:
@@ -189,6 +209,16 @@ clean-core:
 	$(MAKE) clean
 	@echo "> cleaned core"
 
+clean-test: clean-test-notifications-server clean-test-ws-client
+
+clean-test-notifications-server:
+	@cd $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR); \
+	rm -rf build
+
+clean-test-ws-client:
+	@cd $(TEST_DIR)/$(TEST_WS_CLIENT_DIR); \
+	rm -rf build
+
 
 # build
 
@@ -197,6 +227,7 @@ bui: build-ui
 bstorybook: build-storybook
 bcore: build-core
 bproducer: build-producer
+bt: build-test
 
 build: build-ui build-storybook build-core build-producer  # run with -j2 or more for performance
 	@echo "> built"
@@ -209,6 +240,7 @@ build-ui:
 build-storybook:
 	@cd $(UI_DIR); \
 	yarn build-storybook
+	@echo "> built storybook in ui"
 
 build-core:
 	@cd $(CORE_DIR); \
@@ -219,6 +251,16 @@ build-producer:
 	@cd $(PRODUCER_DIR); \
 	$(MAKE) build
 	@echo "> built binary in producer"
+
+build-test: build-test-notifications-server build-test-ws-client
+
+build-test-notifications-server:
+	@cd $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR); \
+	yarn build
+
+build-test-ws-client:
+	@cd $(TEST_DIR)/$(TEST_WS_CLIENT_DIR); \
+	yarn build
 
 
 # docker
