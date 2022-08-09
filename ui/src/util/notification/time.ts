@@ -33,9 +33,11 @@ export const since = (past: Date, present: Date): Since => {
   return result
 }
 
+export const parseTimestamp = (notification: Notification): Date => new Date(notification.timestamp)
+
 const getRelativeTime = (notification: Notification): string | undefined => {
   const now = new Date()
-  const notificationTime = new Date(notification.timestamp)
+  const notificationTime = parseTimestamp(notification)
   if (notificationTime.toString() === 'Invalid Date') return undefined
   const s = since(notificationTime, now)
   return formatSince(s)

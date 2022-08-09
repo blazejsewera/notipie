@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware'
 import { config } from '../config'
 import { Notification } from '../type/notification'
 import { merge } from '../util/notification/merger'
+import { sortByNewest } from '../util/notification/sorter'
 import { updateTimeAll } from '../util/notification/time'
 
 export type Status = 'ok' | 'error'
@@ -37,7 +38,7 @@ const store = (set: SetState): State => ({
   notificationReceived: n =>
     set(prev =>
       n.notification
-        ? { status: n.status, notifications: merge([...prev.notifications, n.notification]) }
+        ? { status: n.status, notifications: sortByNewest(merge([n.notification, ...prev.notifications])) }
         : { status: n.status },
     ),
   notificationUpdateTime: () => set(prev => ({ notifications: updateTimeAll(prev.notifications) })),

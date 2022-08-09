@@ -295,6 +295,8 @@ docker-compose-down:
 d: dev  # run with -j2 or more
 dui: dev-ui
 dcore: dev-core
+dtns: dev-test-notifications-server
+dtwc: dev-test-websocket-client
 
 dev: print-multithread-notice dev-ui dev-core  # run with -j2 or more
 
@@ -309,8 +311,12 @@ dev-core:
 	@cd $(CORE_DIR); \
 	$(MAKE) run
 
-dev-manual-test:
-	@cd test/manual; \
+dev-test-notifications-server:
+	@cd $(TEST_DIR)/$(TEST_NOTIFICATIONS_SERVER_DIR); \
+	yarn start
+
+dev-test-websocket-client:
+	@cd $(TEST_DIR)/$(TEST_WS_CLIENT_DIR)
 	yarn start
 
 # test
