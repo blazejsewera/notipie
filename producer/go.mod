@@ -1,6 +1,6 @@
 module github.com/blazejsewera/notipie/producer
 
-go 1.18
+go 1.19
 
 require (
 	github.com/blazejsewera/notipie/core v0.0.0-unpublished

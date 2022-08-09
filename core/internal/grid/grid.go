@@ -27,7 +27,7 @@ type GridImpl struct {
 	l            *zap.Logger
 }
 
-//@impl
+// @impl
 var _ Grid = (*GridImpl)(nil)
 
 func NewGrid(repositoryFactory RepositoryFactory, broadcasterFactory BroadcasterFactory) *GridImpl {

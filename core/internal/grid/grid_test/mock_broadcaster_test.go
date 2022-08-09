@@ -10,7 +10,7 @@ type mockBroadcaster struct {
 	ClientNotification model.ClientNotification
 }
 
-//@impl
+// @impl
 var _ domain.NotificationBroadcaster = (*mockBroadcaster)(nil)
 
 var mockBroadcasterInstance = &mockBroadcaster{Done: make(chan struct{})}

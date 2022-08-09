@@ -21,7 +21,7 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v3
         with:
-          go-version: '>=1.18.0'
+          go-version: '>=1.19.0'
 
       - name: Yarn pre-install
         run: make pre-install-ui
@@ -60,9 +60,6 @@ jobs:
 
       - name: Additional steps
         run: make copy-example-configs
-
-      - name: Format
-        run: make -j4 format
 
       - name: Lint
         run: make -j4 lint

@@ -11,7 +11,7 @@ type MemRepository struct {
 	l             *zap.Logger
 }
 
-//@impl
+// @impl
 var _ domain.NotificationRepository = (*MemRepository)(nil)
 
 func NewMemRepository() *MemRepository {

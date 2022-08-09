@@ -22,7 +22,7 @@ type HubImpl struct {
 	l             *zap.Logger
 }
 
-//@impl
+// @impl
 var _ Hub = (*HubImpl)(nil)
 
 func NewHubImpl(clientFactory ClientFactory) *HubImpl {

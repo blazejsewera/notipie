@@ -14,7 +14,7 @@ type WebSocketBroadcaster struct {
 	l   *zap.Logger
 }
 
-//@impl
+// @impl
 var _ domain.NotificationBroadcaster = (*WebSocketBroadcaster)(nil)
 
 func NewWebSocketBroadcaster(hub ws.Hub) *WebSocketBroadcaster {

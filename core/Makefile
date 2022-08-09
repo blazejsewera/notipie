@@ -35,6 +35,9 @@ test:
 test-race:
 	@go test -race ./...
 
+pre-commit: format
+	@echo "$(PREFIX) pre-commit ok"
+
 lint:
 	@go vet ./...
 

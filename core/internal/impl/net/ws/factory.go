@@ -29,7 +29,7 @@ func NewClientFactory() *WebSocketClientFactory {
 	return &WebSocketClientFactory{}
 }
 
-//@impl
+// @impl
 var _ ClientFactory = (*WebSocketClientFactory)(nil)
 
 func (f *WebSocketClientFactory) SetHub(hub Hub) {

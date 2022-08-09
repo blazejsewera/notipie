@@ -10,7 +10,7 @@ A notification aggregator.
 
 ## Prerequisites
 You will need:
-- `go` version `1.18` or higher,
+- `go` version `1.19` or higher,
 - `make`,
 - `yarn` with `node.js` version `lts/gallium = v16`.
 
@@ -25,7 +25,7 @@ To quickly run the application for development, execute `make -j2 dev`.
 
 ### Recommended environment setup
 #### Go
-For Linux, use a package manager to download Go `1.18` or higher, e.g.,
+For Linux, use a package manager to download Go `1.19` or higher, e.g.,
 `sudo apt install golang-go`, or `sudo pacman -S go`, depending on your distro.
 
 For macOS, install Go with [Homebrew](https://formulae.brew.sh/formula/go).

@@ -405,5 +405,12 @@ format-core:
 
 # pre-commit check
 
-pre-commit: format-core lint-ui-staged
-	@echo "> pre-commit check done"
+pre-commit: pre-commit-core pre-commit-ui
+	@echo "> pre-commit all ok"
+
+pre-commit-core:
+	@cd $(CORE_DIR); \
+	$(MAKE) pre-commit
+
+pre-commit-ui: lint-ui-staged
+	@echo "> ui > pre-commit ok"

@@ -25,7 +25,7 @@ type UserProxyImpl struct {
 	l           *zap.Logger
 }
 
-//@impl
+// @impl
 var _ UserProxy = (*UserProxyImpl)(nil)
 
 func NewUserProxy(username string, repo domain.NotificationRepository, broadcaster domain.NotificationBroadcaster) *UserProxyImpl {

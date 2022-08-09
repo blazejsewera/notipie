@@ -19,7 +19,7 @@ type AppProxyImpl struct {
 	l   *zap.Logger
 }
 
-//@impl
+// @impl
 var _ AppProxy = (*AppProxyImpl)(nil)
 
 func NewAppProxy(app *domain.App) *AppProxyImpl {

@@ -8,7 +8,7 @@ import (
 
 type BroadcasterFactoryFunc func() domain.NotificationBroadcaster
 
-//@impl
+// @impl
 var _ grid.BroadcasterFactory = BroadcasterFactoryFunc(nil)
 
 func (f BroadcasterFactoryFunc) GetBroadcaster() domain.NotificationBroadcaster {
