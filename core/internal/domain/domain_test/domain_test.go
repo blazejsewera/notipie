@@ -19,7 +19,7 @@ func TestIntegration_AppToUser(t *testing.T) {
 
 		// then
 		if assert.Error(t, err) {
-			assert.Equal(t, fmt.Sprintf(domain.NoTagsWhenSendErrorFormat, "TestApp", "1", notification), err.Error())
+			assert.Equal(t, fmt.Sprintf(domain.NoTagsWhenSendErrorFormat, "TestApp", "1", notification.ID), err.Error())
 		}
 	})
 

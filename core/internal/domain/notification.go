@@ -1,10 +1,7 @@
 package domain
 
 import (
-	"fmt"
 	"time"
-
-	"github.com/blazejsewera/notipie/core/pkg/lib/util"
 )
 
 type Notification struct {
@@ -18,15 +15,6 @@ type Notification struct {
 	ExtURI     string
 	ReadURI    string
 	ArchiveURI string
-}
-
-func (n Notification) String() string {
-	t := n.Timestamp.Format(time.RFC3339)
-	var b string
-	for _, line := range util.SplitLines(n.Body) {
-		b += fmt.Sprintf("|> %s\n", line)
-	}
-	return fmt.Sprintf("[%s#%s@%s|%s] %s#%s\n%s", n.App.Name, n.App.ID, t, n.Urgency.ShortString(), n.Title, n.ID, b)
 }
 
 type Urgency int

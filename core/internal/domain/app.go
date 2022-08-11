@@ -109,7 +109,7 @@ type SendError struct {
 
 func (e *SendError) Error() string {
 	if len(e.Tags) == 0 {
-		return fmt.Sprintf(NoTagsWhenSendErrorFormat, e.App.Name, e.App.ID, e.Notification)
+		return fmt.Sprintf(NoTagsWhenSendErrorFormat, e.App.Name, e.App.ID, e.Notification.ID)
 	}
 
 	var tags []string
@@ -117,7 +117,7 @@ func (e *SendError) Error() string {
 		tags = append(tags, tag.Name)
 	}
 
-	return fmt.Sprintf(NoUsersInTagsWhenSendErrorFormat, tags, e.App.Name, e.App.ID, e.Notification)
+	return fmt.Sprintf(NoUsersInTagsWhenSendErrorFormat, tags, e.App.Name, e.App.ID, e.Notification.ID)
 }
 
 const (
