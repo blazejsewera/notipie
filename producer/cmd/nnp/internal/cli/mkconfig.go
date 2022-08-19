@@ -8,9 +8,16 @@ import (
 	"os"
 )
 
+const shortDescription = "Make a configuration file. If no custom config path is specified, the default one is used."
+
+var longDescription = fmt.Sprintf(`Make a configuration file.
+If no custom config path is specified, the default one is used.
+Default path: %s`, wire.DefaultProducerConfigFilePath)
+
 var mkconfigCmd = &cobra.Command{
 	Use:   "mkconfig",
-	Short: "Make a configuration file. If no custom config path is specified, default one is used",
+	Short: shortDescription,
+	Long:  longDescription,
 	Run: func(cmd *cobra.Command, args []string) {
 		path := wire.DefaultProducerConfigFilePath
 		if *configPathArg != "" {
@@ -33,11 +40,11 @@ var mkconfigCmd = &cobra.Command{
 
 func checkConfig(cfg config.Config) {
 	if cfg.Address == "" {
-		fmt.Fprintln(os.Stderr, "address cannot be empty")
+		fmt.Fprintln(os.Stderr, "address cannot be unset, set with -a <address> flag")
 		os.Exit(1)
 	}
 	if cfg.Port == 0 {
-		fmt.Fprintln(os.Stderr, "port cannot be unset")
+		fmt.Fprintln(os.Stderr, "port cannot be unset, set with -p <port> flag")
 		os.Exit(1)
 	}
 }

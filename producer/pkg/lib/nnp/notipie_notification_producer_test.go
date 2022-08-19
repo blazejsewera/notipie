@@ -127,7 +127,7 @@ type mockAppIDSaver struct {
 	t     testing.TB
 }
 
-//@impl
+// @impl
 var _ nnp.AppIDSaver = (*mockAppIDSaver)(nil)
 
 func newMockAppIDSaver(t testing.TB) *mockAppIDSaver {
