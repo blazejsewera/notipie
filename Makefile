@@ -377,11 +377,6 @@ lint-ui:
 	yarn lint
 	@echo "> linted ui"
 
-lint-ui-staged:
-	@cd $(UI_DIR); \
-	yarn lint:staged
-	@echo "> linted staged ui"
-
 lint-core:
 	@cd $(CORE_DIR); \
 	$(MAKE) lint
@@ -418,5 +413,7 @@ pre-commit-core:
 	@cd $(CORE_DIR); \
 	$(MAKE) pre-commit
 
-pre-commit-ui: lint-ui-staged
+pre-commit-ui:
+	@cd $(UI_DIR); \
+	yarn pre-commit
 	@echo "> ui > pre-commit ok"

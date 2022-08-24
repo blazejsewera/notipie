@@ -14,7 +14,7 @@
     "checkTs": "tsc --noEmit",
     "lint": "eslint --max-warnings 0 '{src,story}/**/*.{tsx,ts,jsx,js}'",
     "lint:fix": "eslint --fix --max-warnings 0 '{src,story}/**/*.{tsx,ts,jsx,js}'",
-    "lint:staged": "lint-staged",
+    "pre-commit": "lint-staged",
     "format": "prettier --write '{src,story}/**/*.{tsx,ts,jsx,js}'"
   },
   "dependencies": {
