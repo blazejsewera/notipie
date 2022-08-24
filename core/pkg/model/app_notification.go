@@ -62,13 +62,7 @@ func AppNotificationFromYAML(r io.Reader) (AppNotification, error) {
 func appNotificationFromSerialized(d Decoder) (AppNotification, error) {
 	appNotification := AppNotification{}
 	err := d.Decode(&appNotification)
-	if err != nil {
-		return AppNotification{}, err
-	}
-	if !appNotification.validate() {
-		return AppNotification{}, fmt.Errorf(NotEnoughInfoInNotificationErrorMessage)
-	}
-	return appNotification, nil
+	return appNotification, err
 }
 
 type Decoder interface {

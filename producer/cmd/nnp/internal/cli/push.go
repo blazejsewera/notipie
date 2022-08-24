@@ -58,7 +58,7 @@ var pushCmd = &cobra.Command{
 
 		err = producer.Push(notification)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "ping:", err)
+			fmt.Fprintln(os.Stderr, "push:", err)
 			os.Exit(1)
 		}
 	},

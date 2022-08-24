@@ -12,15 +12,9 @@ func TestAppNotification(t *testing.T) {
 	appNotification := model.ExampleAppNotification
 	appNotificationJSON := appNotificationJSONWithoutWhitespace()
 	appNotificationJSONReader := strings.NewReader(appNotificationJSON)
-	invalidJSON := `{"title":"1"}`
-	invalidJSONReader := strings.NewReader(invalidJSON)
 
 	appNotificationYAML := model.ExampleAppNotificationYAML
 	appNotificationYAMLReader := strings.NewReader(appNotificationYAML)
-	invalidYAML := `
-title: '1'
-`
-	invalidYAMLReader := strings.NewReader(invalidYAML)
 
 	t.Run("marshal json", func(t *testing.T) {
 		// when
@@ -34,25 +28,13 @@ title: '1'
 	})
 
 	t.Run("unmarshal json", func(t *testing.T) {
-		t.Run("valid", func(t *testing.T) {
-			// when
-			unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSONReader)
+		// when
+		unmarshaled, err := model.AppNotificationFromJSON(appNotificationJSONReader)
 
-			// then
-			if assert.NoError(t, err) {
-				assert.Equal(t, appNotification, unmarshaled)
-			}
-		})
-
-		t.Run("invalid", func(t *testing.T) {
-			// when
-			_, err := model.AppNotificationFromJSON(invalidJSONReader)
-
-			// then
-			if assert.Error(t, err) {
-				assert.Equal(t, model.NotEnoughInfoInNotificationErrorMessage, err.Error())
-			}
-		})
+		// then
+		if assert.NoError(t, err) {
+			assert.Equal(t, appNotification, unmarshaled)
+		}
 	})
 
 	t.Run("marshal yaml", func(t *testing.T) {
@@ -67,25 +49,13 @@ title: '1'
 	})
 
 	t.Run("unmarshal yaml", func(t *testing.T) {
-		t.Run("valid", func(t *testing.T) {
-			// when
-			unmarshaled, err := model.AppNotificationFromYAML(appNotificationYAMLReader)
+		// when
+		unmarshaled, err := model.AppNotificationFromYAML(appNotificationYAMLReader)
 
-			// then
-			if assert.NoError(t, err) {
-				assert.Equal(t, appNotification, unmarshaled)
-			}
-		})
-
-		t.Run("invalid", func(t *testing.T) {
-			// when
-			_, err := model.AppNotificationFromYAML(invalidYAMLReader)
-
-			// then
-			if assert.Error(t, err) {
-				assert.Equal(t, model.NotEnoughInfoInNotificationErrorMessage, err.Error())
-			}
-		})
+		// then
+		if assert.NoError(t, err) {
+			assert.Equal(t, appNotification, unmarshaled)
+		}
 	})
 
 	t.Run("add id to net notification", func(t *testing.T) {
