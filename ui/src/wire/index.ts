@@ -4,7 +4,7 @@ import { updateTime$ } from '../net/rx/updateTime'
 import { useStore } from '../store'
 
 export const wire = () => {
-  const pingBackendPeriod = 10000
+  const pingBackendPeriod = 60_000
   const updateTimePeriod = 5000
   const { notificationReceived, notificationUpdateTime, statusSet } = useStore.getState()
 
