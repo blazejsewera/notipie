@@ -12,10 +12,11 @@ import (
 )
 
 type Endpoint struct {
-	cfg  EndpointConfig
-	r    *gin.Engine
-	grid grid.Grid
-	l    *zap.Logger
+	cfg    EndpointConfig
+	r      *gin.Engine
+	grid   grid.Grid
+	server *net.Server
+	l      *zap.Logger
 }
 
 type EndpointConfig struct {
@@ -25,10 +26,11 @@ type EndpointConfig struct {
 
 func NewEndpoint(endpointConfig EndpointConfig, grid grid.Grid) *Endpoint {
 	return &Endpoint{
-		cfg:  endpointConfig,
-		r:    gin.New(),
-		grid: grid,
-		l:    log.For("impl").Named("endpoint"),
+		cfg:    endpointConfig,
+		r:      gin.New(),
+		grid:   grid,
+		server: net.NewServer(),
+		l:      log.For("impl").Named("endpoint"),
 	}
 }
 
@@ -36,17 +38,17 @@ func (e *Endpoint) Setup() {
 	e.r.Use(gin.Recovery())
 
 	root := api.GetPath(api.Root)
-	e.r.GET(root, net.PingHandler)
+	e.r.GET(root, e.server.PingHandler)
 
 	push := api.GetPath(api.Push)
-	e.r.OPTIONS(push, net.PreflightHandler)
-	e.r.POST(push, net.PushNotificationHandlerFor(e.grid))
+	e.r.OPTIONS(push, e.server.PreflightHandler)
+	e.r.POST(push, e.server.PushNotificationHandlerFor(e.grid))
 
 	notifications := api.GetPath(api.Notifications)
-	e.r.GET(notifications, net.GetNotificationsHandlerFor(e.grid))
+	e.r.GET(notifications, e.server.GetNotificationsHandlerFor(e.grid))
 
 	ws := api.GetPath(api.WebSocket)
-	e.r.GET(ws, net.WSHandlerFor(e.grid))
+	e.r.GET(ws, e.server.WSHandlerFor(e.grid))
 	e.l.Debug("gin endpoint setup complete")
 }
 
