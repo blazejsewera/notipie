@@ -3,13 +3,13 @@ module github.com/blazejsewera/notipie/producer
 go 1.19
 
 require (
-	github.com/blazejsewera/notipie/core v0.0.0-unpublished
+	github.com/blazejsewera/notipie/core v0.1.0
 	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-replace github.com/blazejsewera/notipie/core v0.0.0-unpublished => ../core // link local notipie core
+replace github.com/blazejsewera/notipie/core v0.1.0 => ../core // link local notipie core
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
