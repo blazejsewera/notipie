@@ -39,8 +39,7 @@ func TestNotificationFlow(t *testing.T) {
 
 		// then
 		<-userWSClient.saved
-		actual := userWSClient.notifications[0]
-		assertClientNotification(t, pushNotificationTitle, actual)
+		assertByTitle(t, pushNotificationTitle, userWSClient.notifications)
 	})
 
 	t.Run("get notifications - notification list is returned", func(t *testing.T) {
@@ -58,24 +57,11 @@ func TestNotificationFlow(t *testing.T) {
 		userRestClient.getNotifications()
 
 		// then
-		assertContainsClientNotification(t, userRestClient.notifications, getNotificationsTitle)
+		assertByTitle(t, getNotificationsTitle, userRestClient.notifications)
 	})
 }
 
-func assertClientNotification(
-	t testing.TB,
-	expectedTitle string,
-	actual model.ClientNotification,
-) {
-	t.Helper()
-	assert.Equal(t, expectedTitle, actual.Title)
-}
-
-func assertContainsClientNotification(
-	t testing.TB,
-	notifications []model.ClientNotification,
-	expectedTitle string,
-) {
+func assertByTitle(t testing.TB, expectedTitle string, notifications []model.ClientNotification) {
 	t.Helper()
 
 	notificationTitles := fp.Map(func(n model.ClientNotification) string {
