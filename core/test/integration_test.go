@@ -1,11 +1,12 @@
 package test
 
 import (
+	"testing"
+
 	"github.com/blazejsewera/notipie/core/pkg/lib/fp"
 	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
 	"github.com/blazejsewera/notipie/core/pkg/model"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestUserClient(t *testing.T) {
@@ -23,41 +24,41 @@ func TestUserClient(t *testing.T) {
 
 	t.Run("push notification - notification is pushed to ws client", func(t *testing.T) {
 		// given
-		an := appNotification
+		notification := appNotification
 		pushNotificationTitle := "push notification"
-		an.Title = pushNotificationTitle
+		notification.Title = pushNotificationTitle
 
-		ac := newAppRestClient(t, port)
+		producer := newAppProducer(t, port)
 
-		uwsc := newUserWSClient(t, port)
-		uwsc.connect()
-		defer uwsc.close()
+		userWSClient := newUserWSClient(t, port)
+		userWSClient.connect()
+		defer userWSClient.close()
 
 		// when
-		ac.pushNotification(an)
+		producer.pushNotification(notification)
 
 		// then
-		<-uwsc.saved
-		actualCN := uwsc.notifications[0]
-		assertClientNotification(t, pushNotificationTitle, actualCN)
+		<-userWSClient.saved
+		actual := userWSClient.notifications[0]
+		assertClientNotification(t, pushNotificationTitle, actual)
 	})
 
 	t.Run("get notifications - notification list is returned", func(t *testing.T) {
 		// given
-		an := appNotification
+		notification := appNotification
 		getNotificationsTitle := "get notifications"
-		an.Title = getNotificationsTitle
+		notification.Title = getNotificationsTitle
 
-		ac := newAppRestClient(t, port)
+		producer := newAppProducer(t, port)
 
-		urc := newUserRestClient(t, port)
+		userRestClient := newUserRestClient(t, port)
 
 		// when
-		ac.pushNotification(an)
-		urc.getNotifications()
+		producer.pushNotification(notification)
+		userRestClient.getNotifications()
 
 		// then
-		assertContainsCN(t, urc.notifications, getNotificationsTitle)
+		assertContainsClientNotification(t, userRestClient.notifications, getNotificationsTitle)
 	})
 }
 
@@ -70,7 +71,7 @@ func assertClientNotification(
 	assert.Equal(t, expectedTitle, actual.Title)
 }
 
-func assertContainsCN(
+func assertContainsClientNotification(
 	t testing.TB,
 	notifications []model.ClientNotification,
 	expectedTitle string,

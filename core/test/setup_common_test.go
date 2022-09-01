@@ -1,11 +1,11 @@
 package test
 
 import (
-	"github.com/blazejsewera/notipie/core/pkg/lib/api"
 	"net/url"
 
 	"github.com/blazejsewera/notipie/core/internal/impl"
 	"github.com/blazejsewera/notipie/core/internal/infra"
+	"github.com/blazejsewera/notipie/core/pkg/lib/api"
 )
 
 const (

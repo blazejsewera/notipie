@@ -1,31 +1,32 @@
 package test
 
 import (
-	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
-	"github.com/blazejsewera/notipie/core/pkg/model"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"testing"
 	"time"
+
+	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
+	"github.com/blazejsewera/notipie/core/pkg/model"
+	"github.com/stretchr/testify/assert"
 )
 
-type appRestClient struct {
+type appProducer struct {
 	appID   string
 	t       testing.TB
 	pushURL url.URL
 	cl      *http.Client
 }
 
-func newAppRestClient(t testing.TB, port int) *appRestClient {
-	return &appRestClient{
+func newAppProducer(t testing.TB, port int) *appProducer {
+	return &appProducer{
 		t:       t,
 		pushURL: pushURL(port),
 		cl:      &http.Client{Timeout: 200 * time.Millisecond},
 	}
 }
 
-func (c *appRestClient) pushNotification(notification model.AppNotification) {
+func (c *appProducer) pushNotification(notification model.AppNotification) {
 	c.t.Helper()
 
 	notificationJSON, err := notification.ToJSON()

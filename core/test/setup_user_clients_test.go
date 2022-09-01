@@ -2,15 +2,16 @@ package test
 
 import (
 	"encoding/json"
-	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
-	"github.com/blazejsewera/notipie/core/pkg/lib/util"
-	"github.com/blazejsewera/notipie/core/pkg/model"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"net/url"
 	"testing"
 	"time"
+
+	"github.com/blazejsewera/notipie/core/pkg/lib/netutil"
+	"github.com/blazejsewera/notipie/core/pkg/lib/util"
+	"github.com/blazejsewera/notipie/core/pkg/model"
+	"github.com/stretchr/testify/assert"
 )
 
 type userClient struct {

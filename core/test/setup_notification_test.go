@@ -1,8 +1,6 @@
 package test
 
-import (
-	"github.com/blazejsewera/notipie/core/pkg/model"
-)
+import "github.com/blazejsewera/notipie/core/pkg/model"
 
 const timestamp = "2022-03-20T15:55:00.000Z"
 

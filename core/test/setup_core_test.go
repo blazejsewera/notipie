@@ -1,9 +1,10 @@
 package test
 
 import (
-	"github.com/blazejsewera/notipie/core/internal/infra"
 	"testing"
 	"time"
+
+	"github.com/blazejsewera/notipie/core/internal/infra"
 )
 
 func initCore(t testing.TB, port int) {
