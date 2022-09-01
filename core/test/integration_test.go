@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUserClient(t *testing.T) {
+func TestNotificationFlow(t *testing.T) {
 	init := func() int {
 		port, err := netutil.FindFreePort()
 		if err != nil {
