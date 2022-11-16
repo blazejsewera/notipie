@@ -16,12 +16,12 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/gallium'
+          node-version: "lts/gallium"
 
       - name: Setup Go environment
         uses: actions/setup-go@v3
         with:
-          go-version: '>=1.19.0'
+          go-version: ">=1.19.0"
 
       - name: Yarn pre-install
         run: make pre-install-ui
@@ -29,7 +29,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md
       - name: Get yarn cache directory path for ui
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(cd ui; yarn config get cacheFolder)"
+        run: echo "dir=$(cd ui; yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn dependencies
         id: yarn-cache
