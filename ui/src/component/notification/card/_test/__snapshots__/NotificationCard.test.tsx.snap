@@ -22,7 +22,7 @@ exports[`NotificationCard component renders correctly with full notification 1`]
           dy="0.178"
           fill="#FFF"
           style={
-            Object {
+            {
               "fontFamily": "Inter",
               "fontSize": 0.5,
               "fontWeight": "bold",
@@ -352,7 +352,7 @@ exports[`NotificationCard component renders correctly with full with very long t
           dy="0.178"
           fill="#FFF"
           style={
-            Object {
+            {
               "fontFamily": "Inter",
               "fontSize": 0.5,
               "fontWeight": "bold",
@@ -533,7 +533,7 @@ exports[`NotificationCard component renders correctly with minimal notification 
           dy="0.178"
           fill="#FFF"
           style={
-            Object {
+            {
               "fontFamily": "Inter",
               "fontSize": 0.5,
               "fontWeight": "bold",
@@ -700,7 +700,7 @@ exports[`NotificationCard component renders correctly with partial notification 
           dy="0.178"
           fill="#FFF"
           style={
-            Object {
+            {
               "fontFamily": "Inter",
               "fontSize": 0.5,
               "fontWeight": "bold",
@@ -871,7 +871,7 @@ exports[`NotificationCard component renders correctly with read notification 1`]
           dy="0.178"
           fill="#FFF"
           style={
-            Object {
+            {
               "fontFamily": "Inter",
               "fontSize": 0.5,
               "fontWeight": "bold",

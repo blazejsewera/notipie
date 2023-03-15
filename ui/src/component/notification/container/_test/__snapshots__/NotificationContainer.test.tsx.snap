@@ -62,7 +62,7 @@ exports[`NotificationContainer component renders correctly with multiple notific
               dy="0.178"
               fill="#FFF"
               style={
-                Object {
+                {
                   "fontFamily": "Inter",
                   "fontSize": 0.5,
                   "fontWeight": "bold",
@@ -235,7 +235,7 @@ Closes #10. Changes both in 'core' and 'ui'. Needs additional work with this and
               dy="0.178"
               fill="#FFF"
               style={
-                Object {
+                {
                   "fontFamily": "Inter",
                   "fontSize": 0.5,
                   "fontWeight": "bold",
@@ -488,7 +488,7 @@ exports[`NotificationContainer component renders correctly with one notification
               dy="0.178"
               fill="#FFF"
               style={
-                Object {
+                {
                   "fontFamily": "Inter",
                   "fontSize": 0.5,
                   "fontWeight": "bold",
